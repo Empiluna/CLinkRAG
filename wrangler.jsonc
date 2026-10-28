@@ -1,0 +1,24 @@
+{
+  "$schema": "./node_modules/wrangler/config-schema.json",
+  "name": "clinkrag",
+  "main": "deploy/cloudflare/worker.js",
+  "compatibility_date": "2026-10-27",
+  "workers_dev": false,
+  "secrets": { "required": [
+    "APP_PASSWORD", "DEEPSEEK_API_KEY", "S2_API_KEY", "R2_ACCOUNT_ID",
+    "R2_BUCKET_NAME", "AWS_ACCESS_KEY_ID", "AWS_SECRET_ACCESS_KEY"
+  ] },
+  "routes": [{ "pattern": "clinkrag.hifuu.space", "custom_domain": true }],
+  "observability": { "enabled": true },
+  "containers": [{
+    "class_name": "ResearchContainer",
+    "scheduling_policy": "durable_object",
+    "images": { "base": { "dockerfile": "./Dockerfile" } }
+  }],
+  "durable_objects": {
+    "bindings": [{ "name": "RESEARCH_CONTAINER", "class_name": "ResearchContainer" }]
+  },
+  "exports": {
+    "ResearchContainer": { "type": "durable-object", "storage": "sqlite" }
+  }
+}

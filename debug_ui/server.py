@@ -1,4 +1,4 @@
-"""Loopback-only local workbench; stdlib HTTP server, no extra dependencies."""
+"""Research workbench; local by default, with an authenticated Cloudflare proxy option."""
 import argparse
 import hashlib
 from datetime import datetime, timezone
@@ -18,6 +18,7 @@ import uuid
 
 ROOT = Path(__file__).resolve().parents[1]
 STATIC = Path(__file__).resolve().parent / 'static'
+PUBLIC_ORIGIN = os.environ.get('CLINKRAG_PUBLIC_ORIGIN', '').rstrip('/')
 sys.path.insert(0, str(ROOT))
 sys.path.insert(0, str(ROOT / 'longans'))
 from llms.settings import load_settings, configured_key
@@ -86,7 +87,7 @@ def validate_request(data):
 
 class Jobs:
     def __init__(self, root=None):
-        self.root = root or ROOT/'results'/'web-runs'
+        self.root = root or Path(os.environ.get('CLINKRAG_RUNS_ROOT', ROOT/'results'/'web-runs'))
         self.root.mkdir(parents=True, exist_ok=True)
         self.lock = threading.RLock()
         self.processes = {}
@@ -286,6 +287,10 @@ def make_handler(jobs, token, settings_store=None):
 
         def check_local(self):
             host = self.headers.get('Host', '')
+            if PUBLIC_ORIGIN:
+                if host not in ('container', 'container:8080'):
+                    raise PermissionError('请求未经过应用网关。')
+                return
             if host not in (f'127.0.0.1:{self.server.server_port}', f'localhost:{self.server.server_port}'):
                 raise PermissionError('仅允许本地访问。')
 
@@ -294,6 +299,8 @@ def make_handler(jobs, token, settings_store=None):
                 self.check_local()
                 parsed = urlsplit(self.path)
                 path = parsed.path
+                if path == '/health':
+                    return self.respond({'status': 'ok'})
                 if path in ('/', '/app.js', '/style.css', '/graph.js', '/graph.css', '/workspace.css', '/observatory.css', '/theme.js', '/visual.js', '/favicon.svg', '/product.css', '/product.js', '/explorer.js', '/reader.js', '/marked.umd.js', '/settings.js', '/settings.css', '/journey.js', '/journey.css', '/run-options.js'):
                     filename = 'index.html' if path == '/' else path[1:]
                     mime = 'text/html' if path == '/' else 'text/javascript' if path.endswith('.js') else 'text/css'
@@ -340,7 +347,8 @@ def make_handler(jobs, token, settings_store=None):
                 if self.headers.get('X-SciRAG-Token') != token:
                     raise PermissionError('页面凭证已过期，请刷新后重试。')
                 origin = self.headers.get('Origin')
-                if origin and origin != 'http://' + self.headers['Host']:
+                expected_origin = PUBLIC_ORIGIN or 'http://' + self.headers['Host']
+                if origin and origin != expected_origin:
                     raise PermissionError('不接受其他网站的请求。')
                 size = int(self.headers.get('Content-Length', '0'))
                 if not 0 <= size <= 20000:
@@ -390,12 +398,13 @@ def make_handler(jobs, token, settings_store=None):
 def main():
     parser = argparse.ArgumentParser()
     parser.add_argument('--port', type=int, default=8765)
+    parser.add_argument('--host', default='127.0.0.1')
     args = parser.parse_args()
     # Bind before constructing Jobs so a second launch cannot mark active runs interrupted.
-    server = ThreadingHTTPServer(('127.0.0.1', args.port), BaseHTTPRequestHandler)
+    server = ThreadingHTTPServer((args.host, args.port), BaseHTTPRequestHandler)
     jobs = Jobs()
     server.RequestHandlerClass = make_handler(jobs, secrets.token_urlsafe(32))
-    print(f'SciRAG Workbench: http://127.0.0.1:{args.port}', flush=True)
+    print(f'SciRAG Workbench: http://{args.host}:{args.port}', flush=True)
     try:
         server.serve_forever()
     except KeyboardInterrupt:

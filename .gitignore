@@ -5,3 +5,6 @@ __pycache__/
 config.local.yaml
 .settings-*.tmp
 results/
+node_modules/
+.wrangler/
+.dev.vars

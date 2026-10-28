@@ -1,0 +1,11 @@
+.git
+.venv
+.cache
+__pycache__
+*.pyc
+config.local.yaml
+.dev.vars
+results
+tests
+*.md
+*.lock.txt
