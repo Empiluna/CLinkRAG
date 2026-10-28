@@ -92,7 +92,7 @@ def validate(values):
 
 class SettingsStore:
     def __init__(self, path=None, loader=None):
-        self.path = path or ROOT / 'config.local.yaml'
+        self.path = path or Path(os.environ.get('CLINKRAG_CONFIG_PATH', ROOT / 'config.local.yaml'))
         self.loader = loader or load_settings
         self.lock = threading.RLock()
 

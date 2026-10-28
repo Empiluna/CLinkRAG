@@ -1,0 +1,12 @@
+.git
+.venv
+.cache
+__pycache__
+*.pyc
+config.local.yaml
+results
+tests
+deploy/tencent/.env
+deploy/tencent/private
+deploy/tencent/data
+*.lock.txt

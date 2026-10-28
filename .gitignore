@@ -5,3 +5,7 @@ __pycache__/
 config.local.yaml
 .settings-*.tmp
 results/
+deploy/tencent/.env
+deploy/tencent/private/
+deploy/tencent/data/
+.tmp-tests/

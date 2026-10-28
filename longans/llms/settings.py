@@ -11,7 +11,7 @@ def load_settings():
         settings.update(yaml.safe_load(legacy.read_text(encoding='utf-8')) or {})
     for parent in (branch, *branch.parents):
         if (parent / 'requirements-windows.txt').exists():
-            local = parent / 'config.local.yaml'
+            local = Path(os.environ.get('CLINKRAG_CONFIG_PATH', parent / 'config.local.yaml'))
             if local.exists():
                 settings.update(yaml.safe_load(local.read_text(encoding='utf-8')) or {})
             os.environ.setdefault('HF_HOME', str(parent / '.cache' / 'huggingface'))

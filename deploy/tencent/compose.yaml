@@ -1,0 +1,27 @@
+services:
+  clinkrag:
+    build:
+      context: ../..
+      dockerfile: deploy/tencent/Dockerfile
+    restart: unless-stopped
+    ports:
+      - "127.0.0.1:${CLINKRAG_HOST_PORT:-18765}:8765"
+    environment:
+      CLINKRAG_AUTH_USER: ${CLINKRAG_AUTH_USER:-research}
+      CLINKRAG_AUTH_PASSWORD: ${CLINKRAG_AUTH_PASSWORD:?Set CLINKRAG_AUTH_PASSWORD in .env}
+      CLINKRAG_PUBLIC_ORIGIN: https://clinkrag.hifuu.space
+      CLINKRAG_CONFIG_PATH: /data/private/config.local.yaml
+      CLINKRAG_RUNS_ROOT: /data/runs
+      RERANKER_DEVICE: cpu
+      RERANKER_FP16: "false"
+      RERANKER_OFFLINE: "false"
+      HF_HOME: /app/.cache/huggingface
+      TORCH_HOME: /app/.cache/torch
+    volumes:
+      - ./private:/data/private
+      - ./data/runs:/data/runs
+      - ./data/cache:/app/.cache
+    security_opt:
+      - no-new-privileges:true
+    cap_drop:
+      - ALL

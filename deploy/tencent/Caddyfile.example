@@ -1,0 +1,5 @@
+clinkrag.hifuu.space {
+    reverse_proxy 127.0.0.1:18765 {
+        header_up Host 127.0.0.1:8765
+    }
+}

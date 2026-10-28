@@ -1,5 +1,6 @@
-"""Loopback-only local workbench; stdlib HTTP server, no extra dependencies."""
+"""Research workbench, local by default and proxyable behind HTTP authentication."""
 import argparse
+import base64
 import hashlib
 from datetime import datetime, timezone
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
@@ -18,6 +19,9 @@ import uuid
 
 ROOT = Path(__file__).resolve().parents[1]
 STATIC = Path(__file__).resolve().parent / 'static'
+PUBLIC_ORIGIN = os.environ.get('CLINKRAG_PUBLIC_ORIGIN', '').rstrip('/')
+AUTH_USER = os.environ.get('CLINKRAG_AUTH_USER', 'research')
+AUTH_PASSWORD = os.environ.get('CLINKRAG_AUTH_PASSWORD', '')
 sys.path.insert(0, str(ROOT))
 sys.path.insert(0, str(ROOT / 'longans'))
 from llms.settings import load_settings, configured_key
@@ -86,7 +90,7 @@ def validate_request(data):
 
 class Jobs:
     def __init__(self, root=None):
-        self.root = root or ROOT/'results'/'web-runs'
+        self.root = root or Path(os.environ.get('CLINKRAG_RUNS_ROOT', ROOT/'results'/'web-runs'))
         self.root.mkdir(parents=True, exist_ok=True)
         self.lock = threading.RLock()
         self.processes = {}
@@ -289,11 +293,29 @@ def make_handler(jobs, token, settings_store=None):
             if host not in (f'127.0.0.1:{self.server.server_port}', f'localhost:{self.server.server_port}'):
                 raise PermissionError('仅允许本地访问。')
 
+        def check_auth(self):
+            if not PUBLIC_ORIGIN:
+                return True
+            supplied = self.headers.get('Authorization', '')
+            expected = 'Basic ' + base64.b64encode(f'{AUTH_USER}:{AUTH_PASSWORD}'.encode()).decode()
+            if secrets.compare_digest(supplied, expected):
+                return True
+            self.send_response(401)
+            self.send_header('WWW-Authenticate', 'Basic realm="CLinkRAG", charset="UTF-8"')
+            self.send_header('Cache-Control', 'no-store')
+            self.send_header('Content-Length', '0')
+            self.end_headers()
+            return False
+
         def do_GET(self):
             try:
                 self.check_local()
+                if not self.check_auth():
+                    return
                 parsed = urlsplit(self.path)
                 path = parsed.path
+                if path == '/health':
+                    return self.respond({'status': 'ok'})
                 if path in ('/', '/app.js', '/style.css', '/graph.js', '/graph.css', '/workspace.css', '/observatory.css', '/theme.js', '/visual.js', '/favicon.svg', '/product.css', '/product.js', '/explorer.js', '/reader.js', '/marked.umd.js', '/settings.js', '/settings.css', '/journey.js', '/journey.css', '/run-options.js'):
                     filename = 'index.html' if path == '/' else path[1:]
                     mime = 'text/html' if path == '/' else 'text/javascript' if path.endswith('.js') else 'text/css'
@@ -337,10 +359,12 @@ def make_handler(jobs, token, settings_store=None):
         def do_POST(self):
             try:
                 self.check_local()
+                if not self.check_auth():
+                    return
                 if self.headers.get('X-SciRAG-Token') != token:
                     raise PermissionError('页面凭证已过期，请刷新后重试。')
                 origin = self.headers.get('Origin')
-                if origin and origin != 'http://' + self.headers['Host']:
+                if origin and origin != (PUBLIC_ORIGIN or 'http://' + self.headers['Host']):
                     raise PermissionError('不接受其他网站的请求。')
                 size = int(self.headers.get('Content-Length', '0'))
                 if not 0 <= size <= 20000:
@@ -390,12 +414,15 @@ def make_handler(jobs, token, settings_store=None):
 def main():
     parser = argparse.ArgumentParser()
     parser.add_argument('--port', type=int, default=8765)
+    parser.add_argument('--host', default='127.0.0.1')
     args = parser.parse_args()
+    if PUBLIC_ORIGIN and (not AUTH_PASSWORD or not PUBLIC_ORIGIN.startswith('https://')):
+        parser.error('Public mode requires CLINKRAG_AUTH_PASSWORD and an HTTPS CLINKRAG_PUBLIC_ORIGIN')
     # Bind before constructing Jobs so a second launch cannot mark active runs interrupted.
-    server = ThreadingHTTPServer(('127.0.0.1', args.port), BaseHTTPRequestHandler)
+    server = ThreadingHTTPServer((args.host, args.port), BaseHTTPRequestHandler)
     jobs = Jobs()
     server.RequestHandlerClass = make_handler(jobs, secrets.token_urlsafe(32))
-    print(f'SciRAG Workbench: http://127.0.0.1:{args.port}', flush=True)
+    print(f'SciRAG Workbench: http://{args.host}:{args.port}', flush=True)
     try:
         server.serve_forever()
     except KeyboardInterrupt:
