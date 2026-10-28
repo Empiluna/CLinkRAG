@@ -1,0 +1,21 @@
+# Copy to config.local.yaml; keep actual keys only in that ignored file.
+MODEL_NAME: deepseek-flash
+LLM_PROVIDER: deepseek # anthropic / deepseek / openai / qwen / openai_compatible
+DEEPSEEK_BASE_URL: https://api.deepseek.com
+DEEPSEEK_API_KEY: ""
+DEEPSEEK_THINKING: disabled
+OPENAI_BASE_URL: https://api.openai.com/v1
+OPENAI_API_KEY: ""
+ANTHROPIC_BASE_URL: https://api.anthropic.com
+ANTHROPIC_API_KEY: "" # Used only by the native Claude Messages adapter
+QWEN_BASE_URL: https://dashscope.aliyuncs.com/compatible-mode/v1
+QWEN_API_KEY: "" # Beijing region; independent of the OpenAI key
+S2_API_KEY: ""
+REQUEST_TIMEOUT: 90
+MAX_RETRIES: 2
+RERANKER_DEVICE: "cuda:0"
+RERANKER_MODEL: BAAI/bge-reranker-v2-m3
+RERANKER_BATCH_SIZE: 4
+RERANKER_MAX_LENGTH: 512
+RERANKER_FP16: true # GPU only; CPU uses FP32
+RERANKER_OFFLINE: true # false permits weight downloads on the next research run

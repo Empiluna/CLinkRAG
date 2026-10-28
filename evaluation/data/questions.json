@@ -1,0 +1,39 @@
+{
+  "status": "preregistered development diagnostic; not a held-out expert benchmark",
+  "annotation": "Required papers selected from actual inspected source abstracts/snippets before running methods. Alternative evidence can also be valid; coverage is a diagnostic only.",
+  "questions": [
+    {
+      "id": "q1",
+      "question": "为什么检索增强有时会降低问答准确率？请结合无关上下文鲁棒性研究与 Corrective RAG，解释问题机制、两类修正办法及各自的限制，不要把相关性当成已证明的因果性。",
+      "required_papers": ["3aee33831e0bdea1a1eaae21c7586e4f7c0396d6", "5bbc2b5aa6c63c6a2cfccf095d6020b063ad47ac"],
+      "criteria": [
+        {"id":"c1","description":"Discuss irrelevant evidence and possible cascading errors without claiming every added passage harms accuracy."},
+        {"id":"c2","description":"Describe NLI filtering and its relevant-passage discard tradeoff, or training with mixed relevant/irrelevant contexts."},
+        {"id":"c3","description":"Describe CRAG quality evaluation and corrective retrieval/refinement based on supplied evidence."},
+        {"id":"c4","description":"Preserve study conditions or acknowledge missing comparability details."}
+      ]
+    },
+    {
+      "id":"q2",
+      "question":"Self-RAG 与 Corrective RAG 如何分别处理检索与生成的可靠性？请解释两者的机制区别和互补性，给出跨论文依据，并明确证据不支持的结论。",
+      "required_papers":["ddbd8fe782ac98e9c64dd98710687a962195dd9b","5bbc2b5aa6c63c6a2cfccf095d6020b063ad47ac"],
+      "criteria":[
+        {"id":"c1","description":"Explain adaptive retrieval and reflection tokens in Self-RAG."},
+        {"id":"c2","description":"Explain CRAG retrieval evaluation, confidence-guided actions and refinement."},
+        {"id":"c3","description":"Discuss possible complementarity without inventing additive experimental gains."},
+        {"id":"c4","description":"Separate reported mechanisms from unverified universal ranking or deployment recommendation."}
+      ]
+    },
+    {
+      "id":"q3",
+      "question":"根据这些文献，能否认定过滤或压缩检索内容总能提升 RAG，并且 CRAG 一定优于 Self-RAG？请分别说明支持证据、反例或代价，以及还缺少哪些比较条件。",
+      "required_papers":["3aee33831e0bdea1a1eaae21c7586e4f7c0396d6","5bbc2b5aa6c63c6a2cfccf095d6020b063ad47ac","ddbd8fe782ac98e9c64dd98710687a962195dd9b"],
+      "criteria":[
+        {"id":"c1","description":"Reject universal improvement as unestablished by provided evidence."},
+        {"id":"c2","description":"Identify risk of discarding relevant passages when filtering."},
+        {"id":"c3","description":"Do not assert a supported universal CRAG-over-Self-RAG ranking."},
+        {"id":"c4","description":"Identify missing matched models, tasks, datasets or evaluation conditions."}
+      ]
+    }
+  ]
+}

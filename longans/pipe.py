@@ -3,13 +3,15 @@ import argparse
 import json
 import os
 import sys
-from typing import Optional
+from typing import Optional, List
 sys.path.append(os.path.join(os.path.dirname(__file__), ".."))
 from concurrent.futures import ThreadPoolExecutor, as_completed
 import instructions as instructions
 import re
 from web_search import search_snippet_via_query_w_citation_expansion
-from FlagEmbedding import FlagReranker
+from llms.settings import load_settings
+from llms.reranking import create_reranker, score_options
+from threading import Lock
 import json
 class TreeNode:
     def __init__(self, query, answer, state, parent=None):
@@ -89,6 +91,8 @@ class TreeNode:
 class pipeline:
     def __init__(self,  top_n=8) -> None:
         self.top_n = top_n
+        self._reranker = None
+        self._reranker_lock = Lock()
     
     def gen_outline(self,item, model,max_tokens=500):
         client=get_model(model)
@@ -161,8 +165,10 @@ class pipeline:
             step3_result = json.loads(step3_outputs)
         except json.JSONDecodeError:
             print("Step 3: JSON parse error. Raw response:\n", step3_outputs)
-            step3_result = step3_outputs
+            raise ValueError('Symbolic reranker returned invalid JSON')
 
+        if not isinstance(step3_result, dict):
+            raise ValueError('Symbolic reranker must return a JSON object')
         final_selection = step3_result.get("final_selection", [])
         final_selection = sorted(final_selection, key=lambda x: x.get("rank", 999999))
 
@@ -179,7 +185,7 @@ class pipeline:
     def additional_references_expansion(self,path, query, model, max_tokens,topn=10):
         paper_list = []
         total_cost=0
-        all_papers_data,status,cost_d = search_snippet_via_query_w_citation_expansion(query=query,max_paper_num=5,min_citation_count=10)
+        all_papers_data,status,cost_d = search_snippet_via_query_w_citation_expansion(query=query,max_paper_num=5,min_citation_count=10,model=model)
         total_cost+=cost_d
         ctxs = ""
         if all_papers_data is None:
@@ -210,7 +216,7 @@ class pipeline:
                 if "references" in paper_data and paper_data["references"] is not None:
                     for ref in paper_data["references"]:
                         ref_data = ref.copy()
-                        ref_data["text"] = ref.get("abstract", "")
+                        ref_data["text"] = (ref.get("abstract") or "")
 
                         if ref_data["paperId"] not in seen_paper_ids:
                             seen_paper_ids.add(ref_data["paperId"])
@@ -219,7 +225,7 @@ class pipeline:
                 if "citations" in paper_data and paper_data["citations"] is not None:
                     for citation in paper_data["citations"]:
                         citation_data = citation.copy()
-                        citation_data["text"] = citation.get("abstract", "")
+                        citation_data["text"] = (citation.get("abstract") or "")
 
                         if citation_data["paperId"] not in seen_paper_ids:
                             seen_paper_ids.add(citation_data["paperId"])
@@ -227,13 +233,20 @@ class pipeline:
 
             paper_list = paper_list_filtered  
 
-            reranker=FlagReranker('BAAI/bge-reranker-v2-m3', use_fp16=True)
+            # Keep the original BGE model; share one instance across retrieval threads.
             reranked_papers = []
-            for paper in paper_list:
-                paper_text = f"{paper['title']}\n{paper['text']}"
-                score = reranker.compute_score([[query, paper_text]], batch_size=4)[0]
-                paper['score'] = score  
-                reranked_papers.append(paper)
+            if paper_list:
+                with self._reranker_lock:
+                    if self._reranker is None:
+                        self._reranker = create_reranker()
+                    pairs = [[query, f"{p['title']}\n{p['text']}"] for p in paper_list]
+                    scores = self._reranker.compute_score(pairs, **score_options())
+                    if isinstance(scores, (int, float)):
+                        scores = [scores]
+                for paper, score in zip(paper_list, scores):
+                    paper['score'] = float(score)
+                    paper.setdefault('rationale', 'Selected by BGE relevance reranking.')
+                    reranked_papers.append(paper)
 
             top_papers = sorted(reranked_papers, key=lambda x: x['score'], reverse=True)[:min(topn,len(reranked_papers))]
             if status:
@@ -301,7 +314,7 @@ class pipeline:
                 matches = re.findall(query_pattern, outputs)
                 queries = [match.strip() for match in matches]
                 for query in queries:
-                    child_node = TreeNode(query=query, answer='', state=False)
+                    child_node = TreeNode(query=query, answer='', state=False, parent=father)
                     child_node, child_cost = self.gap_critic(child_node, model, depth, max_depth, max_tokens)
                     local_cost += child_cost
                     child_node.set_state(True)
@@ -402,7 +415,7 @@ class pipeline:
         cost+=calculate_openai_api_cost(len(input_query.split(" ")),len(outputs.split(" ")), model)
         raw_output = [t.split("[Response_End]")[0] for t in outputs.split("[Response_Start]") if "[Response_End]" in t][0] if "[Response_End]" in outputs else outputs
         if "[terminate]" in raw_output:
-            return ans
+            return ans,cost
         input_query = instructions.edit_feedback.format_map({"question": root.node["query"], "original_answer": ans, "feedback":raw_output,"outline": guideline, "references": ctxs})
         outputs = client.chat(messages=input_query, max_tokens=max_tokens)
         cost+=calculate_openai_api_cost(len(input_query.split(" ")),len(outputs.split(" ")), model)
@@ -458,7 +471,7 @@ class pipeline:
         cost=0
         for p in prompts:
             raw = client.chat(messages=p, max_tokens=max_tokens).strip()
-            cost+= = calculate_openai_api_cost(len(p.split(" ")),len(raw.split(" ")), model)
+            cost+= calculate_openai_api_cost(len(p.split(" ")),len(raw.split(" ")), model_name)
             if "[Response_End]" in raw:
                 processed = [
                     seg.split("[Response_End]")[0]
@@ -489,7 +502,7 @@ class pipeline:
         })
 
         outputs = client.chat(messages=input_query, max_tokens=max_tokens,temperature=0.0)
-        cost+= = calculate_openai_api_cost(len(input_query.split(" ")),len(outputs.split(" ")), model)
+        cost+= calculate_openai_api_cost(len(input_query.split(" ")),len(outputs.split(" ")), model)
         raw_output = [t.split("[Response_End]")[0] for t in outputs.split("[Response_Start]") if "[Response_End]" in t][0] if "[Response_End]" in outputs else outputs
         
         return raw_output,cost
@@ -507,6 +520,7 @@ class pipeline:
         refs = []
         for doc in item["ctxs"][:self.top_n]:
             refs.append({
+                "paperId": doc.get("paperId") or "",
                 "title": doc["title"] if "title" in doc and len(doc["title"]) > 0 else "",
                 "text": doc["text"]
             })
@@ -563,7 +577,7 @@ class pipeline:
                     }
                     ref_papers.append(paper_info)
             if qasa:
-                final_answer,costqasa = self.qasaout(item["input"], final_answer, ref_papers, 'gpt4o', max_tokens=200)
+                final_answer,costqasa = self.qasaout(item["input"], final_answer, ref_papers, model, max_tokens=200)
                 total_cost+=costqasa
 
             attr_text,costat = self.insert_attributions_posthoc_paragraph_all(
@@ -589,6 +603,8 @@ def calculate_openai_api_cost(input_tokens: int, output_tokens: int, model_name:
     Returns:
     - float: The total API cost.
     """
+    if model_name not in price_per_million:
+        return 0.0  # Unknown tariff; run.py reports cost=null, not a free call.
     total_cost_input = (input_tokens / 1000000) * price_per_million[model_name]
     total_cost_output =  (output_tokens / 1000000) * price_per_million_output[model_name]
     total_cost = total_cost_input + total_cost_output

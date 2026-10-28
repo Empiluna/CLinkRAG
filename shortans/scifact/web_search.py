@@ -3,10 +3,11 @@ import time
 import requests
 import os
 import instructions
+from s2_transport import request as s2_request
 from llms import LanguageModel, get_model
 
-os.environ["S2_API_KEY"]=''
-S2_API_KEY=os.environ["S2_API_KEY"]
+from llms.settings import load_settings
+S2_API_KEY = load_settings().get('S2_API_KEY') or ''
 
 def search_paper_via_query(query, max_paper_num=5):
     if "Search queries: " in query:
@@ -16,7 +17,7 @@ def search_paper_via_query(query, max_paper_num=5):
     # Define headers with API key
     headers = {'x-api-key': api_key}
     # Send the API request
-    response = requests.get('https://api.semanticscholar.org/graph/v1/paper/search', params=query_params, headers=headers)
+    response = s2_request("GET", 'https://api.semanticscholar.org/graph/v1/paper/search', params=query_params, headers=headers, timeout=60)
     time.sleep(0.5)
 
     if response.status_code == 200:
@@ -46,7 +47,7 @@ def search_paper_via_query_w_citation_expansion(query, max_paper_num=5, min_cita
     headers = {'x-api-key': api_key}
     
     # Send the API request
-    response = requests.get('https://api.semanticscholar.org/graph/v1/paper/search', params=query_params, headers=headers)
+    response = s2_request("GET", 'https://api.semanticscholar.org/graph/v1/paper/search', params=query_params, headers=headers, timeout=60)
     time.sleep(0.5)
 
     if response.status_code == 200:
@@ -73,7 +74,7 @@ def search_paper_via_query_w_citation_expansion(query, max_paper_num=5, min_cita
             # Query for references (only keep those with citation count >= 10)
             if "paperId" in paper:
                 ref_url = f'https://api.semanticscholar.org/graph/v1/paper/{paper["paperId"]}/references'
-                ref_response = requests.get(ref_url, params=paper_data_query_params, headers=headers)
+                ref_response = s2_request("GET", ref_url, params=paper_data_query_params, headers=headers, timeout=60)
                 time.sleep(1)  # Respect API rate limit
                 if ref_response.status_code == 200:
                     ref_data = ref_response.json()
@@ -84,7 +85,7 @@ def search_paper_via_query_w_citation_expansion(query, max_paper_num=5, min_cita
             # Query for citations (only keep those with citation count >= 10)
             if "paperId" in paper:
                 cite_url = f'https://api.semanticscholar.org/graph/v1/paper/{paper["paperId"]}/citations'
-                cite_response = requests.get(cite_url, params=paper_data_query_params, headers=headers)
+                cite_response = s2_request("GET", cite_url, params=paper_data_query_params, headers=headers, timeout=60)
                 time.sleep(1)  # Respect API rate limit
                 if cite_response.status_code == 200:
                     cite_data = cite_response.json()
@@ -101,7 +102,9 @@ def search_paper_via_query_w_citation_expansion(query, max_paper_num=5, min_cita
         return sorted_papers
 
 
-def search_snippet_via_query_w_citation_expansion(query, max_paper_num=5, min_citation_count=10):
+def search_snippet_via_query_w_citation_expansion(query, max_paper_num=5, min_citation_count=10, model="configured"):
+    if not S2_API_KEY:
+        raise ValueError("Missing S2_API_KEY for Semantic Scholar snippet retrieval. Fill config.local.yaml.")
     if "Search queries: " in query:
         query = query.split("Search queries: ")[1]
 
@@ -114,17 +117,17 @@ def search_snippet_via_query_w_citation_expansion(query, max_paper_num=5, min_ci
     api_key = S2_API_KEY
     headers = {'x-api-key': api_key}
 
-    response = requests.get('https://api.semanticscholar.org/graph/v1/snippet/search', params=query_params, headers=headers)
+    response = s2_request("GET", 'https://api.semanticscholar.org/graph/v1/snippet/search', params=query_params, headers=headers, timeout=60)
     time.sleep(4)  
     
     if response.status_code != 200:
         print(f"Search request failed: {response.status_code}, {response.text}")
-        return None, False,0
+        raise RuntimeError("Semantic Scholar retrieval failed or returned no evidence; check service permissions and query.")
 
     response_data = response.json()
     if "data" not in response_data or not response_data["data"]:
         print("No results found.")
-        return None, False,0
+        raise RuntimeError("Semantic Scholar retrieval failed or returned no evidence; check service permissions and query.")
 
     papers_snippets = []
     for item in response_data["data"]:
@@ -141,19 +144,19 @@ def search_snippet_via_query_w_citation_expansion(query, max_paper_num=5, min_ci
     }
 
     try:
-        r = requests.post(
+        r = s2_request("POST",
             'https://api.semanticscholar.org/graph/v1/paper/batch',
             params=paper_params,
             json=payload,
-            headers=headers
+            headers=headers, timeout=60
         )
         if r.status_code != 200:
             print(f"Batch request failed with status code: {r.status_code}")
-            print("Response:", r.text)
+            r.raise_for_status()
         time.sleep(3)
     except Exception as e:
         print("Error occurred during batch request:", e)
-        return None, False,0
+        raise RuntimeError("Semantic Scholar retrieval failed or returned no evidence; check service permissions and query.")
     
     all_papers_data = []
     batch_results = r.json()
@@ -185,22 +188,27 @@ def search_snippet_via_query_w_citation_expansion(query, max_paper_num=5, min_ci
 
     input_query = instructions.decision_expansion.format_map({"question": query, "snippets": ctxs})
     
-    client = get_model("gpt4o")
+    client = get_model(model)
     output = client.chat(messages=input_query, max_tokens=20)
-    cost=calculate_openai_api_cost(len(input_query.split(" ")),len(output.split(" ")), "gpt4o")
+    cost=calculate_openai_api_cost(len(input_query.split(" ")),len(output.split(" ")), model)
     if "[end]terminate" in output:
             return all_papers_data, False, cost
     else:
-        for paper_data in all_papers_data:        
+        expanded_ids = set()
+        for paper_data in all_papers_data:
+            paper_id = paper_data["paper"]["paperId"]
+            if paper_id in expanded_ids:
+                continue
+            expanded_ids.add(paper_id)
             #references
             ref_url = f'https://api.semanticscholar.org/graph/v1/paper/{paper_data["paper"]["paperId"]}/references'
-            ref_response = requests.get(ref_url, params={'fields': 'paperId,title,abstract,authors,citationCount,url,isInfluential'}, headers=headers)
+            ref_response = s2_request("GET", ref_url, params={'fields': 'paperId,title,abstract,authors,citationCount,url,isInfluential'}, headers=headers, timeout=60)
             time.sleep(4) 
             
             if ref_response.status_code == 200:
                 ref_data = ref_response.json()
                 for ref in ref_data.get('data', []):
-                    cited_paper = ref.get("citedPaper", {})
+                    cited_paper = (ref.get("citedPaper") or {})
                     citations=cited_paper.get("citationCount", 0)
                     if citations is not None and citations >= min_citation_count :
                         paper_data["references"].append({
@@ -215,13 +223,13 @@ def search_snippet_via_query_w_citation_expansion(query, max_paper_num=5, min_ci
 
             # citations
             cite_url = f'https://api.semanticscholar.org/graph/v1/paper/{paper_data["paper"]["paperId"]}/citations'
-            cite_response = requests.get(cite_url, params={'fields': 'paperId,title,abstract,authors,citationCount,url,isInfluential'}, headers=headers)
+            cite_response = s2_request("GET", cite_url, params={'fields': 'paperId,title,abstract,authors,citationCount,url,isInfluential'}, headers=headers, timeout=60)
             time.sleep(4) 
 
             if cite_response.status_code == 200:
                 cite_data = cite_response.json()
                 for cite in cite_data.get('data', []):
-                    cited_paper = cite.get("citingPaper", {})
+                    cited_paper = (cite.get("citingPaper") or {})
                     citations=cited_paper.get("citationCount", 0)
                     if citations is not None and citations >= min_citation_count :
                         paper_data["citations"].append({
@@ -251,6 +259,8 @@ def calculate_openai_api_cost(input_tokens: int, output_tokens: int, model_name:
     Returns:
     - float: The total API cost.
     """
+    if model_name not in price_per_million:
+        return 0.0
     total_cost_input = (input_tokens / 1000000) * price_per_million[model_name]
     total_cost_output =  (output_tokens / 1000000) * price_per_million_output[model_name]
     total_cost = total_cost_input + total_cost_output

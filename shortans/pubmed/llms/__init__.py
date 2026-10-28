@@ -1,6 +1,7 @@
 from .openai_model import chatgpt
 from .base import LanguageModel
 from .deepseek import DeepSeek
+from .settings import load_settings
 
 MODEL_DICT = {
     "gpt4o": "gpt-4o",
@@ -10,6 +11,8 @@ MODEL_DICT = {
 
 
 def get_model(model_name: str, **kwargs) -> LanguageModel:
+    if model_name == 'configured':
+        model_name = load_settings().get('MODEL_NAME') or 'deepseek-flash'
     if model_name in MODEL_DICT.keys():
         model_name = MODEL_DICT[model_name]
 
@@ -18,4 +21,4 @@ def get_model(model_name: str, **kwargs) -> LanguageModel:
     elif "deepseek" in model_name.lower():
         return DeepSeek(model=model_name, **kwargs)
     else:
-        raise NotImplementedError(f"Model {model_name} not implemented")
+        return chatgpt(model=model_name, **kwargs)

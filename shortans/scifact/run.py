@@ -1,3 +1,5 @@
+from llms.settings import load_settings
+load_settings()  # Set project cache paths before importing datasets/transformers.
 import argparse
 import random
 from tqdm import tqdm
@@ -8,7 +10,7 @@ import numpy as np
 import os
 import datasets
 import jsonlines
-from pipe import pipeline
+from pipe import pipeline, price_per_million
 
 def load_jsonlines(file):
     try:
@@ -41,6 +43,11 @@ def process_input_data(data, use_contexts=True):
             if "query" in item:
                 item["input"] = item["query"]
 
+        if not item.get("input"):
+            raise ValueError("Each item needs input, query, or question.")
+        item.setdefault("query", item["input"])
+        if not item.get("ctxs"):
+            raise ValueError("Each item needs nonempty ctxs from an initial retriever; see examples/sample.jsonl.")
         new_ctxs = []
         if use_contexts is True:
             # normalize ctx format for different retrieval APIs
@@ -58,7 +65,7 @@ def process_input_data(data, use_contexts=True):
             for ctx in tqdm(item["ctxs"]):
                 if "retrieval text" in ctx:
                     ctx["text"] = ctx["retrieval text"]
-                if ctx["text"] is None or len(ctx["text"]) ==0:
+                if ctx.get("text") is None or len(ctx["text"]) ==0:
                     continue
                 if type(ctx["text"]) != str:
                     ctx["text"] = " ".join(ctx["text"]["contexts"])
@@ -81,9 +88,9 @@ def main():
 
     parser = argparse.ArgumentParser()
     parser.add_argument("--input_file", type=str, help="path to input file")
-    parser.add_argument("--output_file", type=str, help="path to output file")
+    parser.add_argument("--output_file", type=str, required=True, help="path to output file")
     parser.add_argument("--dataset", type=str, default=None, help="specify the HF data path if you load them from HF datasets.")
-    parser.add_argument("--model_name", type=str, default='gpt4o',help="model name")
+    parser.add_argument("--model_name", type=str, default=load_settings().get('MODEL_NAME') or 'deepseek-flash',help="model name")
     parser.add_argument("--max_tokens", type=int, default=3000)
 
     args = parser.parse_args()
@@ -93,7 +100,7 @@ def main():
         if args.input_file.endswith("jsonl"):
             data = load_jsonlines(args.input_file)
         else:
-            data = json.load(open(args.input_file))
+            data = json.load(open(args.input_file, encoding="utf-8"))
             if "data" in data:
                 data = data["data"]
     elif args.dataset is not None:
@@ -126,11 +133,13 @@ def main():
 
     with open(args.output_file, 'a', encoding='utf8') as f:
         for idx, item in tqdm(enumerate(data)):
-            answer,cost,refs = pipe.run(item=item, model=args.model_name, max_tokens=3000, max_thread=4)
+            answer,cost,refs = pipe.run(item=item, model=args.model_name, max_tokens=args.max_tokens, max_thread=4)
             entry = {
                 "query": "Given a scientific claim, analyze and answer if the scientific claim is factually correct (true) or not (false) based on the retrieved information. Here is the claim:" + item["query"],
                 "answer_text": answer,
-                "cost": cost,
+                "cost": cost if args.model_name in price_per_million else None,
+                "cost_note": "Legacy word-count estimate; null means tariff not configured.",
+                "model": args.model_name,
                 "ctxs": refs
             }
 
