@@ -8,7 +8,7 @@
 2. 在同一 Cloudflare 账号创建专用 R2 存储桶，例如 `clinkrag-data`，创建仅限这个桶、只授予对象读写权限的 R2 API 凭据。
 3. 在此分支运行 `npm ci`，确保 Docker Desktop 的 Linux 引擎已启动。
 4. 用 `npx wrangler login` 登录这个 Cloudflare 账号。以下每项均通过交互式 `npx wrangler secret put <名称>` 填入，不写入文件或命令参数：
-   - `APP_PASSWORD`：网页访问口令，用户名固定为 `admin`。
+   - `APP_PASSWORD`：至少 16 字符的网页访问口令，用户名固定为 `admin`。
    - `DEEPSEEK_API_KEY`：当前 DeepSeek API 密钥。
    - `S2_API_KEY`：当前 Semantic Scholar API 密钥。
    - `R2_ACCOUNT_ID`：Cloudflare 账号 ID。

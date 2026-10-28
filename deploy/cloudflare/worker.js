@@ -58,12 +58,15 @@ export class ResearchContainer extends DurableObject {
 
 export default {
   fetch(request, env) {
-    if (!env.APP_PASSWORD) return new Response('Service password is not configured', {status: 503});
+    if (!env.APP_PASSWORD || env.APP_PASSWORD.length < 16) {
+      return new Response('Service password is not configured', {status: 503});
+    }
     const header = request.headers.get('authorization') || '';
     let user = '', password = '';
     if (header.startsWith('Basic ')) {
       try {
-        const decoded = atob(header.slice(6));
+        const binary = atob(header.slice(6));
+        const decoded = new TextDecoder().decode(Uint8Array.from(binary, (char) => char.charCodeAt(0)));
         const separator = decoded.indexOf(':');
         user = decoded.slice(0, separator);
         password = decoded.slice(separator + 1);
