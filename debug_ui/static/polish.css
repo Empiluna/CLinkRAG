@@ -1,0 +1,147 @@
+/* Shared visual rhythm. Feature-specific canvases live in journey.css / graph.css. */
+:root {
+  --ui-radius: 16px;
+  --ui-shadow: 0 4px 24px #00000010;
+  --ui-duration: 180ms;
+}
+:root[data-theme=light] {
+  --canvas: #f7f8fb;
+  --sidebar: #fcfcfe;
+  --surface: #f5f6fa;
+  --graph-bg: #fafbfe;
+  --ink: #24283e;
+  --body: #454c63;
+  --muted: #636d82;
+  --quiet: #6b7488;
+  --line: #e2e5ee;
+  --line-soft: #eceef4;
+  --tint: #f0edfb;
+  --ui-shadow: 0 4px 24px #30364c06;
+}
+body { line-height: 1.65; }
+body::before { display: none; }
+button, input, select, textarea { -webkit-tap-highlight-color: transparent; }
+button:focus-visible, a:focus-visible, summary:focus-visible,
+input:focus-visible, select:focus-visible, textarea:focus-visible {
+  outline: 2px solid var(--accent); outline-offset: 3px;
+}
+.workspace { width: 100%; max-width: 1640px; padding: 32px clamp(20px, 3vw, 48px) 52px; }
+.topbar { height: 64px; padding-inline: 28px; background: var(--canvas); }
+.connection { font-size: 12px; }
+.sidebar { padding: 24px 14px 16px; background: var(--sidebar); }
+.sidebar .brand { margin: 0 4px 24px; }
+.sidebar .brand small { white-space: nowrap; font-size: 11px; letter-spacing: 0; }
+.sidebar .brand-icon { box-shadow: none; border-radius: 12px; }
+.sidebar .new-research { min-height: 46px; border-radius: 12px; box-shadow: none; font-size: 15px; }
+.app-navigation button, .sidebar-bottom-nav button { min-height: 44px; border-radius: 10px; }
+.sidebar .history-header { padding: 22px 12px 10px; }
+.sidebar .history-header h2 { font-size: 12px; font-weight: 500; color: var(--muted); }
+.sidebar .compact-history { scrollbar-gutter: stable; }
+.sidebar .history-item { margin-bottom: 3px; border-radius: 9px; }
+.sidebar .history-open { min-height: 40px; font-size: 13px; }
+.sidebar-bottom-nav { padding-top: 12px; }
+.panel { box-shadow: var(--ui-shadow); }
+
+/* One quiet starting point, with every research option outside the input. */
+#home-screen .home-entry { width: min(100%, 780px); margin-inline: auto; padding-bottom: 40px; }
+#home-screen .home-entry h1 { font-size: clamp(28px, 3.2vw, 40px); letter-spacing: -.035em; font-weight: 650; margin-bottom: 30px; }
+#home-screen .home-compose { border-radius: 22px; padding: 20px 22px 14px; background: var(--paper); border: 1px solid var(--line); box-shadow: 0 6px 30px #242c4506; transition: border-color var(--ui-duration), box-shadow var(--ui-duration); }
+#home-screen .home-compose:focus-within { border-color: color-mix(in srgb,var(--accent) 65%,var(--line)); box-shadow: 0 0 0 3px color-mix(in srgb,var(--accent) 8%,transparent), var(--ui-shadow); }
+#home-screen #home-question { font-size: 17px; line-height: 1.8; padding: 3px 2px; min-height: 90px; max-height: 240px; outline: none; }
+#home-screen #home-question::placeholder { color: var(--quiet); }
+#home-screen #home-start { width: 40px; height: 40px; box-shadow: none; }
+#home-screen .home-quick-options { gap: 10px; margin-top: 16px; }
+#home-screen .home-quick-options>label, #home-model-toggle { min-height: 40px; box-shadow: none; border-color: var(--line); }
+#home-screen .home-quick-options select { font-size: 13px; }
+#home-more { min-height: 40px; font-size: 13px; }
+#home-model-menu { border-radius: 14px; box-shadow: 0 10px 36px #11182716; }
+#home-model-list { max-height: min(340px, 45dvh); overflow-y: auto; overscroll-behavior: contain; }
+#home-model-list button { min-height: 42px; }
+
+/* A clear hierarchy from question to view to reading surface. */
+#research-screen .run-banner { padding: 12px 0 28px; gap: 20px; align-items: flex-start; }
+#research-screen .run-banner h1 { font-size: clamp(25px, 2.6vw, 36px); line-height: 1.45; letter-spacing: -.025em; max-width: 1000px; overflow-wrap: anywhere; }
+#research-screen .run-banner #run-meta { font-size: 13px; line-height: 1.8; margin-top: 12px; }
+#research-screen .run-banner #rerun { flex-shrink: 0; margin-top: 32px; font-size: 13px; }
+.work-tabs { margin-bottom: 28px; }
+.work-tabs [role=tablist] { gap: 20px; overflow-x: auto; scrollbar-width: none; }
+.work-tabs [role=tab] { min-height: 48px; padding: 12px 2px 16px; font-size: 14px; white-space: nowrap; }
+.work-tabs .tab-indicator { height: 3px; border-radius: 3px; }
+.answer-panel { padding: clamp(20px, 3vw, 40px); border-radius: var(--ui-radius); }
+.answer-reading-bar { gap: 14px; padding-bottom: 20px; margin-bottom: 24px; border-bottom: 1px solid var(--line-soft); }
+.answer-reading-switch { border-radius: 10px; padding: 4px; }
+.answer-reading-switch button { min-height: 38px; padding: 8px 16px; border-radius: 8px; font-size: 14px; }
+.answer-reading-actions { display: flex; flex-wrap: wrap; gap: 10px; }
+#answer-main-panel { max-width: 860px; margin-inline: auto; }
+.answer-panel article.markdown-body { font-size: 17px; line-height: 1.95; overflow-wrap: anywhere; }
+.answer-panel .markdown-body h2 { font-size: 24px; line-height: 1.5; margin-top: 1.6em; }
+.answer-panel .markdown-body h3 { font-size: 20px; line-height: 1.6; }
+.answer-panel .markdown-body li { margin-block: 10px; }
+html[data-reading=large] .answer-panel article.markdown-body { font-size: 20px; }
+.progress-strip { border-radius: 12px; padding: 16px 20px; font-size: 14px; }
+.progress-strip p { font-size: 13px; }
+
+/* Settings adapt to the content width, including narrow desktop side panels. */
+#settings-screen { container: settings-page / inline-size; }
+#settings-screen .page-heading { padding-top: 8px; margin-bottom: 24px; }
+#settings-screen .page-heading h1 { font-size: 32px; letter-spacing: -.025em; }
+#settings-screen .page-heading p { font-size: 14px; }
+#settings-screen .runtime-card, #settings-screen .settings-card { border-radius: var(--ui-radius); }
+#settings-screen .runtime-card input, #settings-screen .runtime-card select { min-height: 42px; font-size: 14px; border-radius: 9px; }
+#settings-screen .runtime-settings-actions { border-radius: 14px; box-shadow: 0 8px 24px #1118270a; }
+#settings-screen .model-summary { gap: 18px; flex-wrap: wrap; }
+#settings-screen .saved-model-row { gap: 14px; }
+#settings-screen .saved-model-row strong { font-size: 15px; overflow-wrap: anywhere; }
+#settings-screen .provider-selected-models { gap: 8px; }
+dialog { overscroll-behavior: contain; }
+dialog[open] { animation: ui-dialog-enter 180ms ease-out both; }
+dialog::backdrop { background: #12172966; backdrop-filter: blur(4px); }
+#research-dialog .dialog-heading h2 { font-size: 24px; }
+#research-dialog .composer-panels { scrollbar-gutter: stable; }
+#research-dialog .composer-panels label { font-size: 14px; }
+#research-dialog .composer-panels .fine { font-size: 13px; line-height: 1.8; }
+#research-dialog .composer-panels input, #research-dialog .composer-panels select { min-height: 42px; font-size: 14px; }
+#research-dialog .composer-navigation button { min-height: 48px; font-size: 14px; }
+.library-paper { border-radius: 14px; }
+.library-paper h3 { font-size: 16px; line-height: 1.7; }
+.library-actions button { min-height: 40px; }
+
+@container settings-page (max-width: 720px) {
+  #settings-screen .settings-tabs { grid-template-columns: repeat(2,minmax(0,1fr)); gap: 6px; }
+  #settings-screen .settings-tabs button { flex-direction: row; text-align: left; padding: 13px; }
+  #settings-screen .settings-tabs b { font-size: 14px; }
+  #settings-screen .model-config-layout, #settings-screen .settings-grid { grid-template-columns: 1fr; }
+  #settings-screen .settings-context { display: none; }
+}
+@media(max-width: 1000px) {
+  .workspace { padding: 26px 22px 40px; }
+  #research-screen .run-banner { flex-wrap: wrap; }
+  #research-screen .run-banner #rerun { margin-top: 0; }
+  .work-tabs [role=tablist] { gap: 18px; }
+  .answer-reading-bar { flex-wrap: wrap; }
+}
+@media(max-width: 760px) {
+  .workspace { padding: 20px 16px 32px; }
+  .topbar { padding-inline: 16px; height: 58px; }
+  .topbar .connection { font-size: 11px; }
+  #home-screen .home-entry { padding-inline: 0; padding-bottom: 20px; }
+  #home-screen .home-entry h1 { font-size: 28px; margin-bottom: 24px; }
+  #home-screen .home-compose { padding: 16px; border-radius: 18px; }
+  #home-screen #home-question { font-size: 16px; }
+  #home-screen .home-quick-options { justify-content: flex-start; gap: 8px; }
+  #home-model-toggle { max-width: 100%; }
+  #home-model-menu { max-width: calc(100vw - 32px); }
+  #research-screen .run-banner h1 { font-size: 26px; }
+  .work-tabs [role=tablist] { gap: 16px; }
+  .work-tabs [role=tab] { font-size: 13px; padding-inline: 0; }
+  .answer-panel { padding: 20px 16px; }
+  .answer-panel article.markdown-body { font-size: 16px; }
+  .answer-panel .markdown-body h2 { font-size: 22px; }
+  .answer-reading-actions { font-size: 12px; }
+  #settings-screen .page-heading h1 { font-size: 28px; }
+  #settings-screen .runtime-card { padding: 20px; }
+  #research-dialog .composer-navigation button { font-size: 13px; }
+}
+@keyframes ui-dialog-enter { from { opacity: 0; transform: translateY(8px) scale(.99); } to { opacity: 1; transform: none; } }
+@media(prefers-reduced-motion: reduce) { dialog[open] { animation: none; } }
+html[data-motion=off] dialog[open] { animation: none; }

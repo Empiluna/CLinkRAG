@@ -294,7 +294,7 @@ def make_handler(jobs, token, settings_store=None):
                 self.check_local()
                 parsed = urlsplit(self.path)
                 path = parsed.path
-                if path in ('/', '/app.js', '/style.css', '/graph.js', '/graph.css', '/workspace.css', '/observatory.css', '/theme.js', '/visual.js', '/favicon.svg', '/product.css', '/product.js', '/explorer.js', '/reader.js', '/marked.umd.js', '/settings.js', '/settings.css', '/journey.js', '/journey.css', '/run-options.js'):
+                if path in ('/', '/app.js', '/style.css', '/graph.js', '/graph.css', '/workspace.css', '/observatory.css', '/theme.js', '/visual.js', '/favicon.svg', '/product.css', '/product.js', '/explorer.js', '/reader.js', '/marked.umd.js', '/settings.js', '/settings.css', '/journey.js', '/journey.css', '/run-options.js', '/polish.css'):
                     filename = 'index.html' if path == '/' else path[1:]
                     mime = 'text/html' if path == '/' else 'text/javascript' if path.endswith('.js') else 'text/css'
                     return self.respond((STATIC/filename).read_bytes(), content_type=mime+'; charset=utf-8')

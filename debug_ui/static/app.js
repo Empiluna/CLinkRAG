@@ -224,8 +224,10 @@ function setup(){
  $('mobile-menu').onclick=()=>{const opened=document.body.classList.toggle('sidebar-open');$('mobile-menu').setAttribute('aria-expanded',String(opened));};
  $('sidebar-backdrop').onclick=closeNav;
  document.addEventListener('keydown',e=>{if(e.key==='Escape'){document.body.classList.remove('sidebar-open');$('mobile-menu').setAttribute('aria-expanded','false');}});
- document.querySelector('[role=tablist]').addEventListener('keydown',e=>{const tabs=[...document.querySelectorAll('[role=tab]')],i=tabs.indexOf(document.activeElement);if(i<0)return;let next;if(e.key==='ArrowRight')next=(i+1)%tabs.length;if(e.key==='ArrowLeft')next=(i+tabs.length-1)%tabs.length;if(e.key==='Home')next=0;if(e.key==='End')next=tabs.length-1;if(next!==undefined){e.preventDefault();tabs[next].focus();tabs[next].click();}});
- setInterval(()=>{if(connected&&run?.status==='running'){poll();renderRun();}},1500);
+ document.querySelector('.work-tabs [role=tablist]').addEventListener('keydown',e=>{const tabs=[...e.currentTarget.querySelectorAll('[role=tab]')].filter(t=>!t.disabled&&t.getClientRects().length),i=tabs.indexOf(document.activeElement);if(i<0)return;let next;if(e.key==='ArrowRight')next=(i+1)%tabs.length;if(e.key==='ArrowLeft')next=(i+tabs.length-1)%tabs.length;if(e.key==='Home')next=0;if(e.key==='End')next=tabs.length-1;if(next!==undefined){e.preventDefault();tabs[next].focus();tabs[next].click();}});
+ // The worker keeps running independently; hidden pages need no repeated DOM work.
+ setInterval(()=>{if(!document.hidden&&connected&&run?.status==='running')poll();},1500);
+ document.addEventListener('visibilitychange',()=>{if(!document.hidden&&connected&&run?.status==='running')poll();});
  setInterval(()=>{if(!document.hidden&&!submitting)connect();},12000);connect();
 }
 

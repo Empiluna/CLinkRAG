@@ -24,14 +24,15 @@
  const motionOff=()=>motionPreference.matches||document.documentElement.dataset.motion==='off';
  const motionPreference=matchMedia('(prefers-reduced-motion: reduce)');
  function stopMotion(){if(motionFrame)cancelAnimationFrame(motionFrame);motionFrame=0;if(finishMotion)finishMotion();finishMotion=null;delete host.dataset.layoutAnimating;}
- motionPreference.addEventListener('change',()=>{if(motionOff())stopMotion();});
- document.addEventListener('visibilitychange',()=>{if(document.hidden)stopMotion();});
+ function settleMapMotion(){for(const n of host.querySelectorAll('.map-drawing,.map-arrival'))n.classList.remove('map-drawing','map-arrival');}
+ motionPreference.addEventListener('change',()=>{if(motionOff()){stopMotion();settleMapMotion();}});
+ document.addEventListener('visibilitychange',()=>{if(document.hidden){stopMotion();settleMapMotion();}});
  document.addEventListener('clink-preferences',()=>{stopMotion();if(active&&data)render();});
  const types={shared:'讨论同一概念',cooccurrence:'讨论相关概念',path:'解释可以衔接',citation:'论文引用'};
  const el=(tag,text,cls)=>{const n=document.createElement(tag);if(text!==undefined)n.textContent=text;if(cls)n.className=cls;return n;};
  const svg=(tag,attrs={})=>{const n=document.createElementNS(NS,tag);for(const [k,v] of Object.entries(attrs))n.setAttribute(k,v);return n;};
  const names=()=>data?.entity_labels||{};
- host.innerHTML=`<div class="graph-heading"><div><div class="section-kicker">QUESTION / EVIDENCE MAP</div><h2>论文如何相连</h2><p id="graph-summary" class="fine" role="status">选择一项运行记录后查看。</p></div><div class="graph-heading-actions"><button id="graph-fullscreen" class="secondary" aria-pressed="false">放大查看</button><button id="graph-refresh" class="secondary">刷新</button></div></div>
+ host.innerHTML=`<div class="graph-heading"><div><div class="section-kicker">论文关系</div><h2>从一篇论文，读懂它的联系</h2><p id="graph-summary" class="fine">选择一项研究记录后查看。</p></div><div class="graph-heading-actions"><button id="graph-fullscreen" class="secondary" aria-pressed="false">放大查看</button><button id="graph-refresh" class="secondary"><span class="graph-refresh-icon" aria-hidden="true">↻</span><span>刷新</span></button></div></div><p id="graph-feedback" class="graph-feedback" role="status" hidden></p>
  <div id="graph-phases" class="graph-phases" aria-label="检索阶段"></div>
  <div class="explore-modes" role="group" aria-label="图谱探索方式"><button data-explore="overview">关系图</button><button data-explore="directory">全部论文</button></div><div id="graph-overview"></div><div id="graph-directory" hidden></div><div id="graph-local-bar" hidden></div>
  <details class="graph-filters"><summary>关系类型与连接筛选</summary><div class="graph-controls"><div id="graph-types" class="graph-types"></div><label>连接密度 <select id="graph-density"><option value="sparse">中心论文的直接连接</option></select></label><label>共同概念至少 <select id="graph-strength"><option value="1" selected>1 个</option><option value="2">2 个</option><option value="3">3 个</option></select></label></div>
@@ -41,12 +42,20 @@
  <p id="graph-coverage" class="fine graph-footnote"></p><div class="graph-paths"><h3>从论文关联到解释路径</h3><p class="fine">上图展示论文关联，下方展示原文关系与接续路径。</p><div id="graph-path-list"></div></div>`;
  for(const b of host.querySelectorAll('[data-explore]'))b.onclick=()=>{mode=b.dataset.explore;detailOpen=false;render();};
  for(const [key,label] of Object.entries(types)){const l=el('label');const input=el('input');input.type='checkbox';input.value=key;input.checked=true;input.onchange=draw;l.append(input,el('span',label,'edge-key '+key));$('graph-types').append(l);}
- function hide(){stopMotion();document.body.classList.remove('graph-fullscreen');$('graph-fullscreen').setAttribute('aria-pressed','false');$('graph-fullscreen').textContent='放大查看';active=false;host.hidden=true;$('graph-tab').classList.remove('active');$('graph-tab').setAttribute('aria-selected','false');}
- function reset(){stopMotion();mapSeen.clear();mapDOMKey='';mapObserver?.disconnect();phase='pool';mode='overview';neighborhoodPage=0;directoryPage=0;detailOpen=false;$('graph-search').value='';centerHistory=[];requestId++;data=null;graphRun=null;picked=null;edgePicked=null;positions.clear();layoutKey='';$('graph-summary').textContent='正在等待本次检索记录…';$('graph-nodes').replaceChildren();$('graph-edges').replaceChildren();$('graph-path-list').replaceChildren();$('graph-overview').replaceChildren(el('p','正在载入论文关系…','empty'));$('graph-directory').replaceChildren();}
- async function refresh(){if(!active||!run?.id)return;const id=run.id, ticket=++requestId;try{const value=await api(`/api/runs/${id}/graph`);if(ticket!==requestId||run?.id!==id)return;data=value;graphRun=id;render();}catch(e){$('graph-summary').textContent='图谱加载失败：'+e.message;mapDOMKey='';$('graph-overview').replaceChildren(el('p','论文关系暂时未能载入，请点击刷新。','empty'));}}
+ function hide(){stopMotion();settleMapMotion();document.body.classList.remove('graph-fullscreen');$('graph-fullscreen').setAttribute('aria-pressed','false');$('graph-fullscreen').textContent='放大查看';active=false;host.hidden=true;$('graph-tab').classList.remove('active');$('graph-tab').setAttribute('aria-selected','false');}
+ function reset(){stopMotion();mapSeen.clear();mapDOMKey='';mapObserver?.disconnect();phase='pool';mode='overview';neighborhoodPage=0;directoryPage=0;detailOpen=false;$('graph-search').value='';centerHistory=[];requestId++;data=null;graphRun=null;picked=null;edgePicked=null;positions.clear();layoutKey='';$('graph-summary').textContent='正在等待本次检索记录…';$('graph-refresh').disabled=false;$('graph-refresh').removeAttribute('aria-busy');$('graph-feedback').hidden=true;mapDialog.close();$('graph-nodes').replaceChildren();$('graph-edges').replaceChildren();$('graph-path-list').replaceChildren();$('graph-overview').replaceChildren(el('p','正在载入论文关系…','empty'));$('graph-directory').replaceChildren();}
+ async function refresh(){
+  if(!active||!run?.id)return;
+  const id=run.id,ticket=++requestId,button=$('graph-refresh'),feedback=$('graph-feedback');
+  button.disabled=true;button.setAttribute('aria-busy','true');feedback.hidden=true;
+  try{const value=await api(`/api/runs/${id}/graph`);if(ticket!==requestId||run?.id!==id)return;data=value;graphRun=id;if(active)render();}
+  catch(e){if(ticket!==requestId||run?.id!==id)return;feedback.textContent=data?'刷新暂时失败，已保留当前关系图。可以稍后重试。':'论文关系暂时未能载入，请点击刷新。';feedback.hidden=false;if(!data){mapDOMKey='';$('graph-overview').replaceChildren(el('p','等待论文关系记录','empty'));}}
+  finally{if(ticket===requestId){button.disabled=false;button.removeAttribute('aria-busy');}}
+ }
  function show(){switchTab(false);$('trace-view').hidden=true;$('answer-view').hidden=true;$('compare-view').hidden=true;for(const id of ['trace-tab','answer-tab','compare-tab']){$(id).classList.remove('active');$(id).setAttribute('aria-selected','false');}active=true;document.body.dataset.view='graph';host.hidden=false;$('graph-tab').classList.add('active');$('graph-tab').setAttribute('aria-selected','true');if(data&&graphRun===run?.id)render();else refresh();}
- window.paperGraph={hide,reset,refresh,focus:id=>{centerHistory=[];phase='pool';mode='overview';picked=id;neighborhoodPage=0;detailOpen=false;show();},showPhase:key=>{phase='pool';mode='overview';picked=null;edgePicked=null;neighborhoodPage=0;show();}};$('graph-tab').onclick=show;$('graph-refresh').onclick=refresh;
+ window.paperGraph={hide,reset,refresh,focus:id=>{centerHistory=[];phase='pool';mode='overview';picked=id;neighborhoodPage=0;detailOpen=false;show();},showPhase:key=>{phase=['pool','seed','retrieved','context'].includes(key)?key:'pool';mode='overview';picked=null;edgePicked=null;neighborhoodPage=0;show();}};$('graph-tab').onclick=show;$('graph-refresh').onclick=refresh;
  function render(){
+  if(!data)return;
   $('graph-summary').textContent=run?.question||'尚未选择问题';
   $('graph-phases').replaceChildren();
   for(const [key,label] of [['pool','全部找到的论文'],['seed','首先找到'],['retrieved','进一步查找'],['context','回答证据']]){
@@ -82,14 +91,18 @@
  }
  let mapDOMKey='',mapObserver=null;const mapSeen=new Set();
  const mapNavigation=el('div',undefined,'map-navigation');host.querySelector('.explore-modes').before(mapNavigation);mapNavigation.append(host.querySelector('.explore-modes'));
- const mapDialog=el('dialog',undefined,'paper-map-dialog');mapDialog.setAttribute('aria-label','论文与连接依据');
+ const mapDialog=el('dialog',undefined,'paper-map-dialog');mapDialog.setAttribute('aria-labelledby','graph-map-detail-title');
  const mapClose=el('button','×','map-dialog-close');mapClose.setAttribute('aria-label','关闭详情');mapClose.onclick=()=>mapDialog.close();
  const mapDetail=el('div');mapDialog.append(mapClose,mapDetail);host.append(mapDialog);
  mapDialog.onclick=e=>{if(e.target===mapDialog)mapDialog.close();};
- function showMapDetail(title){mapDetail.replaceChildren(el('h2',title));if(!mapDialog.open)mapDialog.showModal();mapDialog.scrollTop=0;}
+ function showMapDetail(title){const heading=el('h2',title);heading.id='graph-map-detail-title';mapDetail.replaceChildren(heading);if(!mapDialog.open)mapDialog.showModal();mapDialog.scrollTop=0;}
+ function focusMapPaper(id){
+  if(exploration?.center&&exploration.center.id!==id)centerHistory.push({id:exploration.center.id,page:neighborhoodPage});
+  mode='overview';picked=id;neighborhoodPage=0;edgePicked=null;draw();
+ }
  function mapPaperDetails(n){
   showMapDetail(n.title);
-  const focus=el('button','查看这篇论文的关系','secondary');focus.onclick=()=>{mapDialog.close();picked=n.id;neighborhoodPage=0;draw();};mapDetail.append(focus);
+  const focus=el('button','以这篇论文展开关系','secondary');focus.onclick=()=>{mapDialog.close();focusMapPaper(n.id);};mapDetail.append(focus);
   const url=n.url||(/^[a-f0-9]{40}$/i.test(n.id)?'https://www.semanticscholar.org/paper/'+n.id:null);
   if(url&&/^https?:\/\//i.test(url)){const a=el('a','打开论文原网页 ↗');a.href=url;a.target='_blank';a.rel='noopener noreferrer';mapDetail.append(a);}
   mapDetail.append(el('h3','本次阅读的原文'));
@@ -117,44 +130,59 @@
  }
  function mapReason(edges,center){
   const shared=edges.filter(e=>e.type==='shared').flatMap(e=>e.evidence||[]).map(e=>e.entity);
-  if(shared.length)return ['都提到了', [...new Set(shared)].join(' / ')];
-  const citation=edges.find(e=>e.type==='citation');if(citation)return [citation.source===center.id?'左侧论文引用了':'右侧论文引用了','点击查看引用方向'];
+  if(shared.length){const concepts=[...new Set(shared)];return ['共同讨论',concepts.slice(0,3).join(' / ')+(concepts.length>3?` 等 ${concepts.length} 个概念`:'')];}
+  const citation=edges.find(e=>e.type==='citation');if(citation)return ['论文引用',citation.source===center.id?'当前论文引用了这篇论文':'这篇论文引用了当前论文'];
   const path=edges.find(e=>e.type==='path');if(path)return [path.selected?'回答使用的解释链':'可衔接的解释线索','点击查看原文'];
   const item=edges.find(e=>e.type==='cooccurrence')?.evidence?.[0];
   return ['讨论相关概念',item?`${item.source_entity} / ${item.target_entity}`:'点击查看依据'];
  }
  function renderPaperMap(){
   const box=$('graph-overview'),ex=exploration,center=ex.center,leaves=ex.nodes.slice(1);
-  const key=JSON.stringify([graphRun,phase,center?.id,ex.page,ex.nodes.map(n=>[n.id,n.title,n.cited,n.passages?.length]),ex.links,ex.scope.length]);
+  const key=JSON.stringify([graphRun,phase,center?.id,ex.page,ex.nodes.map(n=>[n.id,n.title,n.cited,n.year,n.passages]),ex.links,ex.scope.length,centerHistory.length]);
   if(mapDOMKey===key&&box.childElementCount)return;
   mapObserver?.disconnect();mapDOMKey=key;box.replaceChildren();
   mapNavigation.querySelector('.paper-map-toolbar')?.remove();const toolbar=el('div',undefined,'paper-map-toolbar');
-  const label=el('label','查看论文');const select=el('select');select.setAttribute('aria-label','选择图中的中心论文');
-  for(const n of ex.ranked)select.append(new Option(n.title,n.id));select.value=center?.id||'';
-  select.onchange=()=>{picked=select.value;neighborhoodPage=0;draw();};label.append(select);toolbar.append(label);
-  mapNavigation.append(toolbar);
-  if(!center){box.append(el('p','找到论文后，关系图会在这里逐步出现。','empty'));return;}
+  const label=el('label','从这篇开始');const select=el('select');select.setAttribute('aria-label','选择图中的中心论文');
+  for(const n of ex.ranked)select.append(new Option(n.title,n.id));select.value=center?.id||'';select.disabled=!center;
+  select.onchange=()=>focusMapPaper(select.value);label.append(select);toolbar.append(label);mapNavigation.append(toolbar);
+  if(!center){
+   const empty=el('div',undefined,'map-empty-state');empty.append(el('span','○ — ○','map-empty-symbol'),el('h3','论文找到后，联系会在这里展开'),el('p','研究进行中会自动更新。也可以切换上方范围，查看已经找到的论文。'));box.append(empty);return;
+  }
+  const intro=el('div',undefined,'paper-map-intro'),introText=el('div');
+  introText.append(el('h3',ex.neighbors.length?`这篇论文与 ${ex.neighbors.length} 篇论文相连`:'查看这篇论文的研究内容'),el('p','点击论文读原文，点击中间的说明核对关系。','fine'));intro.append(introText);
+  const actions=el('div',undefined,'paper-map-actions');
+  if(centerHistory.length){const back=el('button','← 上一篇','secondary');back.onclick=()=>{const previous=centerHistory.pop();picked=previous.id;neighborhoodPage=previous.page;draw();};actions.append(back);}
+  const search=el('button','查找论文','text-button');search.onclick=()=>{mode='directory';directoryPage=0;draw();$('graph-search').focus();};actions.append(search);intro.append(actions);box.append(intro);
+  const number=n=>String(data.nodes.findIndex(p=>p.id===n.id)+1).padStart(2,'0');
   const card=(n,central=false)=>{
-   const b=el('button',undefined,'map-paper'+(central?' map-center':' map-leaf'));b.type='button';
-   b.append(el('span',central?'当前论文':n.cited?'已用于回答':'相关论文','map-paper-tag'),el('strong',n.title),el('span',[n.year,n.cited?'已用于回答':'', '查看原文 ↗'].filter(Boolean).join(' · '),'map-paper-meta'));
-   b.onclick=()=>mapPaperDetails(n);return b;
+   const b=el('button',undefined,'map-paper'+(central?' map-center':' map-leaf'));b.type='button';b.dataset.paperId=n.id;
+   const meta=el('span',undefined,'map-paper-topline');meta.append(el('span',number(n),'map-paper-number'),el('span',central?'当前展开':n.cited?'回答已引用':'关联论文','map-paper-tag'));b.append(meta,el('strong',n.title),el('span',[n.year,central&&n.cited?'回答已引用':'','阅读原文 ↗'].filter(Boolean).join(' · '),'map-paper-meta'));
+   b.setAttribute('aria-label',`论文 ${number(n)}：${n.title}，阅读原文`);b.onclick=()=>mapPaperDetails(n);return b;
   };
-  const surface=el('div',undefined,'paper-map-surface');box.append(surface);
+  if(leaves.length){const labels=el('div',undefined,'paper-map-columns');for(const text of ['当前论文','为什么相连','关联论文'])labels.append(el('span',text));labels.setAttribute('aria-hidden','true');box.append(labels);}
+  const surface=el('div',undefined,'paper-map-surface');surface.setAttribute('aria-label','论文关系图');box.append(surface);
   if(!leaves.length){
-   surface.classList.add('map-unlinked');surface.append(card(center,true),el('p','这篇论文暂时没有已记录的跨篇连接。可以换一篇查看。','map-unlinked-note'));
+   surface.classList.add('map-unlinked');surface.append(card(center,true));
+   const note=el('div',undefined,'map-unlinked-note');note.append(el('span','暂无跨篇连接','map-unlinked-badge'),el('h3','这篇论文也保留在研究中'),el('p','目前没有记录它与其他论文的联系。可以直接阅读原文，或选择另一篇论文继续查看。'));
+   const connected=ex.ranked.find(n=>ex.degree.get(n.id)>0);
+   if(connected){const next=el('button','查看有连接的论文','secondary');next.onclick=()=>focusMapPaper(connected.id);note.append(next);}surface.append(note);
   }else{
    const network=svg('svg',{'class':'map-connectors','aria-hidden':'true',preserveAspectRatio:'none'});surface.append(network);
    const origin=card(center,true);origin.style.gridRow=`1 / span ${leaves.length}`;surface.append(origin);
-   const targets=[],arrivals=[];
+   const targets=[],arrivals=[],reasons=[];
    leaves.forEach((n,i)=>{
     const edges=ex.links.filter(e=>e.source===n.id||e.target===n.id),[label,topic]=mapReason(edges,center);
-    const reason=el('button',undefined,'map-reason');reason.type='button';reason.style.gridRow=i+1;reason.style.gridColumn=2;
-    reason.append(el('span',label),el('strong',topic),el('small','查看连接依据'));reason.onclick=()=>mapEdgeDetails(edges,center,n);
-    const seenKey=JSON.stringify([center.id,n.id,edges.map(e=>[e.type,e.source,e.target,e.evidence])]);
-    const fresh=!motionOff()&&!mapSeen.has(seenKey);mapSeen.add(seenKey);arrivals.push(fresh);
-    const target=card(n);target.style.gridRow=i+1;target.style.gridColumn=3;target.style.setProperty('--arrival-delay',`${350+i*100}ms`);
+    const reason=el('button',undefined,'map-reason');reason.type='button';reason.style.gridRow=i+1;reason.style.gridColumn=2;reason.style.setProperty('--map-row',i+2);reason.dataset.relation=edges.some(e=>e.type==='shared')?'shared':edges[0]?.type||'shared';
+    reason.append(el('span',label),el('strong',topic),el('small','查看依据'));reason.onclick=()=>mapEdgeDetails(edges,center,n);reason.setAttribute('aria-label',`${label}：${topic}。查看两篇论文的连接依据`);
+    // A relation enters once per research record. Evidence refinements and polling must not replay it.
+    const seenKey=JSON.stringify([graphRun,...[center.id,n.id].sort()]);
+    const fresh=!motionOff()&&!document.hidden&&!mapSeen.has(seenKey);mapSeen.add(seenKey);arrivals.push(fresh);reasons.push(reason);
+    const target=card(n),slot=el('div',undefined,'map-paper-slot');slot.style.gridRow=i+1;slot.style.gridColumn=3;slot.style.setProperty('--map-row',i+2);target.style.setProperty('--arrival-delay',`${200+i*90}ms`);
     if(fresh)target.classList.add('map-arrival');
-    surface.append(reason,target);targets.push(target);
+    const expand=el('button','沿这篇继续探索 →','map-expand');expand.setAttribute('aria-label',`以论文 ${number(n)} 为中心展开关系`);expand.onclick=()=>{focusMapPaper(n.id);requestAnimationFrame(()=>box.querySelector('.map-center')?.focus({preventScroll:true}));};slot.append(target,expand);
+    const emphasize=on=>{reason.classList.toggle('is-emphasized',on);slot.classList.toggle('is-emphasized',on);network.querySelector(`[data-link="${i}"]`)?.classList.toggle('is-emphasized',on);};
+    for(const node of [reason,slot]){node.addEventListener('pointerenter',()=>emphasize(true));node.addEventListener('pointerleave',()=>emphasize(false));node.addEventListener('focusin',()=>emphasize(true));node.addEventListener('focusout',()=>emphasize(false));}
+    surface.append(reason,slot);targets.push(target);
    });
    let lastSize='',firstDraw=true;
    const connect=()=>{
@@ -163,20 +191,20 @@
     const size=JSON.stringify([area.width,area.height,a.x,a.y,...rects.map(r=>[r.x,r.y,r.height])]);if(size===lastSize)return;lastSize=size;
     network.setAttribute('viewBox',`0 0 ${area.width} ${area.height}`);network.replaceChildren();
     rects.forEach((b,i)=>{
-     const narrow=matchMedia('(max-width:700px)').matches;
+     const narrow=surface.closest('#graph-view').clientWidth-parseFloat(getComputedStyle(host).paddingLeft)-parseFloat(getComputedStyle(host).paddingRight)<=720;
      const x1=narrow?a.x+a.width/2-area.x:a.right-area.x,y1=narrow?a.bottom-area.y:a.y+a.height/2-area.y;
      const x2=b.x-area.x,y2=b.y+b.height/2-area.y;
      const middle=(x1+x2)/2;
      const d=narrow?`M ${x1} ${y1} L ${x1} ${y1+12} L 10 ${y1+12} L 10 ${y2} L ${x2} ${y2}`:`M ${x1} ${y1} C ${x1+50} ${y1}, ${middle-60} ${y2}, ${middle} ${y2} L ${x2} ${y2}`;
-     const track=svg('path',{d,'class':'map-link-track'}),line=svg('path',{d,pathLength:1,'class':'map-link-draw'+(firstDraw&&arrivals[i]?' map-drawing':'')});line.style.animationDelay=`${i*100}ms`;network.append(track,line);
+     const track=svg('path',{d,'class':'map-link-track'}),line=svg('path',{d,pathLength:1,'data-link':i,'data-relation':reasons[i].dataset.relation,'class':'map-link-draw'+(firstDraw&&arrivals[i]?' map-drawing':'')});line.style.animationDelay=`${i*90}ms`;network.append(track,line);
     });
     firstDraw=false;
    };
-   mapObserver=new ResizeObserver(connect);mapObserver.observe(surface);targets.forEach(t=>mapObserver.observe(t));requestAnimationFrame(connect);
+   mapObserver=new ResizeObserver(connect);mapObserver.observe(surface);targets.forEach(t=>mapObserver.observe(t));mapObserver.observe(origin);requestAnimationFrame(connect);
   }
   const footer=el('div',undefined,'paper-map-footer');
-  footer.append(el('span',leaves.length?`这篇论文连接了 ${ex.neighbors.length} 篇 · 正在显示 ${ex.page*3+1}–${ex.page*3+leaves.length} 篇`:'所有论文都可在“全部论文”中找到'));
-  footer.append(el('span',`共 ${ex.edges.length} 条已记录关系`,'paper-map-total'));
+  footer.append(el('span',leaves.length?`显示 ${ex.page*3+1}–${ex.page*3+leaves.length} / ${ex.neighbors.length} 篇关联论文`:'全部论文均可从“全部论文”中查看'));
+  footer.append(el('span',`当前范围：${ex.scope.length} 篇论文 · ${ex.edges.length} 条关系`,'paper-map-total'));
   if(ex.pages>1){const controls=el('div');for(const [text,delta] of [['上一组',-1],['下一组',1]]){const b=el('button',text,'secondary');b.disabled=delta<0?ex.page===0:ex.page===ex.pages-1;b.onclick=()=>{neighborhoodPage+=delta;draw();};controls.append(b);}footer.append(controls);}box.append(footer);
  }
  function layout(nodes){
@@ -275,7 +303,7 @@
  $('graph-strength').onchange=draw;$('graph-density').onchange=draw;$('graph-search').oninput=()=>{mode='directory';directoryPage=0;draw();};$('graph-paper-list').onchange=e=>{if(e.target.value)selectNode(e.target.value);};
  $('graph-close-inspector').onclick=()=>{detailOpen=false;edgePicked=null;draw();};
  $('graph-fullscreen').onclick=()=>{const full=document.body.classList.toggle('graph-fullscreen');$('graph-fullscreen').textContent=full?'退出全屏':'放大查看';$('graph-fullscreen').setAttribute('aria-pressed',String(full));};
- document.addEventListener('keydown',e=>{if(e.key==='Escape'&&document.body.classList.contains('graph-fullscreen'))$('graph-fullscreen').click();});
+ document.addEventListener('keydown',e=>{if(e.key==='Escape'&&!mapDialog.open&&document.body.classList.contains('graph-fullscreen'))$('graph-fullscreen').click();});
  $('graph-clear').onclick=()=>{picked=null;edgePicked=null;detailOpen=false;neighborhoodPage=0;$('graph-search').value='';draw();};$('graph-reset').onclick=resetView;
  $('graph-plus').onclick=()=>{zoom=Math.min(3,zoom*1.2);transform();};$('graph-minus').onclick=()=>{zoom=Math.max(.4,zoom/1.2);transform();};
  let dragging=null,dragMoved=false;
