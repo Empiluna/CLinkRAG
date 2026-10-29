@@ -189,6 +189,7 @@ run-local.ps1               诊断、排序模型准备与命令行入口
 | [本地运行](RUN_LOCAL.md) | 安装脚本、运行方式与原始命令行流程 |
 | [模型设置](MODEL_SETTINGS.md) / [服务预设](PROVIDER_PRESETS.md) | 连接配置、模型商分组与多模型选择 |
 | [在线研究](ONLINE_CLINKRAG.md) / [研究选项](RESEARCH_OPTIONS.md) | 检索与分析流程、参数含义 |
+| [跨领域算法与论文依据](ALGORITHM_CROSS_DOMAIN.md) | 融合检索、证据多样性、有限纠正、上下文分配与验证边界 |
 | [研究过程](RESEARCH_PROCESS_UI.md) / [论文关系图](PAPER_MAP_READING.md) | 可视化和阅读交互 |
 | [研究历史](RESEARCH_HISTORY.md) / [网络恢复](NETWORK_RECOVERY.md) | 历史管理、停止与继续研究 |
 | [回答完整性](ANSWER_COMPLETION.md) | 截断检测与后续生成 |

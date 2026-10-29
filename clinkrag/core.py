@@ -7,7 +7,7 @@ import math
 from pathlib import Path
 import re
 
-VERSION = 'clinkrag-1.0'
+VERSION = 'clinkrag-1.1'
 
 def identity(value):
     return hashlib.sha256(str(value).encode()).hexdigest()[:20]
@@ -63,7 +63,7 @@ def prepare_corpus(papers):
             if end-start < 40:
                 continue
             boundaries = [start]
-            for sentence in re.finditer(r'(?<=[.!?])\s+', text[start:end]):
+            for sentence in re.finditer(r'(?<=[.!?])\s+|(?<=[。！？])\s*', text[start:end]):
                 point = start+sentence.end()
                 if point-boundaries[-1] >= 650:
                     boundaries.append(point)
@@ -117,12 +117,13 @@ def association_stats(passages, mentions, config):
             'eligible':count>=config.min_windows and len(documents[(left,right)])>=config.min_papers and score>0})
     return {'N':N,'single_counts':dict(singles),'edges':edges}
 
-CONDITION_KEYS=('task','model','dataset','metric','setting')
+CONDITION_KEYS=('task','model','dataset','metric','setting','population','period','method','assumptions')
 UNKNOWN={'','unknown','unspecified','not stated','none','null','general'}
 
 def compatible(a,b):
     conflicts=[]; matches=[]; missing=[]
-    for key in CONDITION_KEYS:
+    # Include any additional explicit scope instead of silently ignoring a new field.
+    for key in dict.fromkeys((*CONDITION_KEYS, *a.keys(), *b.keys())):
         left=normalized(a.get(key,'unknown'));right=normalized(b.get(key,'unknown'))
         if left in UNKNOWN or right in UNKNOWN:
             missing.append(key)
