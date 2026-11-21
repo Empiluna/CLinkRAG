@@ -3,7 +3,10 @@
   const desk = $('literature-screen');
   desk.innerHTML = `
     <header class="desk-heading"><h1>文献查证</h1><p>输入问题，在论文中定位相关段落，核对出处。</p></header>
-    <form id="lit-form"><fieldset id="lit-controls">
+    <details id="lit-query-panel" open><summary id="lit-query-summary" hidden>
+      <span class="lit-query-copy"><small id="lit-query-source"></small><strong id="lit-query-caption"></strong></span>
+      <span class="lit-edit-query"><span class="lit-edit-open">修改查证</span><span class="lit-edit-close">收起设置</span></span>
+    </summary><form id="lit-form"><fieldset id="lit-controls">
       <label for="lit-question">查证问题</label>
       <textarea id="lit-question" rows="2" minlength="2" maxlength="1500" required placeholder="想从文献中核对什么？"></textarea>
       <fieldset class="collection-choice"><legend>资料来源</legend>
@@ -27,20 +30,29 @@
         <ul id="lit-papers" aria-label="已加入的资料"></ul>
       </div>
       <footer class="desk-submit"><label for="lit-limit">最多显示 <select id="lit-limit">${[1,2,3,4,5,6,7,8,9,10].map(n=>`<option ${n===5?'selected':''}>${n}</option>`).join('')}</select> 条</label>
-        <button type="submit" class="primary" id="lit-search">查找原文</button></footer>
-    </fieldset></form>
+        <button type="submit" class="primary" id="lit-search"><span>查找原文</span></button></footer>
+    </fieldset></form></details>
     <p class="desk-status" id="lit-status" role="status" aria-live="polite"></p>
     <section id="lit-results" hidden aria-labelledby="lit-result-title"><header class="findings-heading"><div><h2 id="lit-result-title" tabindex="-1">查证结果</h2><p id="lit-result-query"></p></div>
       <div class="desk-exports"><button type="button" id="lit-md">导出笔记</button><button type="button" id="lit-ris">导出文献 RIS</button></div></header>
       <p id="lit-note" class="desk-note"></p><ol id="lit-items" class="evidence-ledger"></ol>
-      <section id="lit-brief-section" hidden><h3>整理研究发现</h3><p id="lit-brief-notice"></p>
+      <section id="lit-brief-section" hidden><div class="brief-heading"><h3>整理研究发现</h3><span id="lit-selection-count"></span></div><p id="lit-brief-notice"></p>
         <button id="lit-brief" type="button" class="secondary">用模型整理所选原文</button>
         <button type="button" id="lit-connect" class="text-button" hidden>设置回答模型</button>
         <p id="brief-status" role="status"></p><div id="brief-content"></div></section></section>`;
 
+  for (const [value, name] of [['builtin','book'],['personal','folder'],['crossref','globe']]) {
+    desk.querySelector(`input[value="${value}"] + span`).prepend(window.researchIcon(name));
+  }
+  $('lit-search').prepend(window.researchIcon('search'));
+  $('lit-md').prepend(window.researchIcon('download'));
+  $('lit-ris').prepend(window.researchIcon('download'));
+  $('lit-query-summary').querySelector('.lit-edit-query').append(window.researchIcon('chevronDown'));
+
   const materials = [];
-  let catalog, finding, busy = false, briefBusy = false, resultVersion = 0, importing = false;
-  let responseSelection = new Set(), translating = false;
+  let catalog, catalogRequest, finding, busy = false, briefBusy = false, resultVersion = 0, importing = false;
+  let responseSelection = new Set(), translating = false, citedPassage = null, exampleRequest = 0;
+  const passageReaders = [];
   const collection = () => desk.querySelector('input[name="collection"]:checked').value;
   const itemKey = (_, index) => String(index);
   const status = (message, failed = false) => {
@@ -60,12 +72,16 @@
   }
 
   async function getCatalog() {
-    if (!catalog) catalog = await api('/api/literature');
+    if (!catalog) {
+      catalogRequest ??= api('/api/literature').finally(() => {catalogRequest = null;});
+      catalog = await catalogRequest;
+    }
     scope();
     return catalog;
   }
 
   function clearBrief() {
+    clearCitation();
     $('brief-status').textContent = '';
     $('brief-content').replaceChildren();
   }
@@ -76,7 +92,10 @@
     briefBusy = false;
     responseSelection.clear();
     $('lit-results').hidden = true;
+    $('lit-query-summary').hidden = true;
+    $('lit-query-panel').open = true;
     clearBrief();
+    passageReaders.length = 0;
   }
 
   function editSource(paper, rowName) {
@@ -172,7 +191,7 @@
       }
       addMaterials(additions);
     } catch (e) {status(e.message,true);}
-    finally {importing=false;$('lit-controls').disabled=busy;event.target.value='';}
+    finally {importing=false;$('lit-controls').disabled=busy;event.target.value='';desk.dispatchEvent(new Event('source-ready'));}
   };
 
   function download(text, filename, type) {
@@ -185,19 +204,87 @@
     try {
       const address=new URL(value);
       if (!['https:','http:'].includes(address.protocol)||address.username||address.password) return null;
-      const link=node('a','打开论文');link.href=address.href;link.target='_blank';link.rel='noopener noreferrer';return link;
+      const link=node('a','打开论文');link.href=address.href;link.target='_blank';link.rel='noopener noreferrer';link.append(window.researchIcon('external'));return link;
     } catch {return null;}
   }
   function controls() {
     const enabled=connected&&!!config.llm_configured;
     $('lit-brief').disabled=briefBusy||!enabled||!responseSelection.size;
     $('lit-connect').hidden=enabled;
+    $('lit-selection-count').textContent=`已选 ${responseSelection.size} 条原文`;
     $('lit-brief-notice').textContent=enabled
       ? `将问题和勾选的 ${responseSelection.size} 条原文发送给当前模型（${config.model||'已配置模型'}）。`
       : '连接回答模型后，可将勾选的原文整理为带出处的发现。';
   }
+
+  function clearCitation() {
+    citedPassage?.();
+    citedPassage = null;
+  }
+
+  function passageReader(text, index) {
+    const element = node('div', undefined, 'ledger-passage');
+    const quote = node('blockquote');
+    quote.id = 'lit-quote-' + index;
+    const chars = Array.from(text);
+    const budget = /[\u3400-\u9fff]/u.test(text) ? 140 : 320;
+    let preview = text;
+    if (chars.length > budget * 1.4) {
+      const prefix = chars.slice(0, budget).join('');
+      const lastBoundary = Math.max(prefix.lastIndexOf(' '), prefix.lastIndexOf('。'), prefix.lastIndexOf('，'));
+      preview = (lastBoundary > prefix.length * .65 ? prefix.slice(0, lastBoundary + 1) : prefix).trimEnd();
+    }
+    const toggle = node('button', undefined, 'quote-disclosure');
+    toggle.type = 'button';
+    toggle.setAttribute('aria-controls', quote.id);
+    let expanded = false;
+    function show(full) {
+      expanded = full;
+      quote.textContent = full || preview === text ? text : preview + '…';
+      toggle.replaceChildren(node('span', full ? '收起摘录' : '展开完整摘录'), window.researchIcon('chevronDown'));
+      toggle.setAttribute('aria-expanded', String(full));
+    }
+    show(false);
+    element.append(quote);
+    if (preview !== text) element.append(toggle);
+    toggle.onclick = () => {
+      const next = !expanded;
+      clearCitation();
+      show(next);
+    };
+
+    function locate(citation, origin) {
+      const at = text.indexOf(citation);
+      if (at < 0 || !citation) return;
+      clearCitation();
+      const previouslyExpanded = expanded;
+      show(true);
+      const mark = node('mark', citation, 'desk-cited-text');
+      mark.tabIndex = -1;
+      quote.replaceChildren(text.slice(0, at), mark, text.slice(at + citation.length));
+      const back = node('button', '返回这项发现', 'quote-return');
+      back.type = 'button';
+      back.prepend(window.researchIcon('return'));
+      back.onclick = () => {
+        clearCitation();
+        origin.focus({preventScroll:true});
+        origin.scrollIntoView({block:'center'});
+      };
+      element.prepend(back);
+      citedPassage = () => {back.remove(); show(previouslyExpanded);};
+      mark.focus({preventScroll:true});
+      mark.scrollIntoView({block:'center'});
+    }
+    return {element, locate};
+  }
+
   function showFindings(data) {
     finding=data;
+    const source = desk.querySelector('input[name="collection"]:checked + span').textContent;
+    $('lit-query-caption').textContent = data.question;
+    $('lit-query-source').textContent = source;
+    $('lit-query-summary').hidden = !data.items.length;
+    $('lit-query-panel').open = !data.items.length;
     $('lit-results').hidden=false;
     $('lit-note').textContent=data.note||'';
     $('lit-result-title').textContent=`找到 ${data.items.length} 条相关原文`;
@@ -205,7 +292,7 @@
     $('lit-items').replaceChildren();
     responseSelection=new Set(data.items.map(itemKey));
     data.items.forEach((item,index)=>{
-      const row=node('li');row.id='lit-source-'+index;
+      const row=node('li');row.id='lit-source-'+index;row.dataset.paperId=item.paper_id;
       const header=node('header'),label=node('label'),choose=document.createElement('input');
       choose.type='checkbox';choose.checked=true;choose.setAttribute('aria-label','选择 '+item.title);
       choose.onchange=()=>{if(choose.checked)responseSelection.add(itemKey(item,index));else responseSelection.delete(itemKey(item,index));clearBrief();controls();};
@@ -214,11 +301,15 @@
       if(item.year)header.append(node('span',String(item.year)));
       if(item.page_start)header.append(node('span',item.page_end&&item.page_start!==item.page_end?`第 ${item.page_start}–${item.page_end} 页`:`第 ${item.page_start} 页`));
       const link=sourceLink(item.url);if(link)header.append(link);
-      row.append(header,node('h3',item.title||'未命名资料'));
+      const title = node('h3',item.title||'未命名资料');
+      title.tabIndex = -1;
+      row.append(header,title);
       const authors=Array.isArray(item.authors)?item.authors:[], attribution=node('p',authors.slice(0,3).join('、')+(authors.length>3?' 等':''),'paper-attribution');
       if(item.license){const license=sourceLink(item.license);if(license){license.textContent='原文许可';attribution.append(' ',license);}}
       if(attribution.textContent.trim())row.append(attribution);
-      row.append(node('blockquote',item.quote));
+      const reader = passageReader(item.quote, index);
+      passageReaders.push(reader);
+      row.append(reader.element);
       if(Number.isInteger(item.start)&&Number.isInteger(item.end)){
         const position=node('details',undefined,'source-location');
         position.append(node('summary','核对引用位置'));
@@ -264,7 +355,7 @@
         item.append(node('p',f.claim),node('blockquote',f.quote));
         if(index>=0){
           const jump=node('button','回看来源 '+(index+1),'text-button');jump.type='button';
-          jump.onclick=()=>$('lit-source-'+index).querySelector('input').focus();item.append(jump);
+          jump.onclick=()=>passageReaders[index]?.locate(f.quote,jump);item.append(jump);
         }
         list.append(item);
       });
@@ -285,14 +376,14 @@
     if(source==='personal'&&(!materials.length||(!$('lit-paste').hidden&&$('lit-text').value.trim()))){
       status(materials.length?'请先点击「添加到本次资料」保存粘贴的文本。':'请先导入 PDF、TXT 或添加粘贴的原文。',true);return;
     }
-    busy=true;resetFindings();$('lit-controls').disabled=true;$('lit-search').textContent='查找中…';
+    busy=true;resetFindings();$('lit-controls').disabled=true;$('lit-search').querySelector('span').textContent='查找中…';
     status(source==='crossref'?'正在从 Crossref 查找公开文献…':'正在匹配问题与原文…');
     try{
       const data=await api('/api/literature/search',{method:'POST',body:JSON.stringify({question,collection:source,...(source!=='builtin'&&$('lit-english').value.trim()?{english_query:$('lit-english').value.trim()}:{}),limit:Number($('lit-limit').value),...(source==='personal'?{papers:materials}:{})})},35000);
       showFindings(data);status(data.items.length?'':'试试更具体的专业术语，或换一批资料。');
       if(document.body.dataset.screen==='literature')$('lit-result-title').focus();
     }catch(e){status(e.message,true);}
-    finally{busy=false;$('lit-controls').disabled=false;$('lit-search').textContent='查找原文';}
+    finally{busy=false;$('lit-controls').disabled=false;$('lit-search').querySelector('span').textContent='查找原文';desk.dispatchEvent(new Event('source-ready'));}
   }
   desk.querySelectorAll('input[name="collection"]').forEach(el=>el.onchange=()=>{scope();resetFindings();status('');});
   $('lit-translate').onclick=async()=>{
@@ -307,7 +398,7 @@
       $('lit-english').value=data.english_query||'';
       status('可编辑英文检索词后再查找。');
     } catch(e){status(e.message,true);}
-    finally{translating=false;$('lit-controls').disabled=false;$('lit-english').focus();}
+    finally{translating=false;$('lit-controls').disabled=false;$('lit-english').focus();desk.dispatchEvent(new Event('source-ready'));}
   };
   $('lit-form').onsubmit=e=>{e.preventDefault();search();};
   $('open-literature').onclick=()=>{
@@ -315,17 +406,40 @@
     if(question&&!busy){$('lit-question').value=question;resetFindings();if(question.length>1500)status('这道问题超过 1500 字，请缩短后查证。',true);}
     window.researchApp.open('literature');$('lit-question').focus();
   };
-  $('home-demo').onclick=async()=>{
+  async function openExample(paperId, example) {
+    const request = ++exampleRequest;
     window.researchApp.open('literature');
-    if(busy||importing||translating)return;
+    if (busy || importing || translating) {
+      await new Promise(resolve => desk.addEventListener('source-ready', resolve, {once:true}));
+    }
+    const stillOpen = () => request === exampleRequest && document.body.dataset.screen === 'literature';
+    if (!stillOpen()) return;
     try{
-      const data=await getCatalog();
-      if(document.body.dataset.screen!=='literature'||busy||importing||translating)return;
+      const question = example?.question || (await getCatalog()).example_question;
+      if (!stillOpen()) return;
       desk.querySelector('[value="builtin"]').checked=true;scope();
-      $('lit-question').value=data.example_question;
-      await search();
+      $('lit-question').value = question;
+      if (example) {
+        // The tour has already searched this collection. Preserve the same papers and excerpts.
+        $('lit-limit').value = '5';
+        resetFindings();
+        showFindings(example);
+        status('');
+      } else {
+        if (paperId) $('lit-limit').value = '5';
+        await search();
+      }
+      if (stillOpen() && paperId) {
+        const row = [...$('lit-items').children].find(item => item.dataset.paperId === paperId);
+        if (row) {
+          const title = row.querySelector('h3');
+          title.focus({preventScroll:true});
+          row.scrollIntoView({block:'start'});
+        }
+      }
     }catch(e){status(e.message,true);}
-  };
-  window.literatureDesk={entered(){scope();controls();getCatalog().catch(e=>status(e.message,true));}};
+  }
+  $('home-demo').onclick = () => openExample();
+  window.literatureDesk={openExample,entered(){scope();controls();getCatalog().catch(e=>status(e.message,true));}};
   scope();
 })();

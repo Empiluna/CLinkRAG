@@ -15,12 +15,24 @@
     sun:'M16 12a4 4 0 1 1-8 0 4 4 0 0 1 8 0ZM12 2v2m0 16v2M2 12h2m16 0h2M5 5l1 1m12 12 1 1M5 19l1-1M18 6l1-1',
     moon:'M20.5 13A8.5 8.5 0 0 1 11 3.5 8.5 8.5 0 1 0 20.5 13Z',
     link:'m9 15 6-6M10 7l3-3a5 5 0 0 1 7 7l-3 3M14 17l-3 3a5 5 0 0 1-7-7l3-3',
+    folder:'M3 7V5h6l2 3h10v11H3V7Z',
+    globe:'M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Zm-18 0h18m-9-9c5 5 5 13 0 18-5-5-5-13 0-18Z',
+    search:'M16.5 10a6.5 6.5 0 1 1-13 0 6.5 6.5 0 0 1 13 0Zm-2 5 6 6',
+    chevronDown:'m6 9 6 6 6-6',
+    return:'m8 6-5 5 5 5m-5-5h12a5 5 0 0 1 5 5v2',
+    external:'M13 4h7v7m0-7L9 15m-1-9H4v14h14v-4',
+    play:'m8 4 12 8-12 8V4Z',
+    pen:'m14 5 5 5m-15 9 1-5L16 3a2 2 0 0 1 3 0l2 2a2 2 0 0 1 0 3L10 19l-6 1Z',
+    paper:'M5 3h9l5 5v13H5Zm9 0v6h5M8 13h8m-8 4h6',
+    quote:'M10 5C6 7 4 10 4 13v4h6v-6H7m13-6c-4 2-6 5-6 8v4h6v-6h-3',
+    forward:'M4 12h16m-6-6 6 6-6 6',
   };
   function icon(name) {
     const s=document.createElementNS('http://www.w3.org/2000/svg','svg');
     s.setAttribute('viewBox','0 0 24 24');s.setAttribute('aria-hidden','true');s.classList.add('ui-icon');
     const p=document.createElementNS(s.namespaceURI,'path');p.setAttribute('d',paths[name]);s.append(p);return s;
   }
+  window.researchIcon = icon;
   for(const [id,name] of Object.entries({'new-research':'plus','answer-tab':'book','graph-tab':'graph','trace-tab':'trace','compare-tab':'compare','copy-answer':'copy','export-answer':'download','download':'download','rerun':'refresh','close-composer':'close','close-evidence':'close','mobile-menu':'menu','graph-close-inspector':'close'})){
     const b=document.getElementById(id);if(!b)continue;
     if(['close-composer','close-evidence','mobile-menu','graph-close-inspector'].includes(id))b.replaceChildren();

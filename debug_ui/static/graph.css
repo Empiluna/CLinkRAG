@@ -150,3 +150,15 @@ html[data-motion=off] #graph-view .map-drawing,html[data-motion=off] #graph-view
  #graph-view #graph-overview .paper-map-surface>.map-reason,#graph-view #graph-overview .paper-map-surface>.map-paper-slot{grid-column:1!important;grid-row:auto!important}
  #graph-view #graph-overview .paper-map-surface>.map-reason{max-width:90%;padding:9px 13px}
 }
+
+#graph-view .map-reason .map-relation-label {
+ display:inline-flex;align-items:center;justify-content:center;gap:6px;font-weight:650;
+}
+#graph-view .map-relation-label svg {width:18px;height:18px;flex:none;stroke:currentColor;fill:none;stroke-width:1.6;stroke-linejoin:round;stroke-linecap:round}
+#graph-view #graph-overview .map-reason[data-relation=citation] .map-relation-label {color:var(--teal,var(--accent))}
+#graph-view .map-arrowhead {fill:none;stroke:var(--teal,var(--accent));stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round}
+#graph-view #graph-overview .map-link-draw[data-direction=incoming].map-drawing {animation-name:map-citation-in}
+@keyframes map-citation-in {from{stroke-dashoffset:-1}to{stroke-dashoffset:0}}
+#graph-view #graph-overview .map-center .map-paper-number {background:var(--accent);color:var(--paper)}
+#graph-view #graph-overview .paper-map-surface[data-neighbors="1"] {min-height:230px}
+#graph-view #graph-overview .map-reason:focus-visible,#graph-view #graph-overview .map-paper:focus-visible {outline-offset:2px}

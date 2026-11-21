@@ -1,0 +1,59 @@
+{
+  "revision": "working tree",
+  "browser": "157.0.4341.60",
+  "viewport": [
+    1366,
+    850
+  ],
+  "fixture": "240 synthetic papers; 4 directions of 60, switch to direction 3",
+  "runs": [
+    {
+      "cards": 240,
+      "visibleCards": 8,
+      "listTop": 263.1,
+      "listHeight": 560,
+      "directionCards": 60,
+      "initialAnimations": 11,
+      "idleAnimations": 0,
+      "buildMs": 25.2,
+      "dispatchMs": 4.3,
+      "entryFramesMs": 35.8,
+      "directionFramesMs": 12.2,
+      "longTasks": []
+    },
+    {
+      "cards": 240,
+      "visibleCards": 8,
+      "listTop": 263.1,
+      "listHeight": 560,
+      "directionCards": 60,
+      "initialAnimations": 11,
+      "idleAnimations": 0,
+      "buildMs": 5,
+      "dispatchMs": 3.4,
+      "entryFramesMs": 12.2,
+      "directionFramesMs": 12.1,
+      "longTasks": []
+    },
+    {
+      "cards": 240,
+      "visibleCards": 8,
+      "listTop": 263.1,
+      "listHeight": 560,
+      "directionCards": 60,
+      "initialAnimations": 11,
+      "idleAnimations": 0,
+      "buildMs": 4.8,
+      "dispatchMs": 4.3,
+      "entryFramesMs": 12.2,
+      "directionFramesMs": 12.2,
+      "longTasks": []
+    }
+  ],
+  "reduced": {
+    "cards": 240,
+    "active": 0
+  },
+  "requests": [],
+  "errors": []
+}

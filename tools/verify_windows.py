@@ -4,6 +4,7 @@ import hashlib
 import json
 import os
 from pathlib import Path, PurePosixPath
+import re
 import socket
 import subprocess
 import tempfile
@@ -89,7 +90,18 @@ def validate(package, *, with_research, online):
                     with client.open(base+path, timeout=10) as response:
                         return json.load(response)
                 with client.open(base+'/', timeout=10) as response:
-                    assert '<html' in response.read().decode('utf-8').lower()
+                    html = response.read().decode('utf-8')
+                assert '<html' in html.lower()
+                assets = re.findall(r'<(?:link|script)\b[^>]*?\b(?:href|src)="(/[^"]+)"', html)
+                mime = {'.js':'text/javascript', '.css':'text/css', '.svg':'image/svg+xml'}
+                assert {url.split('?')[0] for url in assets} >= {'/source-tour.js', '/literature.css'}
+                for url in assets:
+                    filename = url.split('?')[0].lstrip('/')
+                    local = root/'debug_ui/static'/filename
+                    with client.open(base+url, timeout=5) as response:
+                        assert response.headers.get_content_type() == mime[local.suffix], filename
+                        assert response.read() == local.read_bytes(), filename
+                print(f'Verified all {len(assets)} local UI scripts, stylesheets and icon over HTTP.')
                 config = get_json('/api/config')
                 assert not config['s2_configured'] and not config['llm_configured']
                 assert get_json('/api/runs') == [] and get_json('/api/settings')

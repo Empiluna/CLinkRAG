@@ -46,16 +46,72 @@ window.researchReader = (() => {
   }}catch{return {body:answer,evidence:''};}
   return {body:body.join('').trim(),evidence:evidence.join('').trim()};
  }
+ let updateReadingPosition;
+ function trackReading(article, panel) {
+  const bar = document.querySelector('.topbar');
+  if (!bar) return () => {};
+  const progress = element('div'), fill = element('i');
+  progress.id = 'reading-progress';
+  progress.hidden = true;
+  progress.setAttribute('role','progressbar');
+  progress.setAttribute('aria-label','正文阅读进度');
+  progress.setAttribute('aria-valuemin','0');
+  progress.setAttribute('aria-valuemax','100');
+  progress.append(fill); bar.append(progress);
+  let frame = 0, visible = false, offsets = [], links = [], active = -1, percent = -1;
+  function paint() {
+   frame = 0;
+   if (!visible) return;
+   const rect = article.getBoundingClientRect(), header = bar.offsetHeight;
+   const offset = header - rect.top;
+   const ratio = Math.min(1, Math.max(0, offset / Math.max(1, rect.height - innerHeight + header)));
+   const current = Math.round(ratio * 100);
+   if (current !== percent) {
+    percent = current;
+    fill.style.transform = 'scaleX(' + ratio + ')';
+    progress.setAttribute('aria-valuenow', String(current));
+    progress.title = '正文阅读进度 ' + current + '%';
+   }
+   const section = ratio >= 1 ? links.length - 1 : offsets.findLastIndex(y => y <= offset + 24);
+   if (section !== active) {
+    links[active]?.removeAttribute('aria-current');
+    links[section]?.setAttribute('aria-current', 'location');
+    active = section;
+   }
+  }
+  function schedule() { if (!frame) frame = requestAnimationFrame(paint); }
+  function measure() {
+   const rect = article.getBoundingClientRect();
+   const long = rect.height > innerHeight - bar.offsetHeight + 64;
+   if (long !== visible) {
+    if (long) window.addEventListener('scroll', schedule, {passive:true});
+    else window.removeEventListener('scroll', schedule);
+    visible = long;
+   }
+   progress.hidden = !visible;
+   links[active]?.removeAttribute('aria-current'); active = -1; percent = -1;
+   if (!visible) return;
+   links = [...panel.querySelectorAll('nav button')];
+   offsets = links.length ? [...article.querySelectorAll('h2,h3')].map(h => h.getBoundingClientRect().top - rect.top) : [];
+   schedule();
+  }
+  const observer = new ResizeObserver(measure);
+  observer.observe(article); observer.observe(bar);
+  panel.addEventListener('toggle', schedule);
+  window.addEventListener('resize', measure);
+  return measure;
+ }
  function outline(article, panel){
   const headings=[...article.querySelectorAll('h2,h3')];
   const nav=panel.querySelector('nav');nav.replaceChildren();panel.open=false;panel.hidden=headings.length<2;
-  if(panel.hidden)return;
-  headings.forEach((heading,index)=>{
+  if(!panel.hidden) headings.forEach((heading,index)=>{
    heading.id='report-section-'+index;heading.tabIndex=-1;
    const jump=element('button',heading.textContent);jump.type='button';
    jump.onclick=()=>{heading.focus({preventScroll:true});heading.scrollIntoView({block:'start'});};
    nav.append(jump);
   });
+  updateReadingPosition ??= trackReading(article, panel);
+  updateReadingPosition();
  }
  function paperUrl(source){
   if(source?.url){

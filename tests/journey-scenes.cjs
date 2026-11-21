@@ -73,7 +73,26 @@ const fs = require('node:fs');
       if (width === 840 || (width === 390 && [0, 5].includes(value))) await page.screenshot({ path: path.join(out, `${width}-phase-${value + 1}.png`), fullPage: true });
     }
   }
-  await page.evaluate(() => { fixture.run.id = 'motion-interrupt'; fixture.phase = 0; window.pendingAnimation = scene.update(fixture); });
+  const bulk = await page.evaluate(() => {
+    const papers = Array.from({length:300}, (_, i) => ({paperId:'large-' + i, title:'Paper ' + i, abstract:'Original source for paper ' + i}));
+    const direction = {id:'new',label:'文献综述',query:'review'};
+    const search = {id:'batch1',seq:1,kind:'http',input:{dimension:'new',query:'review'},status:'success',output:{papers}};
+    window.largeScene = {...fixture,run:{...fixture.run,id:'large',status:'running'},phase:1,following:true,searchId:'batch1',records:[search],result:{research_plan:{dimensions:[direction]}}};
+    scene.update(largeScene);
+    return {count:document.querySelectorAll('.rc-full-paper').length,animations:document.querySelector('#scene').getAnimations({subtree:true}).length};
+  });
+  check('a batch of 300 papers stays complete with a visible-window animation budget', bulk.count===300 && bulk.animations<=12);
+  await page.evaluate(()=>scene.finished());
+  await page.locator('[data-paper-id="large-299"]').click();
+  check('the last paper in a long list opens its original abstract', await page.locator('.rc-inspector-body').innerText().then(t=>t.includes('Original source for paper 299')));
+  await page.keyboard.press('Escape');
+  await page.evaluate(()=>{
+    const first=largeScene.records[0];
+    largeScene.records.push({...first,id:'batch2',seq:2,output:{papers:[first.output.papers[0],{paperId:'additional', title:'A new paper'}]}});
+    largeScene.searchId='batch2';largeScene.following=true;return scene.update(largeScene);
+  });
+  check('the live batch counts only newly returned unique papers', await page.locator('.rc-batch-change').innerText()==='本批新增 1 篇' && await page.locator('.rc-full-paper').count()===301);
+  await page.evaluate(() => { window.scrollTo(0,0);fixture.run.id = 'motion-interrupt'; fixture.phase = 0; window.pendingAnimation = scene.update(fixture); });
   check('new recorded plan has an actual connection drawing animation', await page.evaluate(() => document.querySelector('.rc-branch-link path').getAnimations().some(animation => animation.playState === 'running')));
   await page.emulateMedia({ reducedMotion: 'reduce' });
   await page.evaluate(() => pendingAnimation);
@@ -106,6 +125,8 @@ const fs = require('node:fs');
   await page.waitForFunction(() => !!document.querySelector('.rc-answer-reading'));
   await page.locator('#story-route .story-route-step').first().click();
   check('completed history never offers a misleading live-follow button', await page.locator('#story-follow').isHidden());
+  await page.evaluate(()=>journey.update({run:{...liveState.run,id:'archived-result'},steps:new Map(),result:fixture.result}));
+  check('an archive without a trace still recognizes its saved plan',await page.locator('#story-route button').first().getAttribute('data-state')==='done');
   check('no script errors', errors.length === 0);
   check('no network requests', requests.length === 0);
   fs.writeFileSync(path.join(out, 'validation.json'), JSON.stringify({ checks, errors, requests }, null, 2));

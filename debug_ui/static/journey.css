@@ -1049,3 +1049,29 @@ body .rc-close{width:36px;height:36px;min-height:36px}
 @container research-scene (max-width:660px){.rc-plan-branch>.rc-branch-link{width:13px}}
 @media(prefers-reduced-motion:reduce){.research-canvas *,.research-canvas *:before,.research-canvas *:after{animation:none!important;transition:none!important}}
 html[data-motion=off] .research-canvas *,html[data-motion=off] .research-canvas *:before,html[data-motion=off] .research-canvas *:after{animation:none!important;transition:none!important}
+
+/* Each stop keeps its measured result; the inset line marks the stage being read. */
+.research-canvas,:root[data-theme=dark] .research-canvas {
+ --rc-purple:var(--accent);--rc-teal:var(--teal,var(--accent));--rc-amber:var(--amber,#a15923);
+}
+body .research-story[data-presentation=canvas] #story-route .story-route-step {
+ position:relative;overflow:hidden;min-height:80px;border:1px solid transparent;
+ background:transparent;box-shadow:none;transition:background-color .16s,border-color .16s;
+}
+body .research-story[data-presentation=canvas] #story-route .story-route-step:hover {background:var(--surface)}
+body .research-story[data-presentation=canvas] #story-route .story-route-step[data-selected=true] {
+ background:var(--paper);border-color:var(--line);box-shadow:inset 3px 0 var(--accent);
+}
+body .research-story[data-presentation=canvas] #story-route [data-state=waiting] .story-route-index {color:var(--muted);background:var(--surface)}
+body .research-story[data-presentation=canvas] #story-route .story-route-step[data-selected=true] .story-route-index {background:var(--accent);color:var(--paper)}
+body .research-story[data-presentation=canvas] #story-route .story-route-step:focus-visible {outline:2px solid var(--accent);outline-offset:-2px}
+.research-canvas .rc-heading .rc-eyebrow {font-size:13px;letter-spacing:0;color:var(--muted);font-variant-numeric:tabular-nums}
+.rc-batch-change {color:var(--rc-teal);font-size:13px;line-height:1.5;font-weight:550}
+.rc-complete-papers>.rc-full-paper,.rc-relations-list>.rc-relation-card,.rc-check-list>.rc-check-item {
+ content-visibility:auto;contain-intrinsic-block-size:auto 96px;
+}
+.rc-relations-list>.rc-relation-card,.rc-check-list>.rc-check-item {contain-intrinsic-block-size:auto 210px}
+.rc-scene-state[data-state=done]:before {width:9px;height:5px;background:transparent;border:solid currentColor;border-width:0 0 1.6px 1.6px;border-radius:0;transform:translateY(-1px) rotate(-45deg)}
+body .rc-full-paper .rc-document-number {font-weight:600;color:var(--accent);background:var(--tint);border-color:transparent}
+body .rc-full-paper.rc-paper-picked .rc-document-number {color:var(--rc-teal);background:color-mix(in srgb,var(--rc-teal) 10%,var(--paper));border-color:color-mix(in srgb,var(--rc-teal) 25%,var(--line))}
+@media(prefers-reduced-motion:reduce){body .research-story #story-route .story-route-step{transition:none}}

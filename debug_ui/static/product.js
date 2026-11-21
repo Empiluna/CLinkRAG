@@ -10,15 +10,19 @@
  const screens=create('div');screens.id='application-pages';main.prepend(screens);
  screens.innerHTML=`
  <section id="home-screen" class="app-page">
- <div class="home-entry"><h1>你想研究什么？</h1><p class="home-purpose">从论文中寻找答案，沿引用核对原文。</p>
+ <div class="home-entry"><h1>你想研究什么？</h1><p class="home-purpose">从一个问题出发，找到论文，读到原文。</p>
  <form id="home-compose" class="home-compose"><label class="home-input-label" for="home-question">研究问题</label><textarea id="home-question" rows="2" minlength="5" maxlength="4000" required placeholder="写下你想了解、比较或验证的问题…"></textarea><div class="home-compose-actions"><button id="home-start" type="submit" aria-label="开始研究" title="开始研究" disabled><span>开始研究</span><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 19V5m-6 6 6-6 6 6"/></svg></button></div></form>
  <div class="home-quick-options"><div class="home-model-picker"><select id="home-model" hidden aria-label="研究模型" disabled><option>正在读取模型…</option></select><button id="home-model-toggle" type="button" aria-haspopup="listbox" aria-expanded="false" aria-controls="home-model-menu" disabled><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m12 3 2.5 6.5L21 12l-6.5 2.5L12 21l-2.5-6.5L3 12l6.5-2.5L12 3Z"/></svg><span id="home-model-name">读取模型…</span><svg class="model-chevron" viewBox="0 0 24 24" aria-hidden="true"><path d="m8 10 4 4 4-4"/></svg></button><div id="home-model-menu" hidden><div class="model-menu-tools"><span id="home-model-count">模型</span><button id="home-model-refresh" type="button" aria-label="刷新模型列表">刷新</button></div><p id="home-model-status" role="status" hidden></p><div id="home-model-list" role="listbox" aria-label="研究模型"></div></div></div><label id="home-range-wrap" title="检索后，最多选择多少篇论文进入内容分析和关系构建"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 5h6a3 3 0 0 1 3 3v13a4 4 0 0 0-4-2H4V5Zm16 0h-4a3 3 0 0 0-3 3m0 13a4 4 0 0 1 4-2h3V5Z"/></svg><span class="home-option-caption">研究范围</span><select id="home-range" aria-label="首页最多分析论文数"><option value="6">最多分析 6 篇论文</option><option value="12">最多分析 12 篇论文</option><option value="20">最多分析 20 篇论文</option><option value="30">最多分析 30 篇论文</option><option value="custom">自定义篇数…</option></select></label><label title="回答长度"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 6h14M5 12h14M5 18h8"/></svg><span id="home-length-label" class="home-option-caption">回答长度</span><select id="home-length" aria-label="首页回答长度"></select></label><button id="home-more" type="button"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h9m4 0h3M4 17h3m4 0h9"/><circle cx="15" cy="7" r="2"/><circle cx="9" cy="17" r="2"/></svg><span>更多设置</span></button></div>
  <div id="home-setup" hidden><span></span><button type="button" class="text-button" id="home-setup-open">打开设置</button></div>
- <div class="home-alternatives"><div><button id="open-literature" type="button">查文献原文</button><span>在资料中定位相关段落</span></div><button id="home-demo" type="button" class="text-button">试用示例</button></div>
+ <section class="home-case" aria-labelledby="home-case-title">
+   <div class="case-print" aria-hidden="true"><i class="print-back"></i><i class="print-sheet"><svg viewBox="0 0 76 36"><path d="M2 30 27 5l22 25H2Zm25-25 5 25m8-11 10-11 22 22H49m1-22 6 22M3 33h69"/><circle cx="63" cy="6" r="3"/></svg><em></em><em></em></i><i class="print-clip"></i></div>
+   <div class="case-caption"><span>文献查证示例</span><h2 id="home-case-title">如何确定古埃及王朝的年代？</h2></div>
+   <div class="case-actions"><button id="home-tour" type="button" aria-haspopup="dialog">分步演示</button><button id="home-demo" type="button">试用示例</button></div>
+ </section>
  </div></section>
  <section id="literature-screen" class="app-page" hidden></section>
  <section id="records-screen" class="app-page" hidden><div class="page-heading"><div><span class="section-kicker">RESEARCH HISTORY</span><h1>研究记录</h1><p>问题、过程和证据都保留在同一份记录中。</p></div><button id="records-new" class="primary">新建研究</button></div><div class="page-filters"><input id="records-search" type="search" placeholder="搜索研究问题" aria-label="搜索研究记录"><select id="records-status" aria-label="按研究状态筛选"><option value="">全部状态</option><option value="success">已完成</option><option value="running">研究中</option><option value="error">执行失败</option><option value="interrupted">已中断</option><option value="cancelled">已停止</option></select></div><div id="records-list" class="research-cards"></div></section>
- <section id="library-screen" class="app-page" hidden><div class="page-heading"><div><span class="section-kicker">PAPER LIBRARY</span><h1>文献库</h1><p>先用标题和检索状态筛选，再阅读原文或探索关系。</p></div><span id="library-count" class="workspace-chip">选择一项研究</span></div><label for="library-run">文献来自哪次研究</label><select id="library-run"></select><div class="page-filters"><input id="library-search" type="search" placeholder="搜索完整论文标题" aria-label="搜索文献库"><select id="library-scope" aria-label="文献状态"><option value="all">全部已记录</option><option value="retrieved">已找到</option><option value="context">回答证据</option><option value="cited">答案实际引用</option><option value="seed">最先找到</option></select><select id="library-sort" aria-label="文献排序"><option value="evidence">回答证据优先</option><option value="title">标题 A–Z</option></select></div><div id="library-list"></div><div class="directory-pager"><button id="library-prev" class="secondary">上一页</button><span id="library-page"></span><button id="library-next" class="secondary">下一页</button></div></section>
+ <section id="library-screen" class="app-page" hidden><div class="page-heading"><div><h1>文献库</h1><p>查看每次研究找到的论文、引用和原文。</p></div><span id="library-count" class="workspace-chip">选择一项研究</span></div><label for="library-run">文献来自哪次研究</label><select id="library-run"></select><div class="page-filters"><input id="library-search" type="search" placeholder="搜索完整论文标题" aria-label="搜索文献库"><select id="library-scope" aria-label="文献状态"><option value="all">全部已记录</option><option value="retrieved">已找到</option><option value="context">回答证据</option><option value="cited">答案实际引用</option><option value="seed">最先找到</option></select><select id="library-sort" aria-label="文献排序"><option value="evidence">回答证据优先</option><option value="title">标题 A–Z</option></select></div><div id="library-list"></div><div id="library-pager" class="directory-pager" hidden><button id="library-prev" class="secondary">上一页</button><span id="library-page"></span><button id="library-next" class="secondary">下一页</button></div></section>
  <section id="settings-screen" class="app-page" hidden><div class="page-heading"><div><span class="section-kicker">PREFERENCES</span><h1>设置</h1><p>按你的阅读习惯调整工作空间，偏好只保存在本机。</p></div><span id="settings-saved" role="status"></span></div><div class="settings-grid">
  <section class="panel settings-card"><h2>阅读与交互</h2><label for="pref-theme">界面主题</label><select id="pref-theme"><option value="dark">深色</option><option value="light">浅色</option></select><label for="pref-font">正文大小</label><select id="pref-font"><option value="normal">标准 · 18 px</option><option value="large">大字 · 20 px</option></select><label class="setting-check"><input id="pref-motion" type="checkbox"> 启用界面过渡动画</label><p class="fine">系统开启“减少动态效果”时优先遵循系统设置。</p></section>
  <section class="panel settings-card"><h2>关系图探索</h2><label for="pref-graph">每组最多展示的论文数</label><select id="pref-graph"><option value="6">6 篇 · 更宽松</option><option value="10">10 篇 · 标准</option><option value="12">12 篇 · 更多关联</option></select><p>每次围绕一篇论文查看直接连接。其余关联可翻页查看，完整论文始终保留在目录中。</p></section>
@@ -26,6 +30,13 @@
  <section class="panel settings-card"><h2>本地服务</h2><dl id="settings-service"></dl><button id="settings-check" class="secondary">重新检查连接</button><p class="fine">模型与密钥在对应服务分类中设置。</p></section></div><button id="settings-reset" class="text-button">恢复界面和新研究默认设置</button></section>
  <section id="experiments-screen" class="app-page" hidden><div class="page-heading"><div><span class="section-kicker">EVALUATION</span><h1>方法对照</h1><p>检查当前开发实验的结果和适用范围。</p></div></div></section>`;
  const nav=create('nav');nav.className='app-navigation';nav.setAttribute('aria-label','主要功能');
+ const openLiterature = create('button', '查文献原文');
+ openLiterature.id = 'open-literature';
+ openLiterature.type = 'button';
+ openLiterature.prepend(window.researchIcon('book'));
+ $('home-start').before(openLiterature);
+ $('home-tour').prepend(window.researchIcon('play'));
+ $('home-demo').append(window.researchIcon('forward'));
  const routes=[['home','⌂','研究首页'],['research','◉','当前研究'],['records','▤','研究记录'],['literature','','文献查证'],['library','▥','文献库'],['experiments','◫','方法对照'],['settings','⚙','设置']];
  const bottomNav=create('nav');bottomNav.className='sidebar-bottom-nav';bottomNav.setAttribute('aria-label','工作空间设置');
  const sidebarIcons={literature:'M10 17a7 7 0 1 0 0-14 7 7 0 0 0 0 14Zm5-2 6 6',home:'m3 10 9-7 9 7v10a1 1 0 0 1-1 1h-5v-7H9v7H4a1 1 0 0 1-1-1Z',library:'M4 4h4v16H4ZM10 4h4v16h-4Zm6 1 4-1 3 15-4 1Z',settings:'M9 3h6l1 3 3 1 2 5-2 5-3 1-1 3H9l-1-3-3-1-2-5 2-5 3-1ZM15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z'};
@@ -60,15 +71,90 @@
   if(key==='research'&&!changingRun&&document.body.dataset.view==='graph')$('graph-tab').click();
   window.scrollTo({top:0});
  }
- function renderHistory(items){records=items;renderRecords();if(libraryRun&&!items.some(r=>r.id===libraryRun)){libraryTicket++;libraryRun=null;library=null;$('library-list').replaceChildren();}if(screen==='library'){syncLibraryOptions();loadLibrary($('library-run').value);}}
+ function renderHistory(items){records=items;if(screen==='records')renderRecords();if(libraryRun&&!items.some(r=>r.id===libraryRun)){libraryTicket++;libraryRun=null;library=null;$('library-list').replaceChildren();}if(screen==='library'){syncLibraryOptions();loadLibrary($('library-run').value);}}
  function recordCard(item){const card=create('button',undefined,'research-card');card.append(create('span',methodNames[item.method]||'科学文献研究','card-kicker'),create('h3',item.question||'未命名研究'));const meta=create('div',undefined,'record-meta');meta.append(create('span',statusNames[item.status]||item.status,'badge '+item.status),create('time',new Date(item.created_at).toLocaleDateString('zh-CN')),create('span',item.status==='running'?'查看进展 →':'打开研究 →'));card.append(meta);card.onclick=()=>loadRun(item.id).then(()=>{if(run.status==='running')showJourney();});return card;}
  function renderRecords(){const q=$('records-search').value.toLowerCase(),status=$('records-status').value,box=$('records-list');box.replaceChildren();const found=records.filter(r=>(r.question||'').toLowerCase().includes(q)&&(!status||r.status===status));found.forEach(r=>box.append(recordCard(r)));if(!found.length)box.append(create('p','没有符合筛选条件的研究。','empty'));}
  function syncLibraryOptions(){const select=$('library-run'),chosen=select.value||libraryRun||run?.id;select.replaceChildren();for(const r of records)select.append(new Option(r.question||r.id,r.id));if(records.some(r=>r.id===chosen))select.value=chosen;}
- async function loadLibrary(id){if(!id){$('library-list').textContent='还没有可查看的研究记录。';return;}if(id===libraryRun&&library){renderLibrary();return;}const ticket=++libraryTicket;libraryRun=id;library=null;libraryPage=0;$('library-list').textContent='正在读取已记录论文…';try{const value=await api(`/api/runs/${id}/graph`);if(ticket!==libraryTicket)return;library=value;renderLibrary();}catch(e){if(ticket===libraryTicket)$('library-list').textContent=e.message;}}
- function renderLibrary(){if(!library)return;const q=$('library-search').value.trim().toLowerCase(),scope=$('library-scope').value;let found=library.nodes.filter(n=>n.title.toLowerCase().includes(q)&&(scope==='all'||n[scope]));found.sort($('library-sort').value==='title'?(a,b)=>a.title.localeCompare(b.title):(a,b)=>Number(b.cited)-Number(a.cited)||Number(b.context)-Number(a.context)||a.title.localeCompare(b.title));const pages=Math.max(1,Math.ceil(found.length/15));libraryPage=Math.min(libraryPage,pages-1);$('library-count').textContent=`${found.length} / ${library.nodes.length} 篇`;$('library-page').textContent=`第 ${libraryPage+1} / ${pages} 页`;$('library-prev').disabled=libraryPage===0;$('library-next').disabled=libraryPage>=pages-1;const box=$('library-list');box.replaceChildren();
-  for(const n of found.slice(libraryPage*15,(libraryPage+1)*15)){const row=create('article',undefined,'library-paper'),content=create('div');content.append(create('span',n.cited?'答案实际引用':n.context?'回答证据':n.retrieved?'已找到':'仅记录候选','card-kicker'),create('h3',n.title),create('p',`${n.passages.length} 个已记录文本窗口`,'fine'));const actions=create('div',undefined,'library-actions'),read=create('button','阅读原文','secondary'),map=create('button','探索关联 →','text-button');read.onclick=()=>readPaper(n);map.onclick=async()=>{if(run?.id!==libraryRun)await loadRun(libraryRun);else open('research');window.paperGraph.focus(n.id);};actions.append(read,map);row.append(content,actions);box.append(row);}if(!found.length)box.append(create('p','没有匹配论文，请调整标题关键词或状态筛选。','empty'));
+ async function loadLibrary(id) {
+  const empty = !id;
+  for (const control of ['library-run', 'library-search', 'library-scope', 'library-sort']) $(control).disabled = empty;
+  if (!id || id !== libraryRun) {
+   $('library-pager').hidden = true;
+   $('library-count').textContent = id ? '正在读取…' : '暂无论文';
+  }
+  if (!id) {
+   libraryTicket++;
+   libraryRun = ''; library = null;
+   const message = create('div', undefined, 'library-empty');
+   const action = create('button', '试用文献查证示例', 'secondary');
+   action.onclick = () => $('home-demo').click();
+   message.append(window.researchIcon('book'), create('h2', '这里会收录研究找到的论文'), action);
+   $('library-list').replaceChildren(message);
+   return;
+  }
+  if (id === libraryRun && library) { renderLibrary(); return; }
+  const ticket = ++libraryTicket;
+  libraryRun = id; library = null; libraryPage = 0;
+  $('library-list').textContent = '正在读取已记录论文…';
+  try {
+   const value = await api('/api/runs/' + id + '/graph');
+   if (ticket !== libraryTicket) return;
+   library = value; renderLibrary();
+  } catch (e) {
+   if (ticket === libraryTicket) {
+    $('library-count').textContent = '读取失败';
+    $('library-list').textContent = e.message;
+   }
+  }
  }
- function readPaper(n){const box=$('evidence-body');box.replaceChildren();const title=create('h2',n.title);title.id='evidence-title';box.append(create('span','文献库 · 已记录原文','section-kicker'),title);for(const [i,p]of n.passages.entries())box.append(create('h3',`文本窗口 ${i+1}`),create('p',p.text||'该记录没有保存原文。','original-text'));if(!n.passages.length)box.append(create('p','该记录没有保存原文。'));$('evidence-drawer').showModal();$('evidence-drawer').scrollTop=0;$('close-evidence').focus();}
+ function renderLibrary() {
+  if (!library) return;
+  const q = $('library-search').value.trim().toLowerCase(), scope = $('library-scope').value;
+  const found = library.nodes.filter(p => p.title.toLowerCase().includes(q) && (scope === 'all' || p[scope]));
+  const byTitle = (a, b) => a.title.localeCompare(b.title);
+  found.sort($('library-sort').value === 'title' ? byTitle :
+   (a,b) => Number(b.cited)-Number(a.cited) || Number(b.context)-Number(a.context) || byTitle(a,b));
+  const pages = Math.max(1, Math.ceil(found.length / 15));
+  libraryPage = Math.min(libraryPage, pages - 1);
+  $('library-count').textContent = found.length === library.nodes.length ? '共 ' + found.length + ' 篇' : found.length + ' / ' + library.nodes.length + ' 篇';
+  $('library-page').textContent = '第 ' + (libraryPage + 1) + ' / ' + pages + ' 页';
+  $('library-prev').disabled = libraryPage === 0;
+  $('library-next').disabled = libraryPage >= pages - 1;
+  $('library-pager').hidden = pages < 2;
+  const rows = document.createDocumentFragment();
+  for (const paper of found.slice(libraryPage * 15, (libraryPage + 1) * 15)) {
+   const row = create('article', undefined, 'library-paper'), content = create('div');
+   const status = paper.cited ? '正文已引用' : paper.context ? '回答证据' : paper.retrieved ? '已找到' : '候选论文';
+   content.append(create('span', status, 'card-kicker'), create('h3', paper.title), create('p', (paper.passages || []).length + ' 段原文', 'fine'));
+   const actions = create('div', undefined, 'library-actions');
+   const read = create('button', '阅读原文', 'secondary with-icon'), map = create('button', '探索关联', 'text-button with-icon');
+   read.prepend(window.researchIcon('book')); map.prepend(window.researchIcon('graph'));
+   read.onclick = () => readPaper(paper);
+   map.onclick = async () => {
+    if (run?.id !== libraryRun) await loadRun(libraryRun);
+    else open('research');
+    window.paperGraph.focus(paper.id);
+   };
+   actions.append(read, map); row.append(content, actions); rows.append(row);
+  }
+  if (!found.length) rows.append(create('p', '没有匹配论文，请调整标题关键词或状态筛选。', 'empty'));
+  $('library-list').replaceChildren(rows);
+ }
+ function readPaper(paper) {
+  const box = $('evidence-body'), title = create('h2', paper.title);
+  title.id = 'evidence-title';
+  box.replaceChildren(create('span', '文献库 · 研究保存的原文', 'section-kicker'), title);
+  const source = window.researchReader.paperUrl(paper);
+  if (source) {
+   const link = create('a','打开论文原网页','paper-source-link');
+   link.href = source; link.target = '_blank'; link.rel = 'noopener noreferrer';
+   link.append(window.researchIcon('external')); box.append(link);
+  }
+  const passages = paper.passages || [];
+  for (const [i, part] of passages.entries()) box.append(create('h3', '原文片段 ' + (i + 1)), create('p', part.text || '该记录没有保存原文。', 'original-text'));
+  if (!passages.length) box.append(create('p', '该记录没有保存原文。'));
+  $('evidence-drawer').showModal(); $('evidence-drawer').scrollTop = 0; $('close-evidence').focus();
+ }
  function renderSettings(){window.modelSettings?.entered();prefs.theme=document.documentElement.dataset.theme;for(const [id,key]of [['theme','theme'],['font','font'],['graph','graphLimit'],['method','method'],['initial','initial'],['tokens','tokens']])$('pref-'+id).value=String(prefs[key]);$('pref-motion').checked=prefs.motion;const box=$('settings-service');box.replaceChildren();for(const [label,value]of [['服务连接',connected?'已连接':'未连接'],['模型',config.model||'未配置'],['重排设备',config.device||'未配置'],['模型 API',config.llm_configured?'已配置':'未配置'],['检索 API',config.s2_configured?'已配置':'未配置']])box.append(create('dt',label),create('dd',value));}
  function showJourney(){window.paperGraph?.hide();for(const id of ['answer-view','trace-view','graph-view','compare-view'])$(id).hidden=true;for(const tab of document.querySelectorAll('.work-tabs [role=tab]')){const chosen=tab.id==='journey-tab';tab.classList.toggle('active',chosen);tab.setAttribute('aria-selected',String(chosen));}journey.hidden=false;document.body.dataset.view='journey';story.update(snapshot);story.render();}
  function hideJourney(){journey.hidden=true;$('journey-tab').classList.remove('active');$('journey-tab').setAttribute('aria-selected','false');}

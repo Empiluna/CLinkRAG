@@ -1,0 +1,61 @@
+{
+  "revision": "4c0f0a3",
+  "browser": "157.0.4341.60",
+  "viewport": [
+    1366,
+    850
+  ],
+  "fixture": "240 synthetic papers; 4 directions of 60, switch to direction 3",
+  "runs": [
+    {
+      "cards": 240,
+      "visibleCards": 8,
+      "listTop": 261.4,
+      "listHeight": 560,
+      "directionCards": 60,
+      "initialAnimations": 483,
+      "idleAnimations": 0,
+      "buildMs": 57.5,
+      "dispatchMs": 16,
+      "entryFramesMs": 81.3,
+      "directionFramesMs": 24.6,
+      "longTasks": [
+        76
+      ]
+    },
+    {
+      "cards": 240,
+      "visibleCards": 8,
+      "listTop": 261.4,
+      "listHeight": 560,
+      "directionCards": 60,
+      "initialAnimations": 483,
+      "idleAnimations": 0,
+      "buildMs": 21.4,
+      "dispatchMs": 11,
+      "entryFramesMs": 39.7,
+      "directionFramesMs": 19.5,
+      "longTasks": []
+    },
+    {
+      "cards": 240,
+      "visibleCards": 8,
+      "listTop": 261.4,
+      "listHeight": 560,
+      "directionCards": 60,
+      "initialAnimations": 483,
+      "idleAnimations": 0,
+      "buildMs": 33,
+      "dispatchMs": 8.5,
+      "entryFramesMs": 55.7,
+      "directionFramesMs": 12.7,
+      "longTasks": []
+    }
+  ],
+  "reduced": {
+    "cards": 240,
+    "active": 0
+  },
+  "requests": [],
+  "errors": []
+}

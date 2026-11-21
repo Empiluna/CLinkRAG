@@ -61,7 +61,7 @@
   for(const [key,label] of [['pool','全部找到的论文'],['seed','首先找到'],['retrieved','进一步查找'],['context','回答证据']]){
    const count=data.nodes.filter(n=>key==='pool'||n[key]).length;const b=el('button');b.type='button';b.className=phase===key?'active':'';b.setAttribute('aria-pressed',phase===key);b.append(el('small',label),el('strong',`${count} 篇`));b.onclick=()=>{phase=key;centerHistory=[];picked=null;edgePicked=null;neighborhoodPage=0;directoryPage=0;detailOpen=false;render();};$('graph-phases').append(b);
   }
-  renderPaths();draw();
+  draw();
  }
  function explorerUI(){
   for(const b of host.querySelectorAll('[data-explore]')){b.classList.toggle('active',b.dataset.explore===mode);b.setAttribute('aria-pressed',String(b.dataset.explore===mode));}
@@ -69,7 +69,6 @@
   host.querySelector('.graph-tools').hidden=mode==='overview';
   host.querySelector('.graph-paths').hidden=mode!=='local';
   host.querySelector('[data-explore=directory]').textContent=`全部论文 · ${data.nodes.length}`;
-  host.querySelector('.graph-tools').after($('graph-overview'),$('graph-directory'),$('graph-local-bar'));
   host.querySelector('.graph-layout').hidden=mode!=='local';host.querySelector('.graph-legend').hidden=mode!=='local';host.querySelector('.graph-filters').hidden=mode!=='local';$('graph-coverage').hidden=mode!=='local';
   $('graph-overview').hidden=mode!=='overview';$('graph-directory').hidden=mode!=='directory';$('graph-local-bar').hidden=mode!=='local';
   $('graph-paper-list').hidden=mode!=='local';$('graph-clear').hidden=mode!=='local';$('graph-reset').hidden=mode!=='local';
@@ -83,6 +82,7 @@
    const pager=el('div',undefined,'directory-pager');for(const [label,direction]of [['上一页',-1],['下一页',1]]){const b=el('button',label,'secondary');b.disabled=direction<0?directoryPage===0:directoryPage>=pages-1;b.onclick=()=>{directoryPage+=direction;draw();};pager.append(b);}box.append(pager);
   }
   if(mode==='local'){
+   renderPaths();
    const box=$('graph-local-bar');box.replaceChildren();const caption=el('div');caption.append(el('strong','以这篇论文为中心'),el('p',exploration.center?.title||'当前没有论文','fine'),el('span',exploration.neighbors.length?`共 ${exploration.neighbors.length} 篇直接关联 · 第 ${exploration.page+1} / ${exploration.pages} 组`:'没有记录符合筛选条件的直接关系，可查看原文或在目录中换一篇论文。','fine'));box.append(caption);
    const actions=el('div',undefined,'local-actions');const back=el('button','返回上一中心','secondary');back.disabled=!centerHistory.length;back.onclick=()=>{const prev=centerHistory.pop();if(prev){picked=prev.id;neighborhoodPage=prev.page;edgePicked=null;detailOpen=false;draw();}};actions.append(back);for(const [label,direction]of [['上一组',-1],['下一组',1]]){const b=el('button',label,'secondary');b.disabled=direction<0?exploration.page===0:exploration.page>=exploration.pages-1;b.onclick=()=>{neighborhoodPage+=direction;draw();};actions.append(b);}const detail=el('button','查看中心论文证据','secondary');detail.disabled=!exploration.center;detail.onclick=()=>{detailOpen=true;edgePicked=null;draw();};actions.append(detail);box.append(actions);
    let mobile=$('mobile-relations');if(!mobile){mobile=el('div',undefined,'mobile-relations');mobile.id='mobile-relations';host.querySelector('.graph-canvas-wrap').append(mobile);}mobile.replaceChildren();
@@ -90,6 +90,7 @@
   }
  }
  let mapDOMKey='',mapObserver=null;const mapSeen=new Set();
+ host.querySelector('.graph-tools').after($('graph-overview'),$('graph-directory'),$('graph-local-bar'));
  const mapNavigation=el('div',undefined,'map-navigation');host.querySelector('.explore-modes').before(mapNavigation);mapNavigation.append(host.querySelector('.explore-modes'));
  const mapDialog=el('dialog',undefined,'paper-map-dialog');mapDialog.setAttribute('aria-labelledby','graph-map-detail-title');
  const mapClose=el('button','×','map-dialog-close');mapClose.setAttribute('aria-label','关闭详情');mapClose.onclick=()=>mapDialog.close();
@@ -128,14 +129,26 @@
    else mapDetail.append(el('p',`${e.source===left.id?left.title:right.title} 引用了 ${e.target===right.id?right.title:left.title}。`));
   }
  }
- function mapReason(edges,center){
+ function mapReason(edges,center,other){
   const shared=edges.filter(e=>e.type==='shared').flatMap(e=>e.evidence||[]).map(e=>e.entity);
-  if(shared.length){const concepts=[...new Set(shared)];return ['共同讨论',concepts.slice(0,3).join(' / ')+(concepts.length>3?` 等 ${concepts.length} 个概念`:'')];}
-  const citation=edges.find(e=>e.type==='citation');if(citation)return ['论文引用',citation.source===center.id?'当前论文引用了这篇论文':'这篇论文引用了当前论文'];
-  const path=edges.find(e=>e.type==='path');if(path)return [path.selected?'回答使用的解释链':'可衔接的解释线索','点击查看原文'];
+  if(shared.length){const concepts=[...new Set(shared)];return ['shared','共同讨论',concepts.slice(0,3).join(' / ')+(concepts.length>3?` 等 ${concepts.length} 个概念`:'')];}
+  const citations=edges.filter(e=>e.type==='citation');
+  if(citations.length){
+   const cites=citations.some(e=>e.source===center.id),cited=citations.some(e=>e.target===center.id);
+   const first=paperNumber(cites?center:other),second=paperNumber(cites?other:center);
+   return ['citation','论文引用',cites&&cited?`${first} 和 ${second} 互相引用`:`论文 ${first} 引用了 ${second}`,cites,cited];
+  }
+  const path=edges.find(e=>e.type==='path');if(path)return ['path',path.selected?'回答使用的解释链':'可衔接的解释线索','两篇论文的原句可以接续'];
   const item=edges.find(e=>e.type==='cooccurrence')?.evidence?.[0];
-  return ['讨论相关概念',item?`${item.source_entity} / ${item.target_entity}`:'点击查看依据'];
+  return ['cooccurrence','讨论相关概念',item?`${item.source_entity} / ${item.target_entity}`:'在原文中一起出现'];
  }
+ const relationSymbols={
+  shared:'M14 12a5 5 0 1 1-10 0 5 5 0 0 1 10 0Zm6 0a5 5 0 1 1-10 0 5 5 0 0 1 10 0Z',
+  citation:'M4 6h6v6H6c0 2-1 3-2 4m10-10h6v6h-4c0 2-1 3-2 4',
+  path:'M3 7h6v6H3zM15 12h6v6h-6zM9 10h3c2 0 3 1 3 3',
+  cooccurrence:'M8 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Zm14 0a3 3 0 1 1-6 0 3 3 0 0 1 6 0Zm-11 0h2'
+ };
+ function paperNumber(n){return String(data.nodes.findIndex(p=>p.id===n.id)+1).padStart(2,'0');}
  function renderPaperMap(){
   const box=$('graph-overview'),ex=exploration,center=ex.center,leaves=ex.nodes.slice(1);
   const key=JSON.stringify([graphRun,phase,center?.id,ex.page,ex.nodes.map(n=>[n.id,n.title,n.cited,n.year,n.passages]),ex.links,ex.scope.length,centerHistory.length]);
@@ -153,14 +166,14 @@
   const actions=el('div',undefined,'paper-map-actions');
   if(centerHistory.length){const back=el('button','← 上一篇','secondary');back.onclick=()=>{const previous=centerHistory.pop();picked=previous.id;neighborhoodPage=previous.page;draw();};actions.append(back);}
   const search=el('button','查找论文','text-button');search.onclick=()=>{mode='directory';directoryPage=0;draw();$('graph-search').focus();};actions.append(search);intro.append(actions);box.append(intro);
-  const number=n=>String(data.nodes.findIndex(p=>p.id===n.id)+1).padStart(2,'0');
+  const number=paperNumber;
   const card=(n,central=false)=>{
    const b=el('button',undefined,'map-paper'+(central?' map-center':' map-leaf'));b.type='button';b.dataset.paperId=n.id;
    const meta=el('span',undefined,'map-paper-topline');meta.append(el('span',number(n),'map-paper-number'),el('span',central?'当前展开':n.cited?'回答已引用':'关联论文','map-paper-tag'));b.append(meta,el('strong',n.title),el('span',[n.year,central&&n.cited?'回答已引用':'','阅读原文 ↗'].filter(Boolean).join(' · '),'map-paper-meta'));
    b.setAttribute('aria-label',`论文 ${number(n)}：${n.title}，阅读原文`);b.onclick=()=>mapPaperDetails(n);return b;
   };
   if(leaves.length){const labels=el('div',undefined,'paper-map-columns');for(const text of ['当前论文','为什么相连','关联论文'])labels.append(el('span',text));labels.setAttribute('aria-hidden','true');box.append(labels);}
-  const surface=el('div',undefined,'paper-map-surface');surface.setAttribute('aria-label','论文关系图');box.append(surface);
+  const surface=el('div',undefined,'paper-map-surface');surface.setAttribute('aria-label','论文关系图');surface.dataset.neighbors=leaves.length;box.append(surface);
   if(!leaves.length){
    surface.classList.add('map-unlinked');surface.append(card(center,true));
    const note=el('div',undefined,'map-unlinked-note');note.append(el('span','暂无跨篇连接','map-unlinked-badge'),el('h3','这篇论文也保留在研究中'),el('p','目前没有记录它与其他论文的联系。可以直接阅读原文，或选择另一篇论文继续查看。'));
@@ -168,15 +181,24 @@
    if(connected){const next=el('button','查看有连接的论文','secondary');next.onclick=()=>focusMapPaper(connected.id);note.append(next);}surface.append(note);
   }else{
    const network=svg('svg',{'class':'map-connectors','aria-hidden':'true',preserveAspectRatio:'none'});surface.append(network);
+   const defs=svg('defs'),marker=svg('marker',{id:'paper-map-citation-tip',viewBox:'0 0 8 8',refX:7,refY:4,markerWidth:7,markerHeight:7,orient:'auto-start-reverse'});
+   marker.append(svg('path',{d:'M1 1 7 4 1 7',class:'map-arrowhead'}));defs.append(marker);network.append(defs);
    const origin=card(center,true);origin.style.gridRow=`1 / span ${leaves.length}`;surface.append(origin);
-   const targets=[],arrivals=[],reasons=[];
+   const targets=[],reasons=[],paths=[];
    leaves.forEach((n,i)=>{
-    const edges=ex.links.filter(e=>e.source===n.id||e.target===n.id),[label,topic]=mapReason(edges,center);
-    const reason=el('button',undefined,'map-reason');reason.type='button';reason.style.gridRow=i+1;reason.style.gridColumn=2;reason.style.setProperty('--map-row',i+2);reason.dataset.relation=edges.some(e=>e.type==='shared')?'shared':edges[0]?.type||'shared';
-    reason.append(el('span',label),el('strong',topic),el('small','查看依据'));reason.onclick=()=>mapEdgeDetails(edges,center,n);reason.setAttribute('aria-label',`${label}：${topic}。查看两篇论文的连接依据`);
+    const edges=ex.links.filter(e=>e.source===n.id||e.target===n.id),[type,label,topic,outgoing,incoming]=mapReason(edges,center,n);
+    const reason=el('button',undefined,'map-reason');reason.type='button';reason.style.gridRow=i+1;reason.style.gridColumn=2;reason.style.setProperty('--map-row',i+2);reason.dataset.relation=type;
+    const badge=el('span',undefined,'map-relation-label'),symbol=svg('svg',{viewBox:'0 0 24 24','aria-hidden':'true'});
+    symbol.append(svg('path',{d:relationSymbols[type]}));badge.append(symbol,document.createTextNode(label));
+    reason.append(badge,el('strong',topic),el('small','查看依据'));reason.onclick=()=>mapEdgeDetails(edges,center,n);reason.setAttribute('aria-label',`${label}：${topic}。查看两篇论文的连接依据`);
     // A relation enters once per research record. Evidence refinements and polling must not replay it.
     const seenKey=JSON.stringify([graphRun,...[center.id,n.id].sort()]);
-    const fresh=!motionOff()&&!document.hidden&&!mapSeen.has(seenKey);mapSeen.add(seenKey);arrivals.push(fresh);reasons.push(reason);
+    const fresh=!motionOff()&&!document.hidden&&!mapSeen.has(seenKey);mapSeen.add(seenKey);reasons.push(reason);
+    const track=svg('path',{class:'map-link-track'}),line=svg('path',{pathLength:1,'data-link':i,'data-relation':type,class:'map-link-draw'});
+    if(outgoing)line.setAttribute('marker-end','url(#paper-map-citation-tip)');
+    if(incoming)line.setAttribute('marker-start','url(#paper-map-citation-tip)');
+    if(incoming&&!outgoing)line.dataset.direction='incoming';
+    line.style.animationDelay=`${i*65}ms`;network.append(track,line);paths.push({track,line,fresh});
     const target=card(n),slot=el('div',undefined,'map-paper-slot');slot.style.gridRow=i+1;slot.style.gridColumn=3;slot.style.setProperty('--map-row',i+2);target.style.setProperty('--arrival-delay',`${200+i*90}ms`);
     if(fresh)target.classList.add('map-arrival');
     const expand=el('button','沿这篇继续探索 →','map-expand');expand.setAttribute('aria-label',`以论文 ${number(n)} 为中心展开关系`);expand.onclick=()=>{focusMapPaper(n.id);requestAnimationFrame(()=>box.querySelector('.map-center')?.focus({preventScroll:true}));};slot.append(target,expand);
@@ -184,23 +206,26 @@
     for(const node of [reason,slot]){node.addEventListener('pointerenter',()=>emphasize(true));node.addEventListener('pointerleave',()=>emphasize(false));node.addEventListener('focusin',()=>emphasize(true));node.addEventListener('focusout',()=>emphasize(false));}
     surface.append(reason,slot);targets.push(target);
    });
-   let lastSize='',firstDraw=true;
    const connect=()=>{
-    if(!surface.isConnected||surface.getBoundingClientRect().width===0)return;
-    const area=surface.getBoundingClientRect(),a=origin.getBoundingClientRect(),rects=targets.map(t=>t.getBoundingClientRect());
-    const size=JSON.stringify([area.width,area.height,a.x,a.y,...rects.map(r=>[r.x,r.y,r.height])]);if(size===lastSize)return;lastSize=size;
-    network.setAttribute('viewBox',`0 0 ${area.width} ${area.height}`);network.replaceChildren();
+    if(!surface.isConnected)return;
+    const area=surface.getBoundingClientRect();if(!area.width)return;
+    const a=origin.getBoundingClientRect(),rects=targets.map(t=>t.getBoundingClientRect()),gates=reasons.map(r=>r.getBoundingClientRect());
+    const viewBox=`0 0 ${area.width} ${area.height}`;if(network.getAttribute('viewBox')!==viewBox)network.setAttribute('viewBox',viewBox);
     rects.forEach((b,i)=>{
-     const narrow=surface.closest('#graph-view').clientWidth-parseFloat(getComputedStyle(host).paddingLeft)-parseFloat(getComputedStyle(host).paddingRight)<=720;
-     const x1=narrow?a.x+a.width/2-area.x:a.right-area.x,y1=narrow?a.bottom-area.y:a.y+a.height/2-area.y;
-     const x2=b.x-area.x,y2=b.y+b.height/2-area.y;
-     const middle=(x1+x2)/2;
-     const d=narrow?`M ${x1} ${y1} L ${x1} ${y1+12} L 10 ${y1+12} L 10 ${y2} L ${x2} ${y2}`:`M ${x1} ${y1} C ${x1+50} ${y1}, ${middle-60} ${y2}, ${middle} ${y2} L ${x2} ${y2}`;
-     const track=svg('path',{d,'class':'map-link-track'}),line=svg('path',{d,pathLength:1,'data-link':i,'data-relation':reasons[i].dataset.relation,'class':'map-link-draw'+(firstDraw&&arrivals[i]?' map-drawing':'')});line.style.animationDelay=`${i*90}ms`;network.append(track,line);
+     const gate=gates[i],narrow=gate.left<a.right-1,stacked=narrow&&b.top>=gate.bottom;
+     const x1=(narrow?a.x+a.width/2:a.right)-area.x,y1=(narrow?a.bottom:a.y+a.height/2)-area.y;
+     const rx=gate.x+gate.width/2-area.x,ry=gate.y+gate.height/2-area.y;
+     const x2=(stacked?b.x+b.width/2:b.x)-area.x,y2=(stacked?b.top:b.y+b.height/2)-area.y;
+     let start=`C${(x1+rx)/2} ${y1} ${(x1+rx)/2} ${ry} ${rx} ${ry}`;
+     if(narrow&&paths.length===1)start=`C${x1} ${(y1+ry)/2} ${rx} ${(y1+ry)/2} ${rx} ${ry}`;
+     else if(narrow)start=`V${y1+9} H9 V${ry} H${rx}`;
+     const end=stacked?`Q${x2} ${ry} ${x2} ${y2}`:`C${(rx+x2)/2} ${ry} ${(rx+x2)/2} ${y2} ${x2} ${y2}`;
+     const d=`M${x1} ${y1} ${start} ${end}`,path=paths[i];
+     if(path.line.getAttribute('d')!==d){path.track.setAttribute('d',d);path.line.setAttribute('d',d);}
+     if(path.fresh){path.fresh=false;if(!motionOff())path.line.classList.add('map-drawing');}
     });
-    firstDraw=false;
    };
-   mapObserver=new ResizeObserver(connect);mapObserver.observe(surface);targets.forEach(t=>mapObserver.observe(t));mapObserver.observe(origin);requestAnimationFrame(connect);
+   mapObserver=new ResizeObserver(connect);[surface,origin,...targets,...reasons].forEach(n=>mapObserver.observe(n));requestAnimationFrame(connect);
   }
   const footer=el('div',undefined,'paper-map-footer');
   footer.append(el('span',leaves.length?`显示 ${ex.page*3+1}–${ex.page*3+leaves.length} / ${ex.neighbors.length} 篇关联论文`:'全部论文均可从“全部论文”中查看'));

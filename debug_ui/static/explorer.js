@@ -4,7 +4,7 @@ window.paperExplorer = {
     const scope=data.nodes.filter(n=>phase==='pool'||n[phase]),ids=new Set(scope.map(n=>n.id));
     const edges=data.edges.filter(e=>ids.has(e.source)&&ids.has(e.target)&&(!types||types.has(e.type))&&(e.type!=='shared'||e.weight>=min));
     const degree=new Map();for(const e of edges){degree.set(e.source,(degree.get(e.source)||0)+1);degree.set(e.target,(degree.get(e.target)||0)+1);}
-    const rank=n=>Number(n.cited)*10000+Number(n.context)*1000+Number(n.seed)*100+(degree.get(n.id)||0);
+    const rank=n=>Number(n.cited??false)*10000+Number(n.context??false)*1000+Number(n.seed??false)*100+(degree.get(n.id)||0);
     const ranked=[...scope].sort((a,b)=>rank(b)-rank(a)||a.title.localeCompare(b.title));
     const center=scope.find(n=>n.id===anchor)||ranked.find(n=>degree.get(n.id)>0)||ranked[0];if(!center)return{scope,ranked,edges,nodes:[],links:[],neighbors:[],pages:0,page:0,degree};
     const connected=new Set(edges.filter(e=>e.source===center.id||e.target===center.id).map(e=>e.source===center.id?e.target:e.source));

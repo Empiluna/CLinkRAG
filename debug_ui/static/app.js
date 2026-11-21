@@ -27,6 +27,7 @@ function updateControls(){
    button.title=useLiterature?'选择资料并查找相关原文':label;
    button.setAttribute('aria-label',button.title);
    button.querySelector('span').textContent=useLiterature?'查找原文':'开始研究';
+   $('open-literature').hidden=useLiterature;
    $('home-setup').hidden=!useLiterature;
    $('home-setup').querySelector('span').textContent=lightweight?'当前可直接查原文，也可连接模型整理发现。完整研究需要安装在线研究组件。':
       !config.llm_configured&&!config.s2_configured?'生成研究报告需要连接回答模型和论文检索服务。':!config.llm_configured?'生成研究报告需要连接回答模型。':'生成研究报告需要连接论文检索服务。';
