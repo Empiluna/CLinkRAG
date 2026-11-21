@@ -46,5 +46,22 @@ window.researchReader = (() => {
   }}catch{return {body:answer,evidence:''};}
   return {body:body.join('').trim(),evidence:evidence.join('').trim()};
  }
- return {render,sections};
+ function outline(article, panel){
+  const headings=[...article.querySelectorAll('h2,h3')];
+  const nav=panel.querySelector('nav');nav.replaceChildren();panel.open=false;panel.hidden=headings.length<2;
+  if(panel.hidden)return;
+  headings.forEach((heading,index)=>{
+   heading.id='report-section-'+index;heading.tabIndex=-1;
+   const jump=element('button',heading.textContent);jump.type='button';
+   jump.onclick=()=>{heading.focus({preventScroll:true});heading.scrollIntoView({block:'start'});};
+   nav.append(jump);
+  });
+ }
+ function paperUrl(source){
+  if(source?.url){
+   try{const url=new URL(source.url);if(['https:','http:'].includes(url.protocol)&&!url.username&&!url.password)return url.href;}catch{}
+  }
+  return /^[a-f0-9]{40}$/i.test(source?.id||'')?'https://www.semanticscholar.org/paper/'+source.id:null;
+ }
+ return {render,sections,outline,paperUrl};
 })();

@@ -1,0 +1,371 @@
+{
+  "corpus_size": 16,
+  "domains": [
+    "历史考古",
+    "土木工程",
+    "应用数学",
+    "心理学",
+    "教育",
+    "材料科学",
+    "气候与生态",
+    "科学传播",
+    "经济学",
+    "计算与语言"
+  ],
+  "summary": {
+    "en": {
+      "previous_lexical_rank": {
+        "Hit@1": 1.0,
+        "Hit@3": 1.0,
+        "MRR@10": 1.0
+      },
+      "local_rank": {
+        "Hit@1": 1.0,
+        "Hit@3": 1.0,
+        "MRR@10": 1.0
+      }
+    },
+    "zh": {
+      "previous_lexical_rank": {
+        "Hit@1": 0.0,
+        "Hit@3": 0.0,
+        "MRR@10": 0.0
+      },
+      "local_rank": {
+        "Hit@1": 1.0,
+        "Hit@3": 1.0,
+        "MRR@10": 1.0
+      }
+    }
+  },
+  "index_reuse": {
+    "runs": 15,
+    "queries_per_batch": 3,
+    "documents": 16,
+    "rebuild_median_ms": 16.016,
+    "reuse_median_ms": 5.063,
+    "identical_scores": true
+  },
+  "queries": [
+    {
+      "question": "How was the chronology of Egypt's pyramid age revised?",
+      "language": "en",
+      "domain": "历史考古",
+      "expected": "10.1371/journal.pone.0314612",
+      "previous_lexical_rank": 1,
+      "local_rank": 1,
+      "passages_checked": 2,
+      "offsets_correct": true
+    },
+    {
+      "question": "哪些证据能区分金字塔时期的早晚断代？",
+      "language": "zh",
+      "domain": "历史考古",
+      "expected": "10.1371/journal.pone.0314612",
+      "previous_lexical_rank": null,
+      "local_rank": 1,
+      "passages_checked": 1,
+      "offsets_correct": true
+    },
+    {
+      "question": "Did the Thera eruption predate Ahmose?",
+      "language": "en",
+      "domain": "历史考古",
+      "expected": "10.1371/journal.pone.0330702",
+      "previous_lexical_rank": 1,
+      "local_rank": 1,
+      "passages_checked": 1,
+      "offsets_correct": true
+    },
+    {
+      "question": "爱琴海火山和阿赫摩斯法老的年代关系怎样？",
+      "language": "zh",
+      "domain": "历史考古",
+      "expected": "10.1371/journal.pone.0330702",
+      "previous_lexical_rank": null,
+      "local_rank": 1,
+      "passages_checked": 2,
+      "offsets_correct": true
+    },
+    {
+      "question": "What are the outcomes of distributed lessons in high-school physics?",
+      "language": "en",
+      "domain": "教育",
+      "expected": "10.1371/journal.pone.0321552",
+      "previous_lexical_rank": 1,
+      "local_rank": 1,
+      "passages_checked": 7,
+      "offsets_correct": true
+    },
+    {
+      "question": "中学物理课的定时间隔学习有何效果？",
+      "language": "zh",
+      "domain": "教育",
+      "expected": "10.1371/journal.pone.0321552",
+      "previous_lexical_rank": null,
+      "local_rank": 1,
+      "passages_checked": 2,
+      "offsets_correct": true
+    },
+    {
+      "question": "Do undergraduates change their use of self-testing after a study skills intervention?",
+      "language": "en",
+      "domain": "教育",
+      "expected": "10.1371/journal.pone.0200767",
+      "previous_lexical_rank": 1,
+      "local_rank": 1,
+      "passages_checked": 6,
+      "offsets_correct": true
+    },
+    {
+      "question": "生物学大学生是否会在干预后增加自测？",
+      "language": "zh",
+      "domain": "教育",
+      "expected": "10.1371/journal.pone.0200767",
+      "previous_lexical_rank": null,
+      "local_rank": 1,
+      "passages_checked": 1,
+      "offsets_correct": true
+    },
+    {
+      "question": "How strong was the evidence in psychological replication attempts under Bayesian analysis?",
+      "language": "en",
+      "domain": "心理学",
+      "expected": "10.1371/journal.pone.0149794",
+      "previous_lexical_rank": 1,
+      "local_rank": 1,
+      "passages_checked": 10,
+      "offsets_correct": true
+    },
+    {
+      "question": "贝叶斯因子如何衡量心理学重复实验的证据？",
+      "language": "zh",
+      "domain": "心理学",
+      "expected": "10.1371/journal.pone.0149794",
+      "previous_lexical_rank": null,
+      "local_rank": 1,
+      "passages_checked": 4,
+      "offsets_correct": true
+    },
+    {
+      "question": "What does a correlation between sample size and effect size imply about publication selection?",
+      "language": "en",
+      "domain": "心理学",
+      "expected": "10.1371/journal.pone.0297075",
+      "previous_lexical_rank": 1,
+      "local_rank": 1,
+      "passages_checked": 9,
+      "offsets_correct": true
+    },
+    {
+      "question": "样本大小与效应量相关可以识别发表偏倚吗？",
+      "language": "zh",
+      "domain": "心理学",
+      "expected": "10.1371/journal.pone.0297075",
+      "previous_lexical_rank": null,
+      "local_rank": 1,
+      "passages_checked": 3,
+      "offsets_correct": true
+    },
+    {
+      "question": "Do satellite light measurements reflect municipal income inequality in Spain?",
+      "language": "en",
+      "domain": "经济学",
+      "expected": "10.1371/journal.pone.0319890",
+      "previous_lexical_rank": 1,
+      "local_rank": 1,
+      "passages_checked": 4,
+      "offsets_correct": true
+    },
+    {
+      "question": "西班牙城镇的夜光数据能否衡量收入差距？",
+      "language": "zh",
+      "domain": "经济学",
+      "expected": "10.1371/journal.pone.0319890",
+      "previous_lexical_rank": null,
+      "local_rank": 1,
+      "passages_checked": 1,
+      "offsets_correct": true
+    },
+    {
+      "question": "How do historical flowering records respond to exceptionally warm spring temperatures?",
+      "language": "en",
+      "domain": "气候与生态",
+      "expected": "10.1371/journal.pone.0053788",
+      "previous_lexical_rank": 1,
+      "local_rank": 1,
+      "passages_checked": 6,
+      "offsets_correct": true
+    },
+    {
+      "question": "美国暖春时植物花期是否提前？",
+      "language": "zh",
+      "domain": "气候与生态",
+      "expected": "10.1371/journal.pone.0053788",
+      "previous_lexical_rank": null,
+      "local_rank": 1,
+      "passages_checked": 1,
+      "offsets_correct": true
+    },
+    {
+      "question": "How do encroaching shrubs affect community phenological responses to experimental warming?",
+      "language": "en",
+      "domain": "气候与生态",
+      "expected": "10.1371/journal.pone.0139029",
+      "previous_lexical_rank": 1,
+      "local_rank": 1,
+      "passages_checked": 3,
+      "offsets_correct": true
+    },
+    {
+      "question": "灌木扩张后增温实验中植物物候有何改变？",
+      "language": "zh",
+      "domain": "气候与生态",
+      "expected": "10.1371/journal.pone.0139029",
+      "previous_lexical_rank": null,
+      "local_rank": 1,
+      "passages_checked": 2,
+      "offsets_correct": true
+    },
+    {
+      "question": "How connected are populations of forest-dependent birds in fragmented landscapes?",
+      "language": "en",
+      "domain": "气候与生态",
+      "expected": "10.1371/journal.pone.0140938",
+      "previous_lexical_rank": 1,
+      "local_rank": 1,
+      "passages_checked": 2,
+      "offsets_correct": true
+    },
+    {
+      "question": "鸟类基因流会受到栖息地破碎化的影响吗？",
+      "language": "zh",
+      "domain": "气候与生态",
+      "expected": "10.1371/journal.pone.0140938",
+      "previous_lexical_rank": null,
+      "local_rank": 1,
+      "passages_checked": 1,
+      "offsets_correct": true
+    },
+    {
+      "question": "Can corpus context determine polarity in short messages?",
+      "language": "en",
+      "domain": "计算与语言",
+      "expected": "10.1371/journal.pone.0299490",
+      "previous_lexical_rank": 1,
+      "local_rank": 1,
+      "passages_checked": 6,
+      "offsets_correct": true
+    },
+    {
+      "question": "短文本的情感词典怎样利用语境？",
+      "language": "zh",
+      "domain": "计算与语言",
+      "expected": "10.1371/journal.pone.0299490",
+      "previous_lexical_rank": null,
+      "local_rank": 1,
+      "passages_checked": 1,
+      "offsets_correct": true
+    },
+    {
+      "question": "How can a random walker rank competitors without favoring degree?",
+      "language": "en",
+      "domain": "应用数学",
+      "expected": "10.1371/journal.pone.0113685",
+      "previous_lexical_rank": 1,
+      "local_rank": 1,
+      "passages_checked": 4,
+      "offsets_correct": true
+    },
+    {
+      "question": "图论中的随机游走怎样用于比赛排名？",
+      "language": "zh",
+      "domain": "应用数学",
+      "expected": "10.1371/journal.pone.0113685",
+      "previous_lexical_rank": null,
+      "local_rank": 1,
+      "passages_checked": 2,
+      "offsets_correct": true
+    },
+    {
+      "question": "Which axioms distinguish different indices of network centralization?",
+      "language": "en",
+      "domain": "应用数学",
+      "expected": "10.1371/journal.pone.0341630",
+      "previous_lexical_rank": 1,
+      "local_rank": 1,
+      "passages_checked": 7,
+      "offsets_correct": true
+    },
+    {
+      "question": "不同网络中心化指标满足哪些公理？",
+      "language": "zh",
+      "domain": "应用数学",
+      "expected": "10.1371/journal.pone.0341630",
+      "previous_lexical_rank": null,
+      "local_rank": 1,
+      "passages_checked": 2,
+      "offsets_correct": true
+    },
+    {
+      "question": "What does dual surface treatment change in perovskite photovoltaics?",
+      "language": "en",
+      "domain": "材料科学",
+      "expected": "10.1371/journal.pone.0351439",
+      "previous_lexical_rank": 1,
+      "local_rank": 1,
+      "passages_checked": 4,
+      "offsets_correct": true
+    },
+    {
+      "question": "钙钛矿光伏电池的表面钝化有什么作用？",
+      "language": "zh",
+      "domain": "材料科学",
+      "expected": "10.1371/journal.pone.0351439",
+      "previous_lexical_rank": null,
+      "local_rank": 1,
+      "passages_checked": 1,
+      "offsets_correct": true
+    },
+    {
+      "question": "Which models capture localized frequency changes in vibration-based damage detection?",
+      "language": "en",
+      "domain": "土木工程",
+      "expected": "10.1371/journal.pone.0358224",
+      "previous_lexical_rank": 1,
+      "local_rank": 1,
+      "passages_checked": 7,
+      "offsets_correct": true
+    },
+    {
+      "question": "怎样用小波判断振动信号中的桥梁损伤？",
+      "language": "zh",
+      "domain": "土木工程",
+      "expected": "10.1371/journal.pone.0358224",
+      "previous_lexical_rank": null,
+      "local_rank": 1,
+      "passages_checked": 1,
+      "offsets_correct": true
+    },
+    {
+      "question": "Does participant training change the chance of discovery in citizen science?",
+      "language": "en",
+      "domain": "科学传播",
+      "expected": "10.1371/journal.pone.0361148",
+      "previous_lexical_rank": 1,
+      "local_rank": 1,
+      "passages_checked": 5,
+      "offsets_correct": true
+    },
+    {
+      "question": "训练如何影响公民科学志愿者发现意外现象？",
+      "language": "zh",
+      "domain": "科学传播",
+      "expected": "10.1371/journal.pone.0361148",
+      "previous_lexical_rank": null,
+      "local_rank": 1,
+      "passages_checked": 1,
+      "offsets_correct": true
+    }
+  ]
+}

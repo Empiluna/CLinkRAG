@@ -387,8 +387,15 @@ class SettingsStore:
 def check_local(values):
     values = validate(values)
     checks = [{'status': 'ok', 'title': '参数格式', 'detail': '字段与范围检查通过；不代表远程 API 已连通。'}]
-    import torch
     devices = [{'id': 'cpu', 'name': 'CPU'}]
+    try:
+        import torch
+    except ModuleNotFoundError as exc:
+        if exc.name != 'torch':
+            raise
+        checks.append({'status': 'warning', 'title': '深度研究组件',
+                       'detail': '便携环境支持本地文献、Crossref 检索和模型简报。启用深度研究请参照 WINDOWS_RELEASE.md 安装完整环境。'})
+        return {'checks': checks, 'devices': devices, 'remote_tested': False}
     devices += [{'id': f'cuda:{i}', 'name': torch.cuda.get_device_name(i)} for i in range(torch.cuda.device_count())]
     target = values['RERANKER_DEVICE']
     available = target == 'cpu' or (target == 'cuda' and len(devices) > 1) or any(d['id'] == target for d in devices)

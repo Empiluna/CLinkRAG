@@ -1,6 +1,7 @@
 # First install torch==2.8.0+cu128 from https://download.pytorch.org/whl/cu128
 openai==1.63.2
 PyYAML==6.0.2
+pypdf==6.21.4
 requests==2.32.3
 numpy==1.26.4
 jsonlines==4.0.0

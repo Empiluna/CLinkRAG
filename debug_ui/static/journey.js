@@ -1,7 +1,7 @@
 /* Data-backed animated research scenes. Nodes always refer to recorded objects. */
 window.createResearchScene=function(host){
  const NS='http://www.w3.org/2000/svg',A=v=>Array.isArray(v)?v:[],pid=p=>p?.paperId||p?.paper_id||p?.id||p?.title;
- const titles=['问题展开成检索方向','让相关论文汇入视野','从候选中留下有用材料','论文中的完整证据关系','把证据放在一起核对','让回答连接到它的来源'];
+ const titles=['这项研究要查哪些问题','各个方向找到了哪些论文','哪些论文进入了分析','论文之间有哪些共同发现','这些发现能否放在一起比较','研究回答用了哪些原文'];
  let data=null,key='',animations=[],paused=false,visible=true,strokes=[],reveals=[],htmlMoves=[],selectedDirection='all',filterDestination='selected',sceneRun='',scenePhase=-1,seenItems=new Set(),settled=Promise.resolve(),retrievalCues=[];
  let relationPaper='all',relationType='all',inspectorTrigger=null;
  const animatedRelations=new Set(),seenVisuals=new Set(),scrollPositions=new Map(),openDetails=new Set();

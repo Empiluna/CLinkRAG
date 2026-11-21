@@ -1,0 +1,16 @@
+{
+  "doi": "10.1371/journal.pone.0314612",
+  "pdf_sha256": "c95a80ed4525e720c788dd528a3cc9e52a520ae460a55cdc25e14e08aa710985",
+  "pages_in_file": 12,
+  "requested_pages": [
+    1,
+    2
+  ],
+  "english_query": "radiocarbon dating ancient Egyptian dynasties chronology",
+  "match_pages": [
+    2,
+    2
+  ],
+  "exact": true,
+  "has_topic": true
+}

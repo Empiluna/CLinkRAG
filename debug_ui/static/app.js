@@ -12,11 +12,33 @@ function toast(message){$('toast').textContent=message;$('toast').hidden=false;c
 function storageRead(key){try{return localStorage.getItem(key);}catch{return null;}}
 function storageWrite(key,value){try{localStorage.setItem(key,value);return true;}catch{return false;}}
 function setConnection(state){connected=state==='online';$('connection-state').dataset.state=state;$('connection').textContent={online:'本地服务已连接',offline:'连接已断开',checking:'正在连接…'}[state];$('reconnect').hidden=state!=='offline';updateControls();}
-function updateControls(){const missing=!config.llm_configured||(['scirag','clinkrag_online'].includes($('method').value)&&!config.s2_configured);const disabled=!connected||submitting||!!liveId||missing;const label=submitting?'正在提交…':liveId?'已有研究运行中':!connected?'等待连接':missing?'请先配置 API':'开始研究';$('submit').disabled=disabled;$('submit').textContent=label;if($('home-start')){$('home-start').disabled=disabled||!$('home-question').value.trim();$('home-start').title=label;}$('cancel').disabled=!connected||run?.status!=='running';}
-async function api(path,options={}){
- const controller=new AbortController(),timer=setTimeout(()=>controller.abort(),12000);
- try{const response=await fetch(path,{...options,signal:controller.signal,headers:{'Content-Type':'application/json','X-SciRAG-Token':token,...options.headers}});const data=await response.json();if(!response.ok){const error=new Error(data.error||`服务返回 ${response.status}`);error.status=response.status;error.code=data.code;if(response.status===403)setConnection('offline');throw error;}return data;}
- catch(error){if(!error.status){setConnection('offline');throw new Error(error.name==='AbortError'?'本地服务响应超时，请重新连接。':'无法连接本地服务。请确认 start-ui.ps1 正在运行。');}throw error;}
+function updateControls(){
+ const missing=!config.llm_configured||(['scirag','clinkrag_online'].includes($('method').value)&&!config.s2_configured);
+ const lightweight=config.capabilities?.deep_research===false;
+ const label=submitting?'正在提交…':liveId?'已有研究运行中':!connected?'等待连接':lightweight?'完整研究需安装在线研究组件':missing?'请先连接研究服务':'开始研究';
+ const disabled=!connected||submitting||!!liveId||lightweight||missing;
+ $('submit').disabled=disabled;
+ $('submit').textContent=label;
+ if($('home-start')){
+   const useLiterature=connected&&(lightweight||missing);
+   const button=$('home-start');
+   $('home-question').minLength=useLiterature?2:5;
+   button.disabled=(!useLiterature&&disabled)||!$('home-question').value.trim();
+   button.title=useLiterature?'选择资料并查找相关原文':label;
+   button.setAttribute('aria-label',button.title);
+   button.querySelector('span').textContent=useLiterature?'查找原文':'开始研究';
+   $('home-setup').hidden=!useLiterature;
+   $('home-setup').querySelector('span').textContent=lightweight?'当前可直接查原文，也可连接模型整理发现。完整研究需要安装在线研究组件。':
+      !config.llm_configured&&!config.s2_configured?'生成研究报告需要连接回答模型和论文检索服务。':!config.llm_configured?'生成研究报告需要连接回答模型。':'生成研究报告需要连接论文检索服务。';
+   $('home-setup-open').hidden=lightweight&&!!config.llm_configured;
+   document.querySelector('.home-quick-options').hidden=lightweight;
+ }
+ $('cancel').disabled=!connected||run?.status!=='running';
+}
+async function api(path,options={},timeoutMs=12000){
+ const controller=new AbortController(),timer=setTimeout(()=>controller.abort(),timeoutMs);
+ try{const response=await fetch(path,{...options,signal:controller.signal,headers:{'Content-Type':'application/json','X-SciRAG-Token':token,...options.headers}});const data=await response.json();if(!response.ok){const error=new Error(data.error||`服务返回 ${response.status}`);error.status=response.status;error.code=data.code;if(response.status===403&&path!=='/api/literature/brief'&&path!=='/api/literature/search')setConnection('offline');throw error;}return data;}
+ catch(error){if(!error.status){if(path.startsWith('/api/literature/'))throw new Error(error.name==='AbortError'?'请求超时。请稍后重试。':'无法连接本地服务，请检查后重试。');setConnection('offline');throw new Error(error.name==='AbortError'?'本地服务响应超时，请重新连接。':'无法连接本地服务。请确认 start-ui.ps1 正在运行。');}throw error;}
  finally{clearTimeout(timer);}
 }
 function switchTab(answer){window.researchApp?.hideJourney();window.paperGraph?.hide();document.body.dataset.view=answer?'answer':'trace';$('compare-view').hidden=true;$('compare-tab').classList.remove('active');$('compare-tab').setAttribute('aria-selected','false');$('trace-view').hidden=answer;$('answer-view').hidden=!answer;for(const [id,on] of [['trace-tab',!answer],['answer-tab',answer]]){$(id).classList.toggle('active',on);$(id).setAttribute('aria-selected',on);}}
@@ -77,6 +99,7 @@ function renderAnswer(){
  $('evidence-caveat').hidden=!$('evidence-caveat').textContent.trim();
  const reading=researchReader.sections(result);
  researchReader.render($('answer-text'),reading.body,{sources,onCitation:openEvidence});
+ researchReader.outline($('answer-text'),$('answer-outline'));
  researchReader.render($('evidence-review-text'),reading.evidence,{sources,onCitation:openEvidence});
  $('evidence-review-text').hidden=!reading.evidence;
  $('answer-completion-note').textContent=result.generation_warning||'';$('answer-completion-note').hidden=!result.generation_warning;
@@ -95,7 +118,8 @@ function researchNotice(value){
 }
 function openEvidence(index,context='',trigger=null,focusQuote=null){
  const source=result?.sources?.[index];if(!source)return;const body=$('evidence-body');body.replaceChildren();const title=node('h2',source.title||'未命名论文');title.id='evidence-title';body.append(node('span',`证据 [${index}]`,'badge'),title);
- if(/^[a-f0-9]{40}$/i.test(source.id||'')){const a=node('a','在 Semantic Scholar 打开论文 ↗');a.href='https://www.semanticscholar.org/paper/'+source.id;a.target='_blank';a.rel='noopener noreferrer';body.append(a);}
+ const url=researchReader.paperUrl(source);
+ if(url){const a=node('a','打开论文原网页 ↗');a.href=url;a.target='_blank';a.rel='noopener noreferrer';body.append(a);}
  if(context){body.append(node('h3','答案中引用此证据的段落'),node('p',context,'citation-context'));}
  body.append(node('h3','本次使用的原始文本'));const original=node('div',undefined,'original-text');
  const relations=(result.paths||[]).flatMap(p=>p.relations||[]).filter(r=>r.passage_id===source.passage_id);
@@ -192,7 +216,7 @@ async function connect(){
  if(connecting)return;connecting=true;if(!connected)setConnection('checking');
  try{config=await api('/api/config');token=config.token;$('model').textContent=config.model||'未设置';$('device').textContent=config.device||'未设置';$('s2').textContent=config.s2_configured?'已配置':'未配置';setConnection('online');const items=await history();notice('');
  if(run?.id)await poll(true);else{const saved=storageRead('scirag-run'),id=liveId||(items.some(x=>x.id===saved)?saved:items[0]?.id);if(id)await loadRun(id,{navigate:false});else{$('welcome').hidden=false;$('research-content').hidden=true;}}
- if(!config.llm_configured)notice('请在 config.local.yaml 配置模型 API；历史结果和图谱仍可查看。');
+ if(!config.llm_configured&&!window.researchApp)notice('可在设置中连接回答模型。');
  }catch(e){setConnection('offline');notice(e.message);if(!run)$('welcome').hidden=false;}
  finally{connecting=false;}
 }

@@ -2,7 +2,7 @@
 
 **基于检索增强生成（RAG）的论文研究工作台，从一个问题出发，查找论文、整理证据，生成可以追溯来源的回答。**
 
-CLinkRAG 将论文检索、材料筛选、证据关系和回答生成放在同一个界面中。你既可以直接阅读研究正文，也可以查看每一步找到的材料，沿引用回到原文。项目基于 [SciRAG](https://github.com/yale-nlp/SciRAG) 扩展，当前默认入口为 **CLinkRAG 在线研究**。
+CLinkRAG 在本机提供**文献查证**和**深度研究**两种工作方式。拿到一篇 PDF 时，可以定位回答问题的段落、查看页码、导出研究笔记。需要从多篇论文组织长回答时，可以运行完整研究流程，从正文中的引用跳回证据。项目基于 [SciRAG](https://github.com/yale-nlp/SciRAG) 扩展。
 
 [快速开始](#快速开始) · [如何使用](#如何使用) · [配置说明](#配置说明) · [常见问题](#常见问题) · [文档导航](#文档导航)
 
@@ -33,9 +33,22 @@ flowchart LR
 
 ## 快速开始
 
+**Windows x64 便携包。** 解压 `CLinkRAG-Windows-x64.zip` 到可写文件夹，双击其中的 **`Start-CLinkRAG.cmd`**。浏览器会打开本机工作台。点首页的示例即可从 16 篇开放文献中实际查找原文。关闭浏览器前可以导出笔记，停止服务可在启动窗口按 Ctrl+C。详见[一键包说明](WINDOWS_RELEASE.md)。
+
+| 你的任务 | 直接操作 | 所需条件 |
+| --- | --- | --- |
+| 阅读自己的论文 | 选择“文献查证”与“我的资料”，按页导入 PDF、加入 TXT 或粘贴摘要。输入问题，点击原文核对位置 | 解压包即可使用。PDF 须有可复制的文字 |
+| 找到更多论文 | 在文献查证中选择在线查找，可补充英文检索词 | 可连接 Crossref |
+| 写出有引文的发现 | 勾选查证结果，选择“用模型整理所选原文”，核对每条发现的引文 | 在设置中连接一个模型即可 |
+| 运行多步骤深度研究 | 在完整环境中提交研究问题，阅读正文、证据与过程记录 | 模型 API、Semantic Scholar 凭证、本机重排环境 |
+
+本次重构的前后比较、真实模型结果、公开检索评测及已知局限见[版本验收报告](WORKBENCH_ACCEPTANCE.md)。[界面与操作截图](FIELDWORK_UI.md)
+
+### 安装完整深度研究环境
+
 以下步骤面向 **Windows 64 位 + PowerShell**。自动安装脚本使用 Python 3.12 和 CUDA 12.8 版 PyTorch；无 NVIDIA GPU 时请使用下方 CPU 安装步骤。
 
-### 1. 准备环境
+#### 1. 准备环境
 
 - 安装 Git 和 [uv](https://docs.astral.sh/uv/getting-started/installation/)。安装脚本会通过 uv 创建 Python 3.12 虚拟环境。
 - 准备一个受支持的模型服务 API 密钥，以及 Semantic Scholar API 密钥。
@@ -46,7 +59,7 @@ git clone --branch local https://github.com/Empiluna/CLinkRAG.git
 cd CLinkRAG
 ```
 
-### 2. 安装依赖
+#### 2. 安装依赖
 
 **NVIDIA GPU：**
 
@@ -79,7 +92,7 @@ CPU 方案仍需加载完整的 BGE 排序模型，并非轻量服务器版本�
 
 </details>
 
-### 3. 配置连接并准备排序模型
+#### 3. 配置连接并准备排序模型
 
 编辑 `config.local.yaml`，填写模型服务和检索密钥。也可以先启动界面，在左下角“设置”中填写并保存。示例：
 
@@ -99,7 +112,7 @@ S2_API_KEY: "填写你的 Semantic Scholar API 密钥"
 
 此操作需要连接模型下载服务，但不调用生成模型 API。默认开启 `RERANKER_OFFLINE`，因此准备好本地权重后再发起研究。
 
-### 4. 启动界面
+#### 4. 启动界面
 
 ```powershell
 .\start-ui.ps1
@@ -187,6 +200,8 @@ run-local.ps1               诊断、排序模型准备与命令行入口
 | 文档 | 内容 |
 | --- | --- |
 | [本地运行](RUN_LOCAL.md) | 安装脚本、运行方式与原始命令行流程 |
+| [重构规划](REBUILD_PLAN.md) / [版本验收](WORKBENCH_ACCEPTANCE.md) | 原版本问题、交付范围、基准与功能实测 |
+| [跨领域实测](evaluation/RETRIEVAL_VALIDATION.md) / [界面实测](FIELDWORK_UI.md) | 真实文献与公开标注评测、浏览器操作及界面截图 |
 | [模型设置](MODEL_SETTINGS.md) / [服务预设](PROVIDER_PRESETS.md) | 连接配置、模型商分组与多模型选择 |
 | [在线研究](ONLINE_CLINKRAG.md) / [研究选项](RESEARCH_OPTIONS.md) | 检索与分析流程、参数含义 |
 | [跨领域算法与论文依据](ALGORITHM_CROSS_DOMAIN.md) | 融合检索、证据多样性、有限纠正、上下文分配与验证边界 |

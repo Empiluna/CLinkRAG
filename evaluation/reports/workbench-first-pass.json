@@ -1,0 +1,213 @@
+{
+  "started_utc": "2026-11-21T13:59:52.490240+00:00",
+  "model": "deepseek-flash",
+  "protocol": "One built-in example per field; first registered paper per field, top 3 passages.",
+  "briefs": [
+    {
+      "field": "历史考古",
+      "question": "古埃及王朝的年代有哪些测年依据？",
+      "expected_paper": "10.1371/journal.pone.0314612",
+      "findings": [
+        {
+          "paper_id": "10.1371/journal.pone.0314612",
+          "claim": "高精度放射性碳测年结合贝叶斯统计框架与王名表统治年数记录，不支持古王国和中王国的低年代学。",
+          "quote": "We introduce 48 high-precision radiocarbon dates obtained through rare access to museum collections as well as freshly excavated samples. By combining these new results with legacy radiocarbon data and with text records for reign lengths of kings within a Bayesian statistical framework, we show that the Low Chronology is no longer empirically supported for the Old and Middle Kingdoms, and resolve a long-standing historical schism."
+        },
+        {
+          "paper_id": "10.1371/journal.pone.0330702",
+          "claim": "此前对辛努塞尔特三世（Senusert III）的放射性碳测年支持中王国的高年代学。",
+          "quote": "Previous radiocarbon dates of king Senusert III support a high chronology for the Middle Kingdom."
+        }
+      ],
+      "exact": true,
+      "expected_cited": true,
+      "elapsed_seconds": 3.3
+    },
+    {
+      "field": "教育",
+      "question": "间隔学习对中学物理教学有什么影响？",
+      "expected_paper": "10.1371/journal.pone.0321552",
+      "findings": [
+        {
+          "paper_id": "10.1371/journal.pone.0321552",
+          "claim": "在中学物理课中实施间隔学习（SL）的效果在不同学校间保持一致，且间隔学习为后续学习奠定基础，常常使学习效率翻倍，而几乎不需要额外投入。",
+          "quote": "These effects were consistent across different schools. The implication is that SL provides a foundation for subsequent learning, often doubling its efficiency regardless of context, and that it does so with minimal additional input."
+        }
+      ],
+      "exact": true,
+      "expected_cited": true,
+      "elapsed_seconds": 2.8
+    },
+    {
+      "field": "心理学",
+      "question": "心理学重复实验怎样衡量证据强弱？",
+      "expected_paper": "10.1371/journal.pone.0149794",
+      "findings": [
+        {
+          "paper_id": "10.1371/journal.pone.0149794",
+          "claim": "心理学文献中效应量的高估（或对零假设证据的高估）可归因于小样本量和发表偏倚，这解释了重复研究项目未能重复许多目标效应的表面失败。",
+          "quote": "We conclude that the apparent failure of the Reproducibility Project to replicate many target effects can be adequately explained by overestimation of effect sizes (or overestimation of evidence against the null hypothesis) due to small sample sizes and publication bias in the psychological literature."
+        },
+        {
+          "paper_id": "10.1371/journal.pone.0149794",
+          "claim": "传统样本量不足，更广泛采用贝叶斯方法是有益的。",
+          "quote": "We further conclude that traditional sample sizes are insufficient and that a more widespread adoption of Bayesian methods is desirable."
+        },
+        {
+          "paper_id": "10.1371/journal.pone.0297075",
+          "claim": "在心理学出版物中，焦点效应出现了高得多的样本量与效应量相关性，但这在多大程度上应归因于发表偏倚及相关偏倚仍不清楚。",
+          "quote": "A much higher n-ES correlation emerged for publications’ focal effects. To what extent this should be attributed to publication bias and related biases remains unclear."
+        }
+      ],
+      "exact": true,
+      "expected_cited": true,
+      "elapsed_seconds": 3.4
+    },
+    {
+      "field": "经济学",
+      "question": "卫星夜间灯光能反映地方收入差距吗？",
+      "expected_paper": "10.1371/journal.pone.0319890",
+      "findings": [],
+      "exact": false,
+      "expected_cited": false,
+      "elapsed_seconds": 1.0
+    },
+    {
+      "field": "气候与生态",
+      "question": "早春升温如何影响植物的开花时间？",
+      "expected_paper": "10.1371/journal.pone.0053788",
+      "findings": [
+        {
+          "paper_id": "10.1371/journal.pone.0053788",
+          "claim": "早春升温与植物春季开花时间显著提前相关，且这种关系可由历史物候-温度关系预测。",
+          "quote": "These dramatic advances in spring flowering were successfully predicted by historical relationships between flowering and spring temperature spanning up to 161 years of ecological change."
+        },
+        {
+          "paper_id": "10.1371/journal.pone.0053788",
+          "claim": "多种温带植物物种尚未表现出明显的生理限制来阻碍其物候提前。",
+          "quote": "These results demonstrate that numerous temperate plant species have yet to show obvious signs of physiological constraints on phenological advancement in the face of climate change."
+        }
+      ],
+      "exact": true,
+      "expected_cited": true,
+      "elapsed_seconds": 2.6
+    },
+    {
+      "field": "计算与语言",
+      "question": "怎样根据语境判断短文本的情感极性？",
+      "expected_paper": "10.1371/journal.pone.0299490",
+      "findings": [],
+      "exact": false,
+      "expected_cited": false,
+      "elapsed_seconds": 1.0
+    },
+    {
+      "field": "应用数学",
+      "question": "怎样用随机游走给竞技选手排名？",
+      "expected_paper": "10.1371/journal.pone.0113685",
+      "findings": [
+        {
+          "paper_id": "10.1371/journal.pone.0113685",
+          "claim": "用边权重和节点度数定义每条边上的梯度，引导随机游走者走向较弱（或较强）的节点，从而将稳态占用率解释为节点弱点（或强度）的度量，且不受度数偏差影响。",
+          "quote": "We use the edge weights and node degrees to define the gradient on each edge that guides the random walker towards the weaker (or the stronger) node, which enables us to interpret the steady-state occupancy as the measure of the node's weakness (or strength) that is free of unwarranted degree-induced bias."
+        },
+        {
+          "paper_id": "10.1371/journal.pone.0113685",
+          "claim": "该方法应用于两个真实竞争网络，在稀疏网络中优于包括基线胜负差方法在内的其他方法。",
+          "quote": "We apply our method to two real-world competition networks and explore the issues of ranking stabilization and prediction accuracy, finding that our method outperforms other methods including the baseline win–loss differential method in sparse networks."
+        }
+      ],
+      "exact": true,
+      "expected_cited": true,
+      "elapsed_seconds": 2.6
+    },
+    {
+      "field": "材料科学",
+      "question": "表面钝化能如何改善钙钛矿电池？",
+      "expected_paper": "10.1371/journal.pone.0351439",
+      "findings": [
+        {
+          "paper_id": "10.1371/journal.pone.0351439",
+          "claim": "双重表面钝化可使钙钛矿太阳能电池的光电转换效率超过25%，优于仅使用辛基铵钝化所达到的23%。",
+          "quote": "In particular, this approach surpasses the 23% PCE achieved using octylammonium passivation, achieving efficiencies exceeding 25%."
+        },
+        {
+          "paper_id": "10.1371/journal.pone.0351439",
+          "claim": "苯乙基铵具有优异的缺陷钝化作用以及良好的光学和电学性质，对显著提升钙钛矿太阳能电池的效率和稳定性起关键作用。",
+          "quote": "Overall, the excellent defect passivation and favorable optical and electrical properties of phenylethylammonium play a key role in significantly improving both the efficiency and stability of PSCs."
+        }
+      ],
+      "exact": true,
+      "expected_cited": true,
+      "elapsed_seconds": 2.6
+    },
+    {
+      "field": "土木工程",
+      "question": "振动监测怎样定位桥梁损伤？",
+      "expected_paper": "10.1371/journal.pone.0358224",
+      "findings": [
+        {
+          "paper_id": "10.1371/journal.pone.0358224",
+          "claim": "SpectralTCN 在 Z24 和 My Thuan 两个桥梁基准上分别达到 92.2% 和 92.1% 的最高平均准确率，优于最强基线。",
+          "quote": "SpectralTCN attains the highest mean accuracy on both benchmarks (92.2% on Z24 and 92.1% on My Thuan) and outperforms the strongest baseline in the 5-fold cross-validation protocol."
+        },
+        {
+          "paper_id": "10.1371/journal.pone.0358224",
+          "claim": "该架构基于短时流式加速度窗口和纯卷积骨干，计算成本适中，适合连续桥梁监测中的近实时在线损伤检测。",
+          "quote": "the proposed architecture operates on short, streaming acceleration windows with a purely convolutional backbone of moderate computational cost, making SpectralTCN suitable for near-real-time, online damage detection in continuous bridge monitoring."
+        }
+      ],
+      "exact": true,
+      "expected_cited": true,
+      "elapsed_seconds": 2.5
+    },
+    {
+      "field": "科学传播",
+      "question": "训练对公民科学志愿者发现异常现象有什么影响？",
+      "expected_paper": "10.1371/journal.pone.0361148",
+      "findings": [
+        {
+          "paper_id": "10.1371/journal.pone.0361148",
+          "claim": "训练塑造了观察者关注的位置以及他们报告的内容，从而对发现潜力形成了一种传统准确性指标无法检测的感知边界。",
+          "quote": "These findings demonstrate that training shapes both where observers look and what they report, establishing a perceptual boundary on discovery potential that conventional accuracy measures cannot detect."
+        }
+      ],
+      "exact": true,
+      "expected_cited": true,
+      "elapsed_seconds": 1.6
+    }
+  ],
+  "crossref": [
+    {
+      "query": "interleaved mathematics practice",
+      "ok": true,
+      "searched": 15,
+      "dois": [
+        "10.59668/2551.25352",
+        "10.23943/princeton/9780691117133.003.0012",
+        "10.69569/jip.2025.238"
+      ]
+    },
+    {
+      "query": "urban heat island tree canopy",
+      "ok": true,
+      "searched": 15,
+      "dois": [
+        "10.21203/rs.3.rs-6982703/v1",
+        "10.3390/geographies3020019",
+        "10.3390/su13137496"
+      ]
+    },
+    {
+      "query": "bridge vibration damage detection",
+      "ok": true,
+      "searched": 15,
+      "dois": [
+        "10.1051/e3sconf/202340212016",
+        "10.56028/aetr.15.1.1816.2025",
+        "10.1680/jbren.23.00036"
+      ]
+    }
+  ],
+  "completed_domains": 8
+}

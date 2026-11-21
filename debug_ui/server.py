@@ -1,6 +1,7 @@
 """Loopback-only local workbench; stdlib HTTP server, no extra dependencies."""
 import argparse
 import hashlib
+from importlib.util import find_spec
 from datetime import datetime, timezone
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 import json
@@ -23,6 +24,7 @@ sys.path.insert(0, str(ROOT / 'longans'))
 from llms.settings import load_settings, configured_key
 from debug_ui.model_settings import SettingsStore, check_local
 from debug_ui.model_catalog import ModelCatalog
+from debug_ui.literature import EXAMPLE, ServiceUnavailable, literature_search, read_pdf
 
 
 class BadRequest(ValueError):
@@ -294,16 +296,20 @@ def make_handler(jobs, token, settings_store=None):
                 self.check_local()
                 parsed = urlsplit(self.path)
                 path = parsed.path
-                if path in ('/', '/app.js', '/style.css', '/graph.js', '/graph.css', '/workspace.css', '/observatory.css', '/theme.js', '/visual.js', '/favicon.svg', '/product.css', '/product.js', '/explorer.js', '/reader.js', '/marked.umd.js', '/settings.js', '/settings.css', '/journey.js', '/journey.css', '/run-options.js', '/polish.css'):
+                if path in ('/', '/app.js', '/style.css', '/graph.js', '/graph.css', '/workspace.css', '/observatory.css', '/theme.js', '/visual.js', '/favicon.svg', '/product.css', '/product.js', '/explorer.js', '/reader.js', '/marked.umd.js', '/settings.js', '/settings.css', '/journey.js', '/journey.css', '/run-options.js', '/polish.css', '/literature.js', '/fieldwork.css'):
                     filename = 'index.html' if path == '/' else path[1:]
                     mime = 'text/html' if path == '/' else 'text/javascript' if path.endswith('.js') else 'text/css'
                     return self.respond((STATIC/filename).read_bytes(), content_type=mime+'; charset=utf-8')
                 if path == '/api/config':
                     settings = load_settings()
                     return self.respond({'token': token, 'model': settings.get('MODEL_NAME'),
-                        'capabilities': {'resume': True, 'delete': True, 'permanent_delete': True},
+                        'capabilities': {'resume': True, 'delete': True, 'permanent_delete': True,
+                                         'deep_research': find_spec('FlagEmbedding') is not None},
                         'device': settings.get('RERANKER_DEVICE'), 's2_configured': bool(settings.get('S2_API_KEY')),
                         'llm_configured': bool(configured_key(settings))})
+                if path == '/api/literature':
+                    from clinkrag.library import load_library
+                    return self.respond({'example_question':EXAMPLE, 'count':len(load_library())})
                 if path == '/api/settings':
                     return self.respond(settings_store.view())
                 if path == '/api/runs':
@@ -343,9 +349,26 @@ def make_handler(jobs, token, settings_store=None):
                 if origin and origin != 'http://' + self.headers['Host']:
                     raise PermissionError('不接受其他网站的请求。')
                 size = int(self.headers.get('Content-Length', '0'))
-                if not 0 <= size <= 20000:
+                route = urlsplit(self.path)
+                if route.path == '/api/literature/pdf':
+                    if not 1 <= size <= 10*1024*1024:
+                        raise BadRequest('请选择 10 MB 以内的 PDF 文件。')
+                    params = parse_qs(route.query)
+                    first = int(params.get('first', ['1'])[0])
+                    last = int(params['last'][0]) if 'last' in params else None
+                    return self.respond(read_pdf(self.rfile.read(size), first, last))
+                limit = 2_000_000 if self.path == '/api/literature/search' else 400_000 if self.path == '/api/literature/brief' else 20000
+                if not 0 <= size <= limit:
                     raise BadRequest('请求过大。')
                 data = json.loads(self.rfile.read(size) or b'{}')
+                if self.path == '/api/literature/search':
+                    return self.respond(literature_search(data))
+                if self.path == '/api/literature/brief':
+                    from debug_ui.brief import make_brief
+                    return self.respond(make_brief(data, settings_store.loader()))
+                if self.path == '/api/literature/terms':
+                    from debug_ui.brief import suggest_terms
+                    return self.respond(suggest_terms(data, settings_store.loader()))
                 if self.path == '/api/models':
                     if not isinstance(data, dict) or type(data.get('refresh', False)) is not bool:
                         raise BadRequest('无效的模型列表请求。')
@@ -382,6 +405,8 @@ def make_handler(jobs, token, settings_store=None):
                 self.respond({'error': '这项研究不存在或已删除，请刷新历史列表。', 'code': 'run_not_found'}, 404)
             except FileNotFoundError:
                 self.respond({'error': '启动研究所需的本地文件不存在，请检查 Python 环境和 worker.py。', 'code': 'worker_file_missing'}, 500)
+            except ServiceUnavailable as exc:
+                self.respond({'error':str(exc)}, 502)
             except Exception:
                 self.respond({'error': '本地服务无法启动或操作任务，请检查终端。'}, 500)
     return Handler
@@ -391,6 +416,10 @@ def main():
     parser = argparse.ArgumentParser()
     parser.add_argument('--port', type=int, default=8765)
     args = parser.parse_args()
+    if sys.platform == 'win32':
+        from tools.launch import serve
+        serve(args.port, open_browser=False, allow_fallback=False)
+        return
     # Bind before constructing Jobs so a second launch cannot mark active runs interrupted.
     server = ThreadingHTTPServer(('127.0.0.1', args.port), BaseHTTPRequestHandler)
     jobs = Jobs()

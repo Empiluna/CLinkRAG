@@ -1,0 +1,102 @@
+[
+  {
+    "dataset": "scifact",
+    "source": "huggingface",
+    "documents": 5183,
+    "queries": 300,
+    "archive_sha256": "0df026c68820a88501b566b18dc353b3776c24c12896fd031fe67c482e283707",
+    "scores": {
+      "previous_lexical": {
+        "Hit@3": 0.7,
+        "MRR@10": 0.6276,
+        "nDCG@10": 0.6617,
+        "Recall@100": 0.8859,
+        "misses_at_3": 90,
+        "seconds": 2.51
+      },
+      "abstract_search": {
+        "Hit@3": 0.69,
+        "MRR@10": 0.6313,
+        "nDCG@10": 0.665,
+        "Recall@100": 0.8792,
+        "misses_at_3": 93,
+        "seconds": 1.94
+      }
+    }
+  },
+  {
+    "dataset": "nfcorpus",
+    "source": "huggingface",
+    "documents": 3633,
+    "queries": 323,
+    "archive_sha256": "03133fbce6323df73e9845076f3c8402abd4c314794acc9ca41453376b5ee32a",
+    "scores": {
+      "previous_lexical": {
+        "Hit@3": 0.5697,
+        "MRR@10": 0.5151,
+        "nDCG@10": 0.3069,
+        "Recall@100": 0.2369,
+        "misses_at_3": 139,
+        "seconds": 1.4
+      },
+      "abstract_search": {
+        "Hit@3": 0.5789,
+        "MRR@10": 0.5166,
+        "nDCG@10": 0.3088,
+        "Recall@100": 0.2344,
+        "misses_at_3": 136,
+        "seconds": 1.33
+      }
+    }
+  },
+  {
+    "dataset": "arguana",
+    "source": "huggingface",
+    "documents": 8674,
+    "queries": 1406,
+    "archive_sha256": "ab614dec2685da42a0108fe37cad367d1ab527f9d4ac975af5119d344f017923",
+    "scores": {
+      "previous_lexical": {
+        "Hit@3": 0.4061,
+        "MRR@10": 0.3291,
+        "nDCG@10": 0.4115,
+        "Recall@100": 0.909,
+        "misses_at_3": 835,
+        "seconds": 64.47
+      },
+      "abstract_search": {
+        "Hit@3": 0.4175,
+        "MRR@10": 0.3409,
+        "nDCG@10": 0.4252,
+        "Recall@100": 0.9275,
+        "misses_at_3": 819,
+        "seconds": 24.39
+      }
+    }
+  },
+  {
+    "dataset": "fiqa",
+    "source": "huggingface",
+    "documents": 57638,
+    "queries": 648,
+    "archive_sha256": "07168022de1c411cb5b02118a870810f1c70cdaa8e9d63c2a1369780d5db7c12",
+    "scores": {
+      "previous_lexical": {
+        "Hit@3": 0.3287,
+        "MRR@10": 0.2936,
+        "nDCG@10": 0.236,
+        "Recall@100": 0.5094,
+        "misses_at_3": 435,
+        "seconds": 42.22
+      },
+      "abstract_search": {
+        "Hit@3": 0.321,
+        "MRR@10": 0.2937,
+        "nDCG@10": 0.2361,
+        "Recall@100": 0.5158,
+        "misses_at_3": 440,
+        "seconds": 23.25
+      }
+    }
+  }
+]

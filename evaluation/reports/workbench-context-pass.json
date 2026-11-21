@@ -1,0 +1,320 @@
+{
+  "started_utc": "2026-11-21T14:03:34.213692+00:00",
+  "model": "deepseek-flash",
+  "protocol": "One built-in example per field; first registered paper per field, top 3 passages.",
+  "briefs": [
+    {
+      "field": "历史考古",
+      "question": "古埃及王朝的年代有哪些测年依据？",
+      "expected_paper": "10.1371/journal.pone.0314612",
+      "findings": [
+        {
+          "paper_id": "10.1371/journal.pone.0314612",
+          "claim": "对古王国和中王国，研究引入48个高精度放射性碳测年，并结合旧放射性碳数据与王位在位年数的文本记录，在贝叶斯统计框架下分析，表明低年代学不再得到经验支持。",
+          "quote": "We introduce 48 high-precision radiocarbon dates obtained through rare access to museum collections as well as freshly excavated samples. By combining these new results with legacy radiocarbon data and with text records for reign lengths of kings within a Bayesian statistical framework, we show that the Low Chronology is no longer empirically supported for the Old and Middle Kingdoms, and resolve a long-standing historical schism."
+        },
+        {
+          "paper_id": "10.1371/journal.pone.0330702",
+          "claim": "对第17至第18王朝初期博物馆藏品进行放射性碳测年，因物品无法按地层排序而未使用贝叶斯分析，改在放射性碳时间空间内比较。",
+          "quote": "Since the above items cannot be arranged in a stratigraphic sequence, Bayesian analysis could not be used. We adopted an alternative strategy within radiocarbon time space."
+        },
+        {
+          "paper_id": "10.1371/journal.pone.0330702",
+          "claim": "将第17至第18王朝初期物品的未校准年代与锡拉火山喷发的一组稳健未校准放射性碳年代比较，显示两组数据时间特征不同，锡拉喷发早于阿摩斯统治。",
+          "quote": "Comparing our uncalibrated dates of 17th and early 18th Dynasty objects with a robust series of uncalibrated radiocarbon dates for the Minoan Thera eruption, it becomes clear that the two data sets have a different time signature. The Minoan eruption is older than the reign of Nebpehtire Ahmose, the first king of the 18th Dynasty, who reunited Upper and Lower Egypt."
+        },
+        {
+          "paper_id": "10.1371/journal.pone.0330702",
+          "claim": "校准结果支持阿摩斯统治及新王国开端采用低年代学，而此前对辛努塞尔特三世的放射性碳年代支持中王国采用高年代学。",
+          "quote": "Our calibrated results support a low chronology for his reign and the beginning of the New Kingdom. Previous radiocarbon dates of king Senusert III support a high chronology for the Middle Kingdom."
+        }
+      ],
+      "exact": true,
+      "expected_cited": true,
+      "elapsed_seconds": 3.5
+    },
+    {
+      "field": "教育",
+      "question": "间隔学习对中学物理教学有什么影响？",
+      "expected_paper": "10.1371/journal.pone.0321552",
+      "findings": [
+        {
+          "paper_id": "10.1371/journal.pone.0321552",
+          "claim": "在中学物理课中实施间隔学习（SL）能为后续传统教学奠定基础，在延迟后测中SL plus组比其它组高出50%至90%，常使后续学习效率翻倍。",
+          "quote": "However, the SL plus group exhibited additional gains, 50% to 90% greater than the other groups at delayed post-test, following traditional teaching."
+        },
+        {
+          "paper_id": "10.1371/journal.pone.0321552",
+          "claim": "仅接受间隔学习课的学生在延迟后测中没有进一步增益，成绩与对照组持平。",
+          "quote": "SL led to immediate benefits for separate physics students, but the SL only group showed no further gain at delayed post-test, with performance then equal to controls, as in past work."
+        },
+        {
+          "paper_id": "10.1371/journal.pone.0321552",
+          "claim": "间隔学习对单独物理学生产生了即时收益。",
+          "quote": "SL led to immediate benefits for separate physics students"
+        },
+        {
+          "paper_id": "10.1371/journal.pone.0321552",
+          "claim": "在综合科学学生中，SL plus组在延迟后测中的增益比对照组高60%。",
+          "quote": "Among combined science students, the SL plus group showed gains at delayed post-test 60% greater than controls."
+        }
+      ],
+      "exact": true,
+      "expected_cited": true,
+      "elapsed_seconds": 2.5
+    },
+    {
+      "field": "心理学",
+      "question": "心理学重复实验怎样衡量证据强弱？",
+      "expected_paper": "10.1371/journal.pone.0149794",
+      "findings": [
+        {
+          "paper_id": "10.1371/journal.pone.0149794",
+          "claim": "贝叶斯因子可用来表达对假设的比较性证据，也可用于表达对零假设的证据，并用于衡量重复实验中的证据强弱。",
+          "quote": "We compute Bayes factors—a quantity that can be used to express comparative evidence for an hypothesis but also for the null hypothesis—for a large subset (N = 72) of the original papers and their corresponding replication attempts."
+        },
+        {
+          "paper_id": "10.1371/journal.pone.0149794",
+          "claim": "在72项原始研究与重复实验的子集中，多数研究（64%）在原始研究或重复实验中均未对零假设或备择假设提供强证据。",
+          "quote": "The majority of the studies (64%) did not provide strong evidence for either the null or the alternative hypothesis in either the original or the replication, and no replication attempts provided strong evidence in favor of the null."
+        },
+        {
+          "paper_id": "10.1371/journal.pone.0149794",
+          "claim": "证据常常是弱的，即贝叶斯因子小于10。",
+          "quote": "However, the evidence was often weak (i.e., Bayes factor < 10)."
+        },
+        {
+          "paper_id": "10.1371/journal.pone.0149794",
+          "claim": "当原始研究提供强证据而重复实验未提供时，重复实验的样本量小于原始研究；反之，当重复实验提供强证据而原始研究未提供时，重复实验样本量更大。",
+          "quote": "In all cases where the original paper provided strong evidence but the replication did not (15%), the sample size in the replication was smaller than the original. Where the replication provided strong evidence but the original did not (10%), the replication sample size was larger."
+        }
+      ],
+      "exact": true,
+      "expected_cited": true,
+      "elapsed_seconds": 2.7
+    },
+    {
+      "field": "经济学",
+      "question": "卫星夜间灯光能反映地方收入差距吗？",
+      "expected_paper": "10.1371/journal.pone.0319890",
+      "findings": [
+        {
+          "paper_id": "10.1371/journal.pone.0319890",
+          "claim": "夜间灯光数据与收入基尼系数之间存在统计显著关联，尤其在小居民点和农村地区，但这是关联而非因果。",
+          "quote": "Results show statistically significant associations between NTL- and income-derived Gini coefficients, particularly in smaller settlements and rural areas."
+        },
+        {
+          "paper_id": "10.1371/journal.pone.0319890",
+          "claim": "面板模型优于横截面模型，表明夜间灯光数据能捕捉不平等的时间变化，即使同期相关性有限。",
+          "quote": "Panel models outperform cross-sectional models, indicating that NTL data capture temporal changes in inequality even when contemporaneous correlations are modest."
+        },
+        {
+          "paper_id": "10.1371/journal.pone.0319890",
+          "claim": "部分地区的灯光衍生不平等较高而官方估计较低，提示灯光指标能检测未被正式收入统计充分反映的差距。",
+          "quote": "Some regions exhibit elevated NTL-derived inequality despite low official estimates—often where unemployment or informal economic activity is prevalent—suggesting that light-based metrics detect disparities not fully reflected in formal income statistics."
+        },
+        {
+          "paper_id": "10.1371/journal.pone.0319890",
+          "claim": "该研究基于西班牙2015–2020年超8000个市镇，将灯光人均值与官方收入基尼系数比较，支持夜间灯光作为可扩展的不平等监测代理工具。",
+          "quote": "We derive Gini values for over 8,000 municipalities for 2015–2020 and compare them with official income-based Gini coefficients from Spain’s tax administration."
+        }
+      ],
+      "exact": true,
+      "expected_cited": true,
+      "elapsed_seconds": 2.5
+    },
+    {
+      "field": "气候与生态",
+      "question": "早春升温如何影响植物的开花时间？",
+      "expected_paper": "10.1371/journal.pone.0053788",
+      "findings": [
+        {
+          "paper_id": "10.1371/journal.pone.0053788",
+          "claim": "2010年和2012年马萨诸塞州以及2012年威斯康星州创纪录的早春气温，导致美国东部数十种春季开花植物出现了有记录以来最早的开花时间。",
+          "quote": "Our analyses demonstrate that record-breaking spring temperatures in 2010 and 2012 in Massachusetts, USA, and 2012 in Wisconsin, USA, resulted in the earliest flowering times in recorded history for dozens of spring-flowering plants of the eastern United States."
+        },
+        {
+          "paper_id": "10.1371/journal.pone.0053788",
+          "claim": "这些春季开花的显著提前，可由开花与春季气温之间长达161年的历史关系成功预测。",
+          "quote": "These dramatic advances in spring flowering were successfully predicted by historical relationships between flowering and spring temperature spanning up to 161 years of ecological change."
+        },
+        {
+          "paper_id": "10.1371/journal.pone.0053788",
+          "claim": "许多春季开花植物因近期气候变化而开花更早。",
+          "quote": "Dozens of studies have shown that flowering times for many spring-flowering plants have become earlier as a result of recent climate change, but it is uncertain if flowering times will continue to advance as temperatures rise."
+        }
+      ],
+      "exact": true,
+      "expected_cited": true,
+      "elapsed_seconds": 2.3
+    },
+    {
+      "field": "计算与语言",
+      "question": "怎样根据语境判断短文本的情感极性？",
+      "expected_paper": "10.1371/journal.pone.0299490",
+      "findings": [
+        {
+          "paper_id": "10.1371/journal.pone.0299490",
+          "claim": "判断短文本情感极性时，应先从整个语料库推断情感负载词的效价，再用该效价对单个文本打分，从而实现语境敏感的分析。",
+          "quote": "CIDER (Context Informed Dictionary and sEmantic Reasoner), which performs context-sensitive linguistic analysis, where the valence of sentiment-laden terms is inferred from the whole corpus before being used to score the individual texts."
+        },
+        {
+          "paper_id": "10.1371/journal.pone.0299490",
+          "claim": "同一词在不同语境中含义和效价可能差异很大，例如“active”在“active lifestyle”与“active volcano”中意图和效价不同，因此通用情感分析方法会忽略这种语境变化。",
+          "quote": "These perform well on average but miss the variation in meaning that happens across different contexts, for example, the word “active” has a very different intention and valence in the phrase “active lifestyle” versus “active volcano”."
+        },
+        {
+          "paper_id": "10.1371/journal.pone.0299490",
+          "claim": "在关于天气的大量推文集合上，CIDER 优于最先进的通用无监督情感分析技术。",
+          "quote": "demonstrate that it outperforms state-of-the-art generalist unsupervised sentiment analysis techniques on a large collection of tweets about the weather."
+        }
+      ],
+      "exact": true,
+      "expected_cited": true,
+      "elapsed_seconds": 2.6
+    },
+    {
+      "field": "应用数学",
+      "question": "怎样用随机游走给竞技选手排名？",
+      "expected_paper": "10.1371/journal.pone.0113685",
+      "findings": [
+        {
+          "paper_id": "10.1371/journal.pone.0113685",
+          "claim": "提出一种基于随机游走的排名方法，将竞争者表示为节点、比赛表示为带非对称权重的有向边，并用边权重和节点度定义梯度引导随机游走者，以稳态占据率作为节点强弱度量，从而避免度引发的偏差。",
+          "quote": "Here we propose a ranking method based on the random walk on the network representing the competitors as nodes and competitions as directed edges with asymmetric weights. We use the edge weights and node degrees to define the gradient on each edge that guides the random walker towards the weaker (or the stronger) node, which enables us to interpret the steady-state occupancy as the measure of the node's weakness (or strength) that is free of unwarranted degree-induced bias."
+        },
+        {
+          "paper_id": "10.1371/journal.pone.0113685",
+          "claim": "在稀疏网络中，该随机游走排名方法优于包括基线胜负差方法在内的其他方法。",
+          "quote": "We apply our method to two real-world competition networks and explore the issues of ranking stabilization and prediction accuracy, finding that our method outperforms other methods including the baseline win–loss differential method in sparse networks."
+        }
+      ],
+      "exact": true,
+      "expected_cited": true,
+      "elapsed_seconds": 2.4
+    },
+    {
+      "field": "材料科学",
+      "question": "表面钝化能如何改善钙钛矿电池？",
+      "expected_paper": "10.1371/journal.pone.0351439",
+      "findings": [
+        {
+          "paper_id": "10.1371/journal.pone.0351439",
+          "claim": "双阳离子表面钝化层（GuaBr与n-PEABr）用于钙钛矿/空穴传输层界面，实现了1.23 V的开路电压和25.11%的光电转换效率，显著优于单阳离子钝化器件。",
+          "quote": "This dual-cation strategy delivers an open-circuit voltage of 1.23 V and a power conversion efficiency (PCE) of 25.11%, significantly outperforming devices based on single-cation passivation."
+        },
+        {
+          "paper_id": "10.1371/journal.pone.0351439",
+          "claim": "两种阳离子共同诱导形成混合1D/2D钙钛矿结构，使表面比未钝化薄膜更均匀且更疏水。",
+          "quote": "The combined cations induce the formation of a mixed 1D/2D perovskite structure, resulting in a more uniform and hydrophobic surface compared with unpassivated films."
+        },
+        {
+          "paper_id": "10.1371/journal.pone.0351439",
+          "claim": "在环境条件（80%相对湿度）和连续光照浸泡下的稳定性测试显示，器件稳定性明显增强。",
+          "quote": "Moreover, stability tests conducted under ambient conditions (80% relative humidity) and continuous light-soaking reveal markedly enhanced device stability."
+        },
+        {
+          "paper_id": "10.1371/journal.pone.0351439",
+          "claim": "该苯乙基铵钝化方法效率超过25%，优于此前报道的辛基铵钝化所达到的23% PCE。",
+          "quote": "In particular, this approach surpasses the 23% PCE achieved using octylammonium passivation, achieving efficiencies exceeding 25%."
+        }
+      ],
+      "exact": true,
+      "expected_cited": true,
+      "elapsed_seconds": 3.1
+    },
+    {
+      "field": "土木工程",
+      "question": "振动监测怎样定位桥梁损伤？",
+      "expected_paper": "10.1371/journal.pone.0358224",
+      "findings": [
+        {
+          "paper_id": "10.1371/journal.pone.0358224",
+          "claim": "基于振动的结构健康监测通过识别结构动力响应的细微变化来检测损伤。",
+          "quote": "Vibration-based structural health monitoring (SHM) detects damage by identifying subtle changes in a structure’s dynamic response."
+        },
+        {
+          "paper_id": "10.1371/journal.pone.0358224",
+          "claim": "结构损伤通常表现为局限于特定频带的短时局部事件，因此需要同时保留时间和频率信息。",
+          "quote": "structural damage typically manifests as short, localised events confined to specific frequency bands"
+        },
+        {
+          "paper_id": "10.1371/journal.pone.0358224",
+          "claim": "SpectralTCN 使用离散小波变换同时保留时间和频率信息，使网络能够检测损伤诱发异常的时序和频谱位置。",
+          "quote": "Unlike FFT-based approaches, the DWT simultaneously preserves both time and frequency information, enabling the network to detect both the timing and the spectral location of damage-induced anomalies."
+        },
+        {
+          "paper_id": "10.1371/journal.pone.0358224",
+          "claim": "SpectralTCN 在 Z24 桥基准和 My Thuan 斜拉桥有限元数据集上取得最高平均准确率（分别为 92.2% 和 92.1%）。",
+          "quote": "SpectralTCN attains the highest mean accuracy on both benchmarks (92.2% on Z24 and 92.1% on My Thuan)"
+        }
+      ],
+      "exact": true,
+      "expected_cited": true,
+      "elapsed_seconds": 3.1
+    },
+    {
+      "field": "科学传播",
+      "question": "训练对公民科学志愿者发现异常现象有什么影响？",
+      "expected_paper": "10.1371/journal.pone.0361148",
+      "findings": [
+        {
+          "paper_id": "10.1371/journal.pone.0361148",
+          "claim": "训练提高了分类准确率，但可能限制对意外物体或特征的注意。",
+          "quote": "Training enhances classification accuracy in citizen science by directing visual attention toward predefined features, but may constrain attention to unexpected objects or features."
+        },
+        {
+          "paper_id": "10.1371/journal.pone.0361148",
+          "claim": "对现有206项公民科学发现的分析显示，未受训贡献者产生了更广泛的发现类型，包括大多数机会性和偶然性发现。",
+          "quote": "The analysis of existing discoveries showed that untrained contributors produced a broader range of discovery types, including the majority of opportunistic and serendipitous discoveries."
+        },
+        {
+          "paper_id": "10.1371/journal.pone.0361148",
+          "claim": "在主要实验中，明确受训观察者对非诊断性特征的注视次数比未受训观察者少34%。",
+          "quote": "In the primary experimental study, explicitly trained observers showed 34% fewer fixations on non-diagnostic features compared to untrained observers."
+        },
+        {
+          "paper_id": "10.1371/journal.pone.0361148",
+          "claim": "受训观察者通过引用缺失的训练类别特征来描述不熟悉实体，而非报告新属性（分类迁移）。",
+          "quote": "Trained observers described unfamiliar entities by referencing missing trained-category features rather than reporting new attributes."
+        }
+      ],
+      "exact": true,
+      "expected_cited": true,
+      "elapsed_seconds": 3.1
+    }
+  ],
+  "crossref": [
+    {
+      "query": "interleaved mathematics practice",
+      "ok": true,
+      "searched": 15,
+      "dois": [
+        "10.59668/2551.25352",
+        "10.23943/princeton/9780691117133.003.0012",
+        "10.69569/jip.2025.238"
+      ]
+    },
+    {
+      "query": "urban heat island tree canopy",
+      "ok": true,
+      "searched": 15,
+      "dois": [
+        "10.21203/rs.3.rs-6982703/v1",
+        "10.3390/geographies3020019",
+        "10.3390/su13137496"
+      ]
+    },
+    {
+      "query": "bridge vibration damage detection",
+      "ok": true,
+      "searched": 15,
+      "dois": [
+        "10.1051/e3sconf/202340212016",
+        "10.56028/aetr.15.1.1816.2025",
+        "10.1680/jbren.23.00036"
+      ]
+    }
+  ],
+  "completed_domains": 10
+}

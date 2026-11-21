@@ -1,8 +1,19 @@
-from .openai_model import chatgpt
 from .base import LanguageModel
-from .deepseek import DeepSeek
-from .anthropic_model import Claude
 from .settings import load_settings, provider
+
+
+def __getattr__(name):
+    """Import provider SDKs only when a research run needs them."""
+    if name == 'chatgpt':
+        from .openai_model import chatgpt
+        return chatgpt
+    if name == 'DeepSeek':
+        from .deepseek import DeepSeek
+        return DeepSeek
+    if name == 'Claude':
+        from .anthropic_model import Claude
+        return Claude
+    raise AttributeError(name)
 
 MODEL_DICT = {
     "gpt4o": "gpt-4o",
@@ -20,13 +31,17 @@ def get_model(model_name: str, **kwargs) -> LanguageModel:
     settings = load_settings()
     selected = provider(settings, model_name)
     if selected == 'anthropic':
+        from . import Claude
         return Claude(model=model_name, **kwargs)
     if selected == 'qwen':
+        from . import chatgpt
         if not settings.get('QWEN_API_KEY'):
             raise ValueError('请在设置中填写通义千问 / 百炼 API Key。')
         return chatgpt(model=model_name, api_key=settings['QWEN_API_KEY'],
                        base_url=settings.get('QWEN_BASE_URL') or 'https://dashscope.aliyuncs.com/compatible-mode/v1', **kwargs)
     if selected == 'deepseek':
+        from . import DeepSeek
         return DeepSeek(model=model_name, **kwargs)
     else:
+        from . import chatgpt
         return chatgpt(model=model_name, **kwargs)

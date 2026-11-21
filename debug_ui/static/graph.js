@@ -103,8 +103,8 @@
  function mapPaperDetails(n){
   showMapDetail(n.title);
   const focus=el('button','以这篇论文展开关系','secondary');focus.onclick=()=>{mapDialog.close();focusMapPaper(n.id);};mapDetail.append(focus);
-  const url=n.url||(/^[a-f0-9]{40}$/i.test(n.id)?'https://www.semanticscholar.org/paper/'+n.id:null);
-  if(url&&/^https?:\/\//i.test(url)){const a=el('a','打开论文原网页 ↗');a.href=url;a.target='_blank';a.rel='noopener noreferrer';mapDetail.append(a);}
+  const url=researchReader.paperUrl(n);
+  if(url){const a=el('a','打开论文原网页 ↗');a.href=url;a.target='_blank';a.rel='noopener noreferrer';mapDetail.append(a);}
   mapDetail.append(el('h3','本次阅读的原文'));
   const passages=[...new Set((n.passages||[]).map(p=>p.text).filter(Boolean))];
   if(!passages.length)mapDetail.append(el('p','这篇论文暂时只有标题记录。'));
@@ -269,21 +269,21 @@
   };
   finishMotion=()=>frame(start+680);frame(start);
  }
- function welcome(){const box=$('graph-inspector');box.replaceChildren(el('div','READ THE CONNECTIONS','section-kicker'),el('h3','先选一篇论文，再看它与谁相连'),el('p','点击节点查看进入检索的原因和证据原文；点击连线核对共同实体、共现统计或跨篇接续。','graph-description'),el('p','蓝色表示首先找到，紫色表示进一步找到，绿色表示进入回答上下文。双圈表示答案实际使用了该论文的引用编号。','fine'));}
+ function welcome(){const box=$('graph-inspector');box.replaceChildren(el('h3','先选一篇论文，再看它与谁相连'),el('p','点击论文可读原文，点击连线可查看这两篇论文为何相关。','graph-description'),el('p','蓝色表示首先找到，紫色表示进一步找到，绿色表示进入回答上下文。双圈表示答案实际使用了该论文的引用编号。','fine'));}
  function selectNode(id){if(picked&&picked!==id)centerHistory.push({id:picked,page:neighborhoodPage});picked=id;edgePicked=null;mode='local';neighborhoodPage=0;detailOpen=false;draw();const target=[...$('graph-nodes').children].find(g=>g.dataset.paper===id);target?.focus({preventScroll:true});if(matchMedia('(max-width:760px)').matches)$('graph-local-bar').scrollIntoView({block:'start',behavior:motionOff()?'instant':'smooth'});}
  function paperDetail(n){if(!n)return;const box=$('graph-inspector');box.replaceChildren(el('div','PAPER / RETRIEVAL EVIDENCE','section-kicker'),el('h3',n.title));
   const tags=[n.seed?'首先找到':null,n.retrieved?'已选中':null,n.context?'回答证据':null,n.cited?'答案已引用':null].filter(Boolean);box.append(el('p',tags.join(' · ')||'找到的论文','graph-status'));
   if(typeof n.indexed==='boolean')box.append(el('p',n.indexed?'已纳入本次摘要建图':`未纳入建图：${n.exclusion_reason||'尚在筛选中'}`,'fine'));
   if(n.score!=null)box.append(el('p',`相关程度得分：${Number(n.score).toFixed(3)}（不是置信概率）`,'fine'));
-  if(/^[a-f0-9]{40}$/i.test(n.id)){const a=el('a','打开论文 ↗');a.href='https://www.semanticscholar.org/paper/'+n.id;a.target='_blank';a.rel='noopener noreferrer';box.append(a);}
+  const url=researchReader.paperUrl(n);if(url){const a=el('a','打开论文 ↗');a.href=url;a.target='_blank';a.rel='noopener noreferrer';box.append(a);}
   const links=visibleEdges.filter(e=>e.source===n.id||e.target===n.id);box.append(el('h4',`关联论文 · ${links.length} 条当前可见连接`));
   for(const edge of links){const other=data.nodes.find(x=>x.id===(edge.source===n.id?edge.target:edge.source));const b=el('button',`${edge.label} · ${other.title}`,'graph-related');b.onclick=()=>selectEdge(edge);box.append(b);}
   box.append(el('h4',`原始证据 · ${n.passages.length} 个已记录窗口`));
   for(const p of n.passages){const d=el('details'),s=el('summary',p.retrieved?'已选中的片段 · 查看原文与原因':'其他片段 · 查看原文');d.append(s,el('p',p.text||'本次记录未提供原文。','graph-quote'));const reasons=p.reasons||[];
-   for(const r of reasons){const labels=names();let text=r.type==='coverage_seed'?'按维度定位与来源多样性直接召回':r.type==='semantic_seed'?'语义相关性召回':r.type==='shared_entity'?`共同概念：${labels[r.entity]||r.entity}`:r.type==='recorded_retrieval'?'来自已记录检索输出':r.type==='api_candidate'?'API 返回候选，未记录进入后续检索步骤':`${r.type==='co_occurs'?'概念关联':'关系扩展'}：${labels[r.source]||r.source} ↔ ${labels[r.target]||r.target}`;if(r.hop)text+=` · 第 ${r.hop} 跳`;d.append(el('p',text,'fine'));}box.append(d);
+   for(const r of reasons){const labels=names();let text=r.type==='coverage_seed'?'覆盖所选方向，并补充不同论文的资料':r.type==='semantic_seed'?'原文内容与问题相关':r.type==='shared_entity'?`共同概念：${labels[r.entity]||r.entity}`:r.type==='recorded_retrieval'?'来自已记录检索输出':r.type==='api_candidate'?'API 返回候选，未记录进入后续检索步骤':`${r.type==='co_occurs'?'概念关联':'关系扩展'}：${labels[r.source]||r.source} ↔ ${labels[r.target]||r.target}`;if(r.hop)text+=` · 沿关系查找的第 ${r.hop} 轮`;d.append(el('p',text,'fine'));}box.append(d);
   }
  }
- function selectEdge(e){edgePicked=e.id;detailOpen=true;draw();const box=$('graph-inspector'),left=data.nodes.find(n=>n.id===e.source),right=data.nodes.find(n=>n.id===e.target);box.replaceChildren(el('div','RELATION / SOURCE CHECK','section-kicker'),el('h3',e.label));
+ function selectEdge(e){edgePicked=e.id;detailOpen=true;draw();const box=$('graph-inspector'),left=data.nodes.find(n=>n.id===e.source),right=data.nodes.find(n=>n.id===e.target);box.replaceChildren(el('h3',e.label));
   for(const n of [left,right]){const b=el('button',n.title,'graph-related');b.onclick=()=>selectNode(n.id);box.append(b);}
   const notes={shared:'两篇论文的原文中提到了同一概念。',cooccurrence:'两篇论文分别提及语料中经常共同出现的实体。',path:'箭头表示原文关系在候选路径中的接续顺序。',citation:'这条引用方向来自检索服务实际返回的 references / citations 字段。'};box.append(el('p',notes[e.type],'graph-description'));
   if(e.type==='shared')for(const item of e.evidence){box.append(el('h4',item.entity));for(const m of item.mentions)box.append(el('p',`“${m.mention}” · ${m.paper_id===left.id?'第一篇':'第二篇'} · 窗口 ${m.passage_id}`,'graph-quote'));}

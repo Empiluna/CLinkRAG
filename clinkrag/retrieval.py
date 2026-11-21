@@ -49,24 +49,41 @@ def clean_queries(value, maximum=2):
     return result
 
 
+class LexicalIndex:
+    """Build BM25 postings once for all queries on the same set of texts."""
+
+    def __init__(self, documents, tokenizer=terms, k1=1.2, b=0.75):
+        self.tokenizer = tokenizer
+        self.postings = defaultdict(list)
+        lengths = []
+        for index, text in enumerate(documents):
+            counts = Counter(tokenizer(text))
+            lengths.append(sum(counts.values()))
+            for term, count in counts.items():
+                self.postings[term].append((index, count))
+        self.size = len(lengths)
+        average = sum(lengths) / max(1, self.size) or 1
+        self.normalizers = [k1*(1-b+b*length/average) for length in lengths]
+        self.k1 = k1
+
+    def scores_for_terms(self, tokens):
+        scores = [0.0] * self.size
+        for token in sorted(set(tokens)):
+            postings = self.postings.get(token)
+            if not postings:
+                continue
+            matches = len(postings)
+            idf = math.log(1 + (self.size-matches+0.5)/(matches+0.5))
+            for index, count in postings:
+                scores[index] += idf * count*(self.k1+1)/(count+self.normalizers[index])
+        return scores
+
+    def scores(self, query):
+        return self.scores_for_terms(self.tokenizer(query))
+
+
 def lexical_scores(query, documents, k1=1.2, b=0.75):
-    """BM25 over the fetched title+abstract corpus (not a full-library index)."""
-    counts = [Counter(terms(text)) for text in documents]
-    if not counts:
-        return []
-    frequency = Counter(term for row in counts for term in row)
-    lengths = [sum(row.values()) for row in counts]
-    average = sum(lengths) / len(counts) or 1
-    query_terms = set(terms(query))
-    scores = []
-    for row, length in zip(counts, lengths):
-        score = 0.0
-        for term in query_terms & row.keys():
-            idf = math.log(1 + (len(counts)-frequency[term]+0.5)/(frequency[term]+0.5))
-            tf = row[term]
-            score += idf * tf * (k1+1) / (tf + k1*(1-b+b*length/average))
-        scores.append(score)
-    return scores
+    return LexicalIndex(documents, k1=k1, b=b).scores(query)
 
 
 def _ranks(scores):
@@ -89,8 +106,9 @@ def fuse_rankings(question, semantic_ranked, plan, query_dimensions=None):
     documents = [(p.get('title') or '')+'\n'+(p.get('abstract') or '') for p in papers]
     queries = clean_queries([question]+list(plan.get('topic_queries', [])), maximum=3)
     lexical = defaultdict(float)
+    index = LexicalIndex(documents)
     for query in queries:
-        scores = lexical_scores(query, documents)
+        scores = index.scores(query)
         for pid, rank in _ranks({pid: score for pid, score in zip(ids, scores) if score > 0}).items():
             lexical[pid] += 1 / ((60+rank)*len(queries))
     lexical_ranks = _ranks(lexical)
