@@ -1,0 +1,24 @@
+{
+  "question": "哪篇原始论文把有方向的快速角点和经过旋转的二进制描述子结合起来，用于实时图像匹配？原作者怎样比较速度和旋转鲁棒性？",
+  "method": "clinkrag_online",
+  "elapsed_seconds": 40.1,
+  "state": "error",
+  "error_type": "本次找到 18 篇候选论文，其中 9 篇有可用摘要，但筛选后没有合适的回答来源。请在更多设置中调整检索方向，或清空方向后重新研究。",
+  "query_count": 3,
+  "candidate_count": 18,
+  "selected_papers": 0,
+  "cited_source_indices": [],
+  "cited_passages_match_abstract": false,
+  "has_separate_review": false,
+  "answer": "",
+  "expected_doi": "10.1109/iccv.2011.6126544",
+  "target_in_candidates": true,
+  "target_selected": false,
+  "target_cited": false,
+  "selected_titles": [],
+  "queries": [
+    "ORB oriented FAST rotated BRIEF real time image matching",
+    "ORB efficient alternative to SIFT or SURF",
+    "ORB speed rotation invariance comparison SIFT SURF"
+  ]
+}

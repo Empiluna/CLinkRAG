@@ -1,0 +1,332 @@
+{
+  "baseline": "0ec95bd2855784f4e4eb34bd6776a912f7451be6",
+  "source": "clinkrag/data/computing.jsonl",
+  "source_sha256_lf": "1ecc96c6664e0d193d7e50f8982c346855d570d20e789e5062a4304dab173c7a",
+  "protocol": "Row numbers are zero based in the source snapshot. Every question appends the source paper's real complete published abstract to its Chinese request. Anchor papers are all excluded. All 43 listed candidate papers are considered for each of seven queries. An author of the evaluation assigned grades before scoring: 3 directly shares the requested operation, 2 substantively related variant, 1 partially related, 0 no positive evidence under the stated criterion. Only grades 2-3 count as relevant for recall. Other plausible judgments are possible. Compare using the same fixed topical rewrite and actual BGE logits in both versions. No injected service ranks.",
+  "pool": [
+    606,
+    674,
+    881,
+    652,
+    605,
+    603,
+    876,
+    669,
+    681,
+    574,
+    888,
+    722,
+    940,
+    879,
+    724,
+    1045,
+    576,
+    938,
+    773,
+    218,
+    39,
+    91,
+    763,
+    130,
+    210,
+    6,
+    446,
+    423,
+    380,
+    257,
+    396,
+    694,
+    560,
+    598,
+    899,
+    789,
+    803,
+    891,
+    712,
+    510,
+    954,
+    783,
+    997
+  ],
+  "cases": [
+    {
+      "anchor": 903,
+      "label": "区分回归估计误差后校准预测区间",
+      "request": "我在做覆盖率有保证的区间预测。请找出采用类似方法的其他论文，重点是用共形分数校准集合或区间，不要求也使用分位数回归。下面贴的是我已经读过的原文。",
+      "rewrite": "conformal calibration predictive intervals scores coverage",
+      "judgments": [
+        [
+          606,
+          3,
+          "用神经样条和可计算共形分数构造回归预测集合。"
+        ],
+        [
+          674,
+          2,
+          "用 Jackknife+aB 与森林构造含标签的共形集合。"
+        ],
+        [
+          881,
+          2,
+          "扩展共形构造以产生异质数据上的预测集合。"
+        ],
+        [
+          652,
+          2,
+          "用交换性和共形分数构造区间等可校准推断。"
+        ],
+        [
+          605,
+          1,
+          "分析 split conformal 已有集合的尺寸，主要工作是分析。"
+        ],
+        [
+          603,
+          1,
+          "在线校准预测后用于贝叶斯优化。"
+        ]
+      ],
+      "distractors": [
+        [
+          876,
+          "分位数回归结合最优运输，摘要未采用共形校准。"
+        ],
+        [
+          669,
+          "conformal 在这里指几何代数。"
+        ]
+      ]
+    },
+    {
+      "anchor": 710,
+      "label": "联邦客户端压缩模型更新",
+      "request": "我想对照下面这段联邦学习算法。请推荐采用相似方法的其他论文，必须真的压缩客户端和服务器之间传递的学习更新；能改变误差反馈或压缩器设计。",
+      "rewrite": "federated learning compress model updates gradients communication aggregation",
+      "judgments": [
+        [
+          681,
+          3,
+          "用分层量化器压缩通信并聚合客户端数据。"
+        ],
+        [
+          574,
+          3,
+          "分布式梯度更新采用有误差反馈的压缩通信。"
+        ],
+        [
+          888,
+          3,
+          "分布式鲁棒学习实际使用单向或双向压缩与误差反馈。"
+        ]
+      ],
+      "distractors": [
+        [
+          722,
+          "通过 Fisher 信息压缩训练轮数，摘要未说明对发送的更新编码压缩。"
+        ],
+        [
+          940,
+          "研究联邦学习稳定性和泛化。"
+        ],
+        [
+          879,
+          "讨论有侧信息的通用有损编码，摘要未在联邦训练中传输客户端更新。"
+        ]
+      ]
+    },
+    {
+      "anchor": 547,
+      "label": "用梯度驱动的朗之万动力学近似采样",
+      "request": "我正在实现针对难抽样分布的马尔可夫链，希望保留用梯度和随机噪声模拟扩散的做法。有没有用类似算法近似后验采样的其他论文？下面是作为起点的英文摘要。",
+      "rewrite": "Langevin diffusion stochastic gradient approximate posterior sampling",
+      "judgments": [
+        [
+          724,
+          3,
+          "随机梯度朗之万扩散近似后验，分析子采样误差。"
+        ],
+        [
+          1045,
+          3,
+          "用欠阻尼朗之万 Monte Carlo 采样高维后验。"
+        ],
+        [
+          681,
+          1,
+          "压缩聚合可用于朗之万动力学，主要任务为设计通信方案。"
+        ],
+        [
+          576,
+          1,
+          "同为后验 MCMC，但其核心是更新 coreset，内核可任选。"
+        ]
+      ],
+      "distractors": [
+        [
+          938,
+          "利用神经哈密顿流建模并不等于用朗之万扩散采样后验。"
+        ],
+        [
+          773,
+          "主题是后验采样在强化学习中的分析，摘要未指定朗之万模拟。"
+        ]
+      ]
+    },
+    {
+      "anchor": 136,
+      "label": "用样本配对的对比目标学习语言表示",
+      "request": "请找采用类似方法的其他工作。我在意的是为文本表示构造有监督或自动获得的对比样本，让同一含义或标签的表示接近；语言、任务和标签来源都可以不同。下面给了我读过的一篇。",
+      "rewrite": "contrastive learning text representations positive examples lexical supervision sentences",
+      "judgments": [
+        [
+          218,
+          3,
+          "词典提供样本监督，使用对比学习微调语言表示。"
+        ],
+        [
+          39,
+          3,
+          "增强话语样本并用监督式对比学习训练。"
+        ],
+        [
+          91,
+          2,
+          "从标签空间构造事实与反事实对以学习前缀。"
+        ],
+        [
+          763,
+          1,
+          "研究配对表示的对比损失，主要任务是视觉语言损失的理论分析。"
+        ],
+        [
+          130,
+          1,
+          "有对比构造，但核心训练对象是字形图像。"
+        ]
+      ],
+      "distractors": [
+        [
+          210,
+          "同样学习句子表示，但目标是高斯嵌入，标题相近不足以作为强阳性。"
+        ],
+        [
+          6,
+          "句子表示的综述，不提供本问题要找的新训练方法。"
+        ]
+      ]
+    },
+    {
+      "anchor": 378,
+      "label": "用单遍边流逼近图匹配",
+      "request": "我只能读一次按顺序到达的边，无法把整张图存在内存。请推荐采用类似算法的其他论文，要用一次扫描构造近似匹配，超图也可以。我已经看过这项工作。",
+      "rewrite": "one pass streaming graph edges approximate matching limited memory",
+      "judgments": [
+        [
+          446,
+          3,
+          "单遍超图边流，保留候选边或当前匹配并给出近似保证。"
+        ],
+        [
+          423,
+          1,
+          "同为有限空间流式近似，但对象是几何直径。"
+        ]
+      ],
+      "distractors": [
+        [
+          380,
+          "枚举有序完美匹配，摘要没有流式一次扫描。"
+        ],
+        [
+          257,
+          "图匹配的局部性模型并非边流计算。"
+        ],
+        [
+          396,
+          "matching 在题目中指字符串模式匹配。"
+        ]
+      ]
+    },
+    {
+      "anchor": 760,
+      "label": "用树度量加速最优运输",
+      "request": "我需要在许多概率测度之间快速计算运输距离。下面的论文通过树的结构来计算；还有哪些论文用类似方法，把运输或匹配规约到树度量上？",
+      "rewrite": "optimal transport tree metric approximation tree Wasserstein greedy matching",
+      "judgments": [
+        [
+          694,
+          3,
+          "明确证明树度量最优运输与贪心匹配等价，并据此构造近似。"
+        ],
+        [
+          560,
+          1,
+          "图核使用 sliced Wasserstein 距离，主要构造是图节点表示。"
+        ],
+        [
+          598,
+          1,
+          "也是在度量空间计算运输，但采用 Gromov-Wasserstein 加特征对齐。"
+        ]
+      ],
+      "distractors": [
+        [
+          899,
+          "使用熵正则与 Sinkhorn 流，未以树度量化简运输。"
+        ],
+        [
+          789,
+          "基于核的半光滑 Newton 最优运输算法。"
+        ]
+      ]
+    },
+    {
+      "anchor": 709,
+      "label": "用代理模型序贯选择黑箱函数的下一次评估",
+      "request": "我想减少昂贵实验的次数。请找使用相似研究方法的其他论文，例如先建不确定性模型，再根据采集策略逐次选择要试的输入；对约束、风险和目标个数不作限制。我读过的例子如下。",
+      "rewrite": "sequential Bayesian optimization black box surrogate acquisition decision next evaluation",
+      "judgments": [
+        [
+          803,
+          3,
+          "用核或高斯过程模型在安全约束下逐步选择动作。"
+        ],
+        [
+          891,
+          3,
+          "高维 Bayesian optimization 用柱状 Thompson 采样选择评估点。"
+        ],
+        [
+          712,
+          3,
+          "以核 explore-then-commit 顺序优化黑箱风险目标。"
+        ],
+        [
+          603,
+          2,
+          "把在线不确定性校准用于 Bayesian optimization 的序贯决策。"
+        ],
+        [
+          510,
+          2,
+          "将偏好与 Bayesian optimization 的逐轮候选选择结合。"
+        ],
+        [
+          954,
+          1,
+          "用高斯过程限制主动学习探索风险，目标是安全估计。"
+        ]
+      ],
+      "distractors": [
+        [
+          783,
+          "加速 GP 回归，未涉及寻找黑箱函数最优值的评估策略。"
+        ],
+        [
+          997,
+          "研究可扩展 GP 求解，未描述序贯 Bayesian optimization。"
+        ]
+      ]
+    }
+  ]
+}

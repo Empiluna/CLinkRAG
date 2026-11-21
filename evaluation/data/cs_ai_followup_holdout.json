@@ -1,0 +1,163 @@
+{
+  "baseline": "0ec95bd2855784f4e4eb34bd6776a912f7451be6",
+  "scope": "Two independent fixed pools. English LitSearch questions and official positive IDs are read verbatim from the pinned dataset at evaluation time. Chinese rewrites use only the official questions. Conference questions are written using a hash-sampled publication's abstract, with one intended paper per intent; other relevant papers can exist.",
+  "sample_seeds": {
+    "previous_litsearch": "CLinkRAG-litsearch-v1:",
+    "litsearch": "clinkrag-blind-followup-20261122-lit:",
+    "proceedings": "clinkrag-blind-followup-20261122-conf:"
+  },
+  "litsearch": [
+    {
+      "id": "q175",
+      "zh": "哪些研究构造反事实样本来训练问答系统，例如把检索模块接入 T5 再进行训练？"
+    },
+    {
+      "id": "q476",
+      "zh": "我想找一个问答数据集，里面的问题确实来自真实用户对某件事的好奇。哪篇论文专门这样收集问题？"
+    },
+    {
+      "id": "q435",
+      "zh": "有没有一种知识图谱补全方法，可以裁掉一部分特征来降低内存占用？"
+    },
+    {
+      "id": "q554",
+      "zh": "做代码仓库级自动补全时，把检索到的最相关代码片段放得更近或更远，会怎样影响补全效果？哪项研究测过？"
+    },
+    {
+      "id": "q535",
+      "zh": "有没有从最优传输的角度改进自回归语言模型最大似然训练的工作？"
+    },
+    {
+      "id": "q521",
+      "zh": "哪项研究把贝叶斯优化用于由多个模块组成的持续学习系统？"
+    },
+    {
+      "id": "q386",
+      "zh": "有没有专门改变故事叙述风格的文本风格迁移研究？"
+    },
+    {
+      "id": "q201",
+      "zh": "有没有只更新偏置项、冻结其余参数的高效微调方法？"
+    },
+    {
+      "id": "q101",
+      "zh": "我想找把专家模型和反专家模型一起用来引导文本生成，从而减少有毒输出的研究。"
+    },
+    {
+      "id": "q319",
+      "zh": "有哪些工作设计神经网络，把自然语言问题解析成 SQL 查询？"
+    },
+    {
+      "id": "q47",
+      "zh": "哪些研究用语言模型的困惑度识别虚假信息或核查说法的真假？"
+    },
+    {
+      "id": "q349",
+      "zh": "机器翻译有时对读起来通顺却没译对的结果过于自信。哪篇论文分析过这个问题？"
+    },
+    {
+      "id": "q305",
+      "zh": "哪项工作训练用于知识库问答的神经语义解析器，并用树结构表示生成的查询？"
+    },
+    {
+      "id": "q477",
+      "zh": "哪篇论文衡量机器翻译模型利用源文与译文信息的相对程度，用来发现模型自己产生的幻觉？"
+    },
+    {
+      "id": "q87",
+      "zh": "我想了解探查机器学习模型内部已学到哪些信息的实验规范，不把模型再训练去解决另一个任务。有哪些方法指南？"
+    },
+    {
+      "id": "q271",
+      "zh": "哪些研究用记忆网络给任意长度的文档写摘要，从而避免先截断输入？"
+    },
+    {
+      "id": "q279",
+      "zh": "除了提示微调，有没有把可学习的向量送进语言模型每一层 Transformer 的方法？"
+    },
+    {
+      "id": "q296",
+      "zh": "为降低 Transformer 普通注意力的内存开销，有没有只让每个查询与部分键值对交互的工作？"
+    },
+    {
+      "id": "q75",
+      "zh": "哪些研究提出，训练和推理时所见输入不同造成的暴露偏差，可能让神经机器翻译出现幻觉？"
+    },
+    {
+      "id": "q20",
+      "zh": "有没有将词移距离推广到句子相似度，突破词袋表示的限制并考虑词序的方法？"
+    }
+  ],
+  "proceedings": [
+    {
+      "target": "https://proceedings.mlr.press/v238/hotti24a.html",
+      "zh": "在黑箱变分推断里，非线性的协方差参数化怎样影响目标函数的平滑性和梯度估计方差？我想比较指数函数和 softplus 的理论界。",
+      "en": "In black-box variational inference, which analysis compares exponential and softplus covariance maps by bounding gradient noise and the smoothness of the objective?"
+    },
+    {
+      "target": "https://proceedings.mlr.press/v238/yang24d.html",
+      "zh": "若多个环境里改变了哪些变量是未知的，能否先恢复分布发生变化的外生噪声，再在结构因果模型中定位干预目标？",
+      "en": "Can we infer which variables were intervened on across environments by recovering changing exogenous noise and matching it to the endogenous variables?"
+    },
+    {
+      "target": "10.4230/lipics.disc.2025.25",
+      "zh": "能否用一个跨计算模型的算法近似求解多类受约束森林问题，把各问题的难点都留给一个子程序？",
+      "en": "Is there a common approximation algorithm across computational models for constrained spanning forests that confines problem-specific work to one subroutine?"
+    },
+    {
+      "target": "10.4230/lipics.disc.2025.29",
+      "zh": "不用比较并交换，能否用寄存器和测试并置位实现无锁、强可线性化的并发多重集合？",
+      "en": "Can registers and test-and-set support a lock-free strongly linearizable bag that removes an unspecified member, without needing compare-and-swap?"
+    },
+    {
+      "target": "10.18653/v1/2024.eacl-long.127",
+      "zh": "多语言模型记住某条事实，是不同语言各自学会的，还是共享或迁移来的？有没有通过神经元和维基百科来源追踪来区分的实验？",
+      "en": "Which study traces factual recall across languages to neurons and Wikipedia evidence to distinguish independently acquired, shared and transferred facts?"
+    },
+    {
+      "target": "10.18653/v1/2024.eacl-long.25",
+      "zh": "我想把口语视频的转录稿自动分章，再为每章起标题。有没有针对无结构转录文本评测这种任务的数据集和分层模型？",
+      "en": "Which benchmark and hierarchical segmentation approach can turn an unstructured video transcript into chapters with useful headings?"
+    },
+    {
+      "target": "10.4230/lipics.ecoop.2025.18",
+      "zh": "静态污点分析在大型代码库里容易误报。有没有利用类型检查和自动推断注解，以模块为单位检查数据流的工作？",
+      "en": "How can a modular type checker track tainted data while reducing spurious reports and inferring annotations for existing code?"
+    },
+    {
+      "target": "10.4230/lipics.ecoop.2025.12",
+      "zh": "怎样在大型 Rocq 项目里自动识别反复证明的目标，即使变量改了名字、证明过程也不同？",
+      "en": "How can repeated proof goals in Rocq projects be detected automatically despite variable renaming or different proofs?"
+    },
+    {
+      "target": "10.4230/lipics.ecrts.2025.1",
+      "zh": "异步 Rust 写的 ROS 2 程序能否满足实时性？哪篇研究分析线程优先级、回调与线程的映射以及端到端响应？",
+      "en": "Which measurements of asynchronous Rust in ROS 2 examine whether callback placement and thread priorities can deliver deterministic real-time responses?"
+    },
+    {
+      "target": "10.4230/lipics.ecrts.2025.10",
+      "zh": "在低功耗广域网上做实时采集时，网关能同时解调的传输有限，收发也不能同时进行。有没有为 LoRa 专门设计的调度算法？",
+      "en": "Is there a real-time schedule for LoRa data collection that accounts for a gateway's limited demodulators and inability to transmit and receive simultaneously?"
+    },
+    {
+      "target": "10.4230/lipics.esa.2025.78",
+      "zh": "在有界度图上，如果每个顶点都有编号，能否只做次线性次数的查询来检验这些编号是否与深度优先搜索相符？",
+      "en": "For a bounded-degree graph with numbered vertices, can sublinear property testing determine whether the numbers are consistent with depth-first search?"
+    },
+    {
+      "target": "10.4230/lipics.esa.2025.71",
+      "zh": "固定图的拓扑，让边权任意变化，求单源最短路怎样做到普适最优？有没有简化 Dijkstra 算法的证明或实现？",
+      "en": "How can Dijkstra's single-source shortest path algorithm achieve universal optimality over edge weight assignments for each fixed graph topology more simply?"
+    },
+    {
+      "target": "10.4230/lipics.icdt.2025.36",
+      "zh": "图查询语言 Cypher 的模式匹配能表达所有正则路径查询吗？有没有形式化证明，能解释 GQL 为什么要扩展它？",
+      "en": "What formal argument shows whether Cypher pattern matching expresses all regular path queries, and motivates the graph pattern features of GQL?"
+    },
+    {
+      "target": "10.4230/lipics.icdt.2025.18",
+      "zh": "怎样形式化描述先为文本中的一个变量提取多个片段，再用这些片段生成新文档的两阶段过程？",
+      "en": "How can a model of text extraction assign several spans to one variable and then transform those extracted tuples into a new document?"
+    }
+  ]
+}

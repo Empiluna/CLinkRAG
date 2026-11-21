@@ -202,16 +202,23 @@ def worker(code_root, output, litsearch):
     result['ranking_source_sha256'] = {
         name:hashlib.sha256((code_root/'clinkrag'/name).read_text(encoding='utf-8').encode()).hexdigest()
         for name in files if (code_root/'clinkrag'/name).exists()}
+    for name in ('cross_language.py','data/technical-names.tsv','data/cedict-glosses.idx'):
+        path = code_root/'clinkrag'/name
+        if path.is_file():
+            data = path.read_bytes() if path.suffix=='.idx' else path.read_text(encoding='utf-8').encode()
+            result['ranking_source_sha256'][name] = hashlib.sha256(data).hexdigest()
     output.write_text(json.dumps(result, ensure_ascii=False), encoding='utf-8')
 
 
 def compare(args):
+    baseline = subprocess.check_output(['git','rev-parse','--verify','--end-of-options',args.baseline+'^{commit}'],
+                                       cwd=ROOT,text=True).strip()
     acquire(args.download)
     if args.litsearch:
         litsearch_audit.acquire(CACHE,args.download)
     with tempfile.TemporaryDirectory(dir=CACHE) as directory:
         temp = Path(directory)
-        archive = subprocess.check_output(['git','archive','--format=zip',BASELINE,'clinkrag'], cwd=ROOT)
+        archive = subprocess.check_output(['git','archive','--format=zip',baseline,'clinkrag'], cwd=ROOT)
         with ZipFile(io.BytesIO(archive)) as frozen:
             frozen.extractall(temp)
         results = {}
@@ -223,7 +230,7 @@ def compare(args):
             subprocess.run(command, check=True)
             results[name] = read(out)
     previous,current = results['previous'],results['current']
-    report = {'baseline_commit':BASELINE,'interface':'clinkrag.library.search_library',
+    report = {'baseline_commit':baseline,'interface':'clinkrag.library.search_library',
               'known_item_source':'DataCite arXiv DOI metadata; English titles and abstracts, no added keywords',
               'known_item_documents':len(arxiv_documents()),'normalized_documents_sha256':checksum(arxiv_documents()),
               'query_sha256':checksum(read(QUESTIONS)), 'source_revision':CSFCUBE_REV,
@@ -262,6 +269,7 @@ def compare(args):
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--download',action='store_true')
+    parser.add_argument('--baseline',default=BASELINE,help='Compare the working tree to this Git revision.')
     parser.add_argument('--litsearch',action='store_true',help='Also evaluate a fixed LitSearch slice; requires pyarrow.')
     parser.add_argument('--worker',type=Path,help=argparse.SUPPRESS)
     parser.add_argument('--output',type=Path)

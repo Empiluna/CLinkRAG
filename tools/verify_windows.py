@@ -143,6 +143,12 @@ def validate(package, *, with_research, online):
                         assert paper['quote']==original['text'][paper['start']:paper['end']]
                         assert paper['url'] in cs['markdown'] and paper['container'] in cs['ris']
                     print(f"Verified computing collection ({cs['total']} papers), source offsets and conference exports.")
+                    # Check a cross-language known item through the packaged HTTP service.
+                    probe = json.loads((root/'evaluation/data/cs_ai_followup_holdout.json').read_text('utf-8'))['proceedings'][1]
+                    hit = search('computing',probe['zh'],limit=1)['items'][0]
+                    assert hit['paper_id']==probe['target']
+                    assert collection[hit['paper_id']]['text'][hit['start']:hit['end']]==hit['quote']
+                    print('Verified Chinese method description retrieves the intended English paper at rank one.')
                     personal = '手稿甲写于六月。手稿乙另于九月补记，同时注明秋粮的来源。'
                     own = search('personal', '手稿乙何时补记秋粮', papers=[{'title':'自带文本', 'text':personal}])
                     excerpt = own['items'][0]

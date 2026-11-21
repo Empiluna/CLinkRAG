@@ -71,6 +71,54 @@ class LibraryTechniqueTests(unittest.TestCase):
         for query in ['神经网络','图神经网络']:
             self.assertEqual(LibraryIndex([row]).search(query),search_library(query,[row]))
 
+    def test_translated_compound_requires_adjacent_words_and_returns_original_excerpt(self):
+        from clinkrag.cross_language import gloss_matches
+        papers=[{'id':'apart','title':'Matrix alignment','text':'We record the state. Our machine reports translation errors.'},
+                {'id':'together','title':'Machine translation','text':'Overview. Machine-translation quality was tested. More details.'}]
+        index=LibraryIndex(papers)
+        hits=gloss_matches(index.full,{'机器翻译':['machine translation']},index.rows)
+        self.assertEqual(list(hits),[1])
+        item=search_library('机器翻译质量',papers)['items'][0]
+        self.assertEqual(item['paper_id'],'together')
+        self.assertEqual(item['quote'],papers[1]['text'][item['start']:item['end']])
+
+    def test_subject_gloss_and_generic_words_cannot_cross_domains_on_their_own(self):
+        from clinkrag.cross_language import chinese_glosses
+        self.assertIn('docstring',chinese_glosses('如何阅读文档字符串')['文档字符串'])
+        self.assertEqual(chinese_glosses('画像を分類する'),{})
+        papers=[{'id':'systems','title':'A distributed queue','text':'We propose a method using a fixed seed.'},
+                {'id':'other','title':'Efficient scheduling','text':'An algorithm learns in a fixed manner.'}]
+        self.assertEqual(search_library('豇豆通过什么方式固定土壤中的氮',papers)['items'],[])
+
+    def test_catalogue_only_lookup_retains_the_later_results_in_the_abstract(self):
+        source = ('Two chronologies differ on the age of the site. The sample was collected from the tomb. '
+                  'The measurements narrowed the date of accession to a thirty-year interval.')
+        paper={'id':'site','title':'Chronology of a settlement','text':source,'keywords':['古城年代']}
+        for index in (LibraryIndex([paper]),LibraryIndex([paper],features=library_features([paper]))):
+            item=index.search('如何判断古城年代？')['items'][0]
+            self.assertEqual(item['match_basis'],'title_or_keywords')
+            self.assertEqual((item['quote'],item['start'],item['end']),(source,0,len(source)))
+
+    def test_translated_coverage_is_independent_of_phrase_splitting_and_competitors(self):
+        from clinkrag.cross_language import gloss_matches, query_units
+        question='语言模型如何读取文档字符串，语言模型是否适用？'
+        groups={'语言模型':['language model'],'语言':['language'],'模型':['model'],
+                '文档':['document'],'字符串':['string'],'文档字符串':['docstring']}
+        units,total=query_units(question,groups)
+        self.assertEqual(total,4)
+        self.assertEqual(units['语言模型'],units['语言'] | units['模型'])
+        self.assertEqual(units['文档字符串'],units['文档'] | units['字符串'])
+        paper={'id':'original','title':'Software reliability','text':'A language model can read a docstring.'}
+        distractor={'id':'other','title':'Language model','text':'A large language model can predict the next word.'}
+        for papers in ([paper],[paper,distractor]):
+            index=LibraryIndex(papers)
+            evidence=gloss_matches(index.full,groups,index.rows)[0]
+            mask=0
+            for headword in evidence.headwords:
+                mask |= units[headword]
+            self.assertEqual(mask.bit_count(),total)
+            self.assertIn('original',[r['paper_id'] for r in index.search(question)['items']])
+
 
 if __name__=='__main__':
     unittest.main()

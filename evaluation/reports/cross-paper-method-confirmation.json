@@ -1,0 +1,734 @@
+{
+  "baseline_commit": "0ec95bd2855784f4e4eb34bd6776a912f7451be6",
+  "frozen_fixture_sha256_lf": "df8b55d33796d178027698da3f66a3c8629183f88384d90484feface8bc37359",
+  "source_sha256_lf": "1ecc96c6664e0d193d7e50f8982c346855d570d20e789e5062a4304dab173c7a",
+  "candidate_pool": 47,
+  "production_ranker_sha256_lf": "606a0cfe8068b6da2013ba7dd1f87560b7e53a86f01670e0722324a37866af85",
+  "inference": {
+    "model": "BAAI/bge-reranker-v2-m3",
+    "device": "cuda:0",
+    "fp16": true,
+    "batch_size": 4,
+    "max_length": 512,
+    "offline": true,
+    "snapshot": "953dc6f6f85a1b2dbfca4c34a2796e7dde08d41e",
+    "FlagEmbedding": "1.3.5",
+    "transformers": "4.46.3",
+    "torch": "2.8.0+cu128",
+    "gpu": "NVIDIA GeForce RTX 5060"
+  },
+  "model_pairs": 329,
+  "activated": 4,
+  "protocol": "A second independently sealed diagnostic set. Distinct anchor papers, prompts and common candidate pool. A span selects an exact contiguous English passage from the CC BY abstract using Python character offsets. Two bare method passages, two Chinese method requests plus a selected passage, and three Chinese requests plus the full abstract. The intent label for bare passages is for judging only and is never passed as a user instruction. Both variants use one short topical rewrite fixed from each intent. Seven source articles are excluded from the whole pool. Ordinal labels assigned by the project evaluator before running this set: 3 directly shares the mechanism, 2 substantive variant, 1 partial, 0 no relevant method demonstrated. Recall threshold 2. No search-provider ranks.",
+  "scope": "Project-authored sample and judgments, seven tasks. BGE scored the exact user input against actual candidate abstracts. A fixed topical rewrite avoids planner variability. This is a ranking-stage assessment; real web retrieval, model-generated rewrites and user satisfaction are not measured. Sample intervals do not establish broader generalization.",
+  "summary": {
+    "Recall@10": {
+      "before": 0.8571,
+      "after": 0.8571,
+      "metric": "Recall@10",
+      "resampling_units": 7,
+      "paired_percentile_95_interval": [
+        0.0,
+        0.0
+      ]
+    },
+    "nDCG@10": {
+      "before": 0.8546,
+      "after": 0.8583,
+      "metric": "nDCG@10",
+      "resampling_units": 7,
+      "paired_percentile_95_interval": [
+        -0.0138,
+        0.0217
+      ]
+    },
+    "Hit@3": {
+      "before": 1,
+      "after": 1,
+      "metric": "Hit@3",
+      "resampling_units": 7,
+      "paired_percentile_95_interval": [
+        0.0,
+        0.0
+      ]
+    }
+  },
+  "cases": [
+    {
+      "qid": "method-372",
+      "label": "树分解与低宽度算法",
+      "source_title": "Fast Gaussian Elimination for Low Treewidth Matrices",
+      "source_url": "https://doi.org/10.4230/lipics.esa.2025.116",
+      "intent": "",
+      "input_sha256": "4ee333d1c90278bcff724662227d3571bfc85bdffb8809d0dcf7501961434c40",
+      "chars": 578,
+      "input_kind": "bare-excerpt",
+      "source_range": [
+        225,
+        803
+      ],
+      "passage_scorer_called": true,
+      "all_ranks_and_scores_equal_to_baseline": false,
+      "relevant": 4,
+      "before": {
+        "qid": "method-372",
+        "nDCG@10": 0.683249,
+        "Recall@10": 0.5,
+        "Hit@3": 1,
+        "top10": [
+          "10.4230/lipics.esa.2025.105",
+          "https://proceedings.mlr.press/v238/zhang24k.html",
+          "https://proceedings.mlr.press/v238/li24k.html",
+          "10.4230/lipics.esa.2025.60",
+          "10.4230/lipics.esa.2025.3",
+          "10.4230/lipics.ecoop.2025.28",
+          "https://proceedings.mlr.press/v238/verma24a.html",
+          "10.18653/v1/2024.eacl-long.150",
+          "https://proceedings.mlr.press/v238/zakerinia24a.html",
+          "10.4230/lipics.ecoop.2025.32"
+        ],
+        "positive_ranks": {
+          "10.4230/lipics.esa.2025.105": 1,
+          "10.4230/lipics.esa.2025.3": 5,
+          "10.4230/lipics.icdt.2025.28": 20,
+          "10.4230/lipics.icdt.2025.8": 30
+        }
+      },
+      "after": {
+        "qid": "method-372",
+        "nDCG@10": 0.704839,
+        "Recall@10": 0.5,
+        "Hit@3": 1,
+        "top10": [
+          "10.4230/lipics.esa.2025.105",
+          "https://proceedings.mlr.press/v238/li24k.html",
+          "https://proceedings.mlr.press/v238/zhang24k.html",
+          "10.4230/lipics.esa.2025.3",
+          "https://proceedings.mlr.press/v238/verma24a.html",
+          "10.18653/v1/2024.eacl-long.150",
+          "10.4230/lipics.ecoop.2025.28",
+          "https://proceedings.mlr.press/v238/berta24a.html",
+          "https://proceedings.mlr.press/v238/zakerinia24a.html",
+          "10.4230/lipics.esa.2025.60"
+        ],
+        "positive_ranks": {
+          "10.4230/lipics.esa.2025.105": 1,
+          "10.4230/lipics.esa.2025.3": 4,
+          "10.4230/lipics.icdt.2025.28": 20,
+          "10.4230/lipics.icdt.2025.8": 30
+        }
+      }
+    },
+    {
+      "qid": "method-316",
+      "label": "抽象解释求程序不动点",
+      "source_title": "Taming and Dissecting Recursions Through Interprocedural Weak Topological Ordering",
+      "source_url": "https://doi.org/10.4230/lipics.ecoop.2025.34",
+      "intent": "",
+      "input_sha256": "642b0f297528a94b631770324cc222eb5f4d8a5674bba3ac575f35e2db934eae",
+      "chars": 749,
+      "input_kind": "bare-excerpt",
+      "source_range": [
+        1175,
+        1925
+      ],
+      "passage_scorer_called": false,
+      "all_ranks_and_scores_equal_to_baseline": true,
+      "relevant": 3,
+      "before": {
+        "qid": "method-316",
+        "nDCG@10": 0.96129,
+        "Recall@10": 1.0,
+        "Hit@3": 1,
+        "top10": [
+          "10.4230/lipics.ecoop.2025.32",
+          "10.4230/lipics.ecoop.2025.28",
+          "https://proceedings.mlr.press/v238/kerrigan24a.html",
+          "https://proceedings.mlr.press/v238/berta24a.html",
+          "https://proceedings.mlr.press/v238/adachi24b.html",
+          "https://proceedings.mlr.press/v238/li24k.html",
+          "10.4230/lipics.ecoop.2025.22",
+          "10.4230/lipics.esa.2025.105",
+          "https://proceedings.mlr.press/v238/wang24a.html",
+          "10.18653/v1/2024.eacl-long.150"
+        ],
+        "positive_ranks": {
+          "10.4230/lipics.ecoop.2025.32": 1,
+          "10.4230/lipics.ecoop.2025.28": 2,
+          "10.4230/lipics.ecoop.2025.22": 7
+        }
+      },
+      "after": {
+        "qid": "method-316",
+        "nDCG@10": 0.96129,
+        "Recall@10": 1.0,
+        "Hit@3": 1,
+        "top10": [
+          "10.4230/lipics.ecoop.2025.32",
+          "10.4230/lipics.ecoop.2025.28",
+          "https://proceedings.mlr.press/v238/kerrigan24a.html",
+          "https://proceedings.mlr.press/v238/berta24a.html",
+          "https://proceedings.mlr.press/v238/adachi24b.html",
+          "https://proceedings.mlr.press/v238/li24k.html",
+          "10.4230/lipics.ecoop.2025.22",
+          "10.4230/lipics.esa.2025.105",
+          "https://proceedings.mlr.press/v238/wang24a.html",
+          "10.18653/v1/2024.eacl-long.150"
+        ],
+        "positive_ranks": {
+          "10.4230/lipics.ecoop.2025.32": 1,
+          "10.4230/lipics.ecoop.2025.28": 2,
+          "10.4230/lipics.ecoop.2025.22": 7
+        }
+      }
+    },
+    {
+      "qid": "method-750",
+      "label": "条件独立查询识别概率图",
+      "source_title": "Structural perspective on constraint-based learning of Markov networks",
+      "source_url": "https://proceedings.mlr.press/v238/korhonen24a.html",
+      "intent": "我已有一篇通过条件独立性检验学习图结构的文章。请找用类似方法恢复或检验另一种概率图结构的论文。只检验两个变量而不推断图结构的工作也请区分开。",
+      "input_sha256": "95c059b38a68e54b243b111a9ca3724f1d76ff46c57d58c7eb4d52d16a410882",
+      "chars": 983,
+      "input_kind": "request-with-excerpt",
+      "source_range": [
+        0,
+        913
+      ],
+      "passage_scorer_called": false,
+      "all_ranks_and_scores_equal_to_baseline": true,
+      "relevant": 2,
+      "before": {
+        "qid": "method-750",
+        "nDCG@10": 0.902689,
+        "Recall@10": 1.0,
+        "Hit@3": 1,
+        "top10": [
+          "https://proceedings.mlr.press/v238/zhang24k.html",
+          "https://proceedings.mlr.press/v238/kalemaj24a.html",
+          "https://proceedings.mlr.press/v238/ren24a.html",
+          "https://proceedings.mlr.press/v238/wang24i.html",
+          "https://proceedings.mlr.press/v238/dai24a.html",
+          "10.4230/lipics.esa.2025.103",
+          "https://proceedings.mlr.press/v238/faller24a.html",
+          "https://proceedings.mlr.press/v238/choo24a.html",
+          "https://proceedings.mlr.press/v238/adachi24b.html",
+          "https://proceedings.mlr.press/v238/pasteris24a.html"
+        ],
+        "positive_ranks": {
+          "https://proceedings.mlr.press/v238/zhang24k.html": 1,
+          "https://proceedings.mlr.press/v238/wang24i.html": 4
+        }
+      },
+      "after": {
+        "qid": "method-750",
+        "nDCG@10": 0.902689,
+        "Recall@10": 1.0,
+        "Hit@3": 1,
+        "top10": [
+          "https://proceedings.mlr.press/v238/zhang24k.html",
+          "https://proceedings.mlr.press/v238/kalemaj24a.html",
+          "https://proceedings.mlr.press/v238/ren24a.html",
+          "https://proceedings.mlr.press/v238/wang24i.html",
+          "https://proceedings.mlr.press/v238/dai24a.html",
+          "10.4230/lipics.esa.2025.103",
+          "https://proceedings.mlr.press/v238/faller24a.html",
+          "https://proceedings.mlr.press/v238/choo24a.html",
+          "https://proceedings.mlr.press/v238/adachi24b.html",
+          "https://proceedings.mlr.press/v238/pasteris24a.html"
+        ],
+        "positive_ranks": {
+          "https://proceedings.mlr.press/v238/zhang24k.html": 1,
+          "https://proceedings.mlr.press/v238/wang24i.html": 4
+        }
+      }
+    },
+    {
+      "qid": "method-735",
+      "label": "多目标老虎机纯探索",
+      "source_title": "Learning the Pareto Set Under Incomplete Preferences: Pure Exploration in Vector Bandits",
+      "source_url": "https://proceedings.mlr.press/v238/karagozlu24a.html",
+      "intent": "我想找做相似实验设计的其他论文，具体是反复抽取向量奖励、纯探索一组非支配臂。我的方法例子贴在下面；同样谈 Pareto，但不从有噪声的臂取样的工作，和我的任务有区别。",
+      "input_sha256": "8356629677c4d9c4919eafa25d94637980b7f4f993709e73d6a61e5b66972f42",
+      "chars": 859,
+      "input_kind": "request-with-full-abstract",
+      "source_range": [
+        0,
+        775
+      ],
+      "passage_scorer_called": true,
+      "all_ranks_and_scores_equal_to_baseline": false,
+      "relevant": 2,
+      "before": {
+        "qid": "method-735",
+        "nDCG@10": 0.928492,
+        "Recall@10": 1.0,
+        "Hit@3": 1,
+        "top10": [
+          "https://proceedings.mlr.press/v238/kone24a.html",
+          "https://proceedings.mlr.press/v238/nakamura24a.html",
+          "https://proceedings.mlr.press/v238/crepon24a.html",
+          "https://proceedings.mlr.press/v238/mukherjee24a.html",
+          "https://proceedings.mlr.press/v238/xiong24a.html",
+          "https://proceedings.mlr.press/v238/bengs24a.html",
+          "https://proceedings.mlr.press/v238/takemori24a.html",
+          "10.4230/lipics.esa.2025.105",
+          "https://proceedings.mlr.press/v238/ren24a.html",
+          "https://proceedings.mlr.press/v238/li24p.html"
+        ],
+        "positive_ranks": {
+          "https://proceedings.mlr.press/v238/kone24a.html": 1,
+          "https://proceedings.mlr.press/v238/crepon24a.html": 3
+        }
+      },
+      "after": {
+        "qid": "method-735",
+        "nDCG@10": 0.88919,
+        "Recall@10": 1.0,
+        "Hit@3": 1,
+        "top10": [
+          "https://proceedings.mlr.press/v238/kone24a.html",
+          "https://proceedings.mlr.press/v238/nakamura24a.html",
+          "https://proceedings.mlr.press/v238/mukherjee24a.html",
+          "https://proceedings.mlr.press/v238/crepon24a.html",
+          "https://proceedings.mlr.press/v238/xiong24a.html",
+          "https://proceedings.mlr.press/v238/bengs24a.html",
+          "https://proceedings.mlr.press/v238/takemori24a.html",
+          "10.4230/lipics.esa.2025.105",
+          "https://proceedings.mlr.press/v238/li24p.html",
+          "https://proceedings.mlr.press/v238/ren24a.html"
+        ],
+        "positive_ranks": {
+          "https://proceedings.mlr.press/v238/kone24a.html": 1,
+          "https://proceedings.mlr.press/v238/crepon24a.html": 4
+        }
+      }
+    },
+    {
+      "qid": "method-857",
+      "label": "主动学习选择下一批要标注的实例",
+      "source_title": "ALAS: Active Learning for Autoconversion Rates Prediction from Satellite Data",
+      "source_url": "https://proceedings.mlr.press/v238/novitasari24a.html",
+      "intent": "我把大量未标注观测送进候选池，昂贵的模拟器只能给少数样例打标签。哪些研究采用类似方法，用查询规则选择下一批样例训练预测器？实验的应用领域可以不同。",
+      "input_sha256": "18748249a2c60955e9ee32b7767034170872b125aefa04991368a230583425ba",
+      "chars": 1425,
+      "input_kind": "request-with-full-abstract",
+      "source_range": [
+        0,
+        1351
+      ],
+      "passage_scorer_called": false,
+      "all_ranks_and_scores_equal_to_baseline": true,
+      "relevant": 4,
+      "before": {
+        "qid": "method-857",
+        "nDCG@10": 0.647807,
+        "Recall@10": 0.5,
+        "Hit@3": 1,
+        "top10": [
+          "https://proceedings.mlr.press/v238/li24k.html",
+          "10.18653/v1/2024.eacl-short.41",
+          "https://proceedings.mlr.press/v238/adachi24b.html",
+          "https://proceedings.mlr.press/v238/berta24a.html",
+          "https://proceedings.mlr.press/v238/kerrigan24a.html",
+          "https://proceedings.mlr.press/v238/zakerinia24a.html",
+          "https://proceedings.mlr.press/v238/zhang24k.html",
+          "https://proceedings.mlr.press/v238/zhao24d.html",
+          "https://proceedings.mlr.press/v238/wang24a.html",
+          "10.18653/v1/2024.eacl-long.57"
+        ],
+        "positive_ranks": {
+          "https://proceedings.mlr.press/v238/li24k.html": 1,
+          "https://proceedings.mlr.press/v238/adachi24b.html": 3,
+          "https://proceedings.mlr.press/v238/li24p.html": 15,
+          "https://proceedings.mlr.press/v238/bickford-smith24a.html": 20
+        }
+      },
+      "after": {
+        "qid": "method-857",
+        "nDCG@10": 0.647807,
+        "Recall@10": 0.5,
+        "Hit@3": 1,
+        "top10": [
+          "https://proceedings.mlr.press/v238/li24k.html",
+          "10.18653/v1/2024.eacl-short.41",
+          "https://proceedings.mlr.press/v238/adachi24b.html",
+          "https://proceedings.mlr.press/v238/berta24a.html",
+          "https://proceedings.mlr.press/v238/kerrigan24a.html",
+          "https://proceedings.mlr.press/v238/zakerinia24a.html",
+          "https://proceedings.mlr.press/v238/zhang24k.html",
+          "https://proceedings.mlr.press/v238/zhao24d.html",
+          "https://proceedings.mlr.press/v238/wang24a.html",
+          "10.18653/v1/2024.eacl-long.57"
+        ],
+        "positive_ranks": {
+          "https://proceedings.mlr.press/v238/li24k.html": 1,
+          "https://proceedings.mlr.press/v238/adachi24b.html": 3,
+          "https://proceedings.mlr.press/v238/li24p.html": 15,
+          "https://proceedings.mlr.press/v238/bickford-smith24a.html": 20
+        }
+      }
+    },
+    {
+      "qid": "method-651",
+      "label": "由初末分布确定随机桥",
+      "source_title": "Soft-constrained Schrödinger Bridge: a Stochastic Control Approach",
+      "source_url": "https://proceedings.mlr.press/v238/garg24a.html",
+      "intent": "下面是我用的办法。我想寻找使用相似方法的研究，以随机过程把未配对的起始与目标分布连接起来，并按薛定谔桥或它的松弛形式求解。",
+      "input_sha256": "8861568ba5cfa11134886cde467fdc98b3c2f9d9a3cabf9d026c49e779195f03",
+      "chars": 778,
+      "input_kind": "request-with-excerpt",
+      "source_range": [
+        0,
+        717
+      ],
+      "passage_scorer_called": true,
+      "all_ranks_and_scores_equal_to_baseline": false,
+      "relevant": 1,
+      "before": {
+        "qid": "method-651",
+        "nDCG@10": 0.938506,
+        "Recall@10": 1.0,
+        "Hit@3": 1,
+        "top10": [
+          "https://proceedings.mlr.press/v238/tong24a.html",
+          "https://proceedings.mlr.press/v238/verma24a.html",
+          "10.4230/lipics.ecoop.2025.28",
+          "https://proceedings.mlr.press/v238/choo24a.html",
+          "https://proceedings.mlr.press/v238/zhang24k.html",
+          "10.18653/v1/2024.eacl-short.41",
+          "https://proceedings.mlr.press/v238/li24k.html",
+          "https://proceedings.mlr.press/v238/mukherjee24a.html",
+          "10.4230/lipics.ecoop.2025.32",
+          "https://proceedings.mlr.press/v238/wang24i.html"
+        ],
+        "positive_ranks": {
+          "https://proceedings.mlr.press/v238/tong24a.html": 1
+        }
+      },
+      "after": {
+        "qid": "method-651",
+        "nDCG@10": 0.938506,
+        "Recall@10": 1.0,
+        "Hit@3": 1,
+        "top10": [
+          "https://proceedings.mlr.press/v238/tong24a.html",
+          "https://proceedings.mlr.press/v238/verma24a.html",
+          "10.4230/lipics.ecoop.2025.28",
+          "https://proceedings.mlr.press/v238/choo24a.html",
+          "https://proceedings.mlr.press/v238/zhang24k.html",
+          "https://proceedings.mlr.press/v238/kone24a.html",
+          "10.18653/v1/2024.eacl-short.41",
+          "https://proceedings.mlr.press/v238/wang24i.html",
+          "10.4230/lipics.ecoop.2025.32",
+          "10.18653/v1/2024.eacl-short.33"
+        ],
+        "positive_ranks": {
+          "https://proceedings.mlr.press/v238/tong24a.html": 1
+        }
+      }
+    },
+    {
+      "qid": "method-154",
+      "label": "用教师输出蒸馏模型",
+      "source_title": "Generation, Distillation and Evaluation of Motivational Interviewing-Style Reflections with a Foundational Language Model",
+      "source_url": "https://aclanthology.org/2024.eacl-long.75/",
+      "intent": "这段是我手里的示例。我在找使用类似方法的论文，核心是让学生网络模仿已有教师的回答、分数或输出分布；学生可以是语言模型或分类器。",
+      "input_sha256": "96ac1bc81baa1bee1eab38aa1f58336ad0b9e00a5784e4c2d69a29820105ede5",
+      "chars": 1493,
+      "input_kind": "request-with-full-abstract",
+      "source_range": [
+        0,
+        1429
+      ],
+      "passage_scorer_called": true,
+      "all_ranks_and_scores_equal_to_baseline": false,
+      "relevant": 4,
+      "before": {
+        "qid": "method-154",
+        "nDCG@10": 0.920305,
+        "Recall@10": 1.0,
+        "Hit@3": 1,
+        "top10": [
+          "10.18653/v1/2024.eacl-long.57",
+          "https://proceedings.mlr.press/v238/braun24b.html",
+          "10.18653/v1/2024.eacl-long.9",
+          "10.18653/v1/2024.eacl-short.41",
+          "10.18653/v1/2024.eacl-long.150",
+          "https://proceedings.mlr.press/v238/berta24a.html",
+          "10.4230/lipics.ecoop.2025.26",
+          "https://proceedings.mlr.press/v238/zhao24d.html",
+          "10.18653/v1/2024.eacl-short.33",
+          "https://proceedings.mlr.press/v238/verma24a.html"
+        ],
+        "positive_ranks": {
+          "10.18653/v1/2024.eacl-long.57": 1,
+          "https://proceedings.mlr.press/v238/braun24b.html": 2,
+          "10.18653/v1/2024.eacl-short.41": 4,
+          "https://proceedings.mlr.press/v238/zhao24d.html": 8
+        }
+      },
+      "after": {
+        "qid": "method-154",
+        "nDCG@10": 0.963966,
+        "Recall@10": 1.0,
+        "Hit@3": 1,
+        "top10": [
+          "10.18653/v1/2024.eacl-long.57",
+          "https://proceedings.mlr.press/v238/braun24b.html",
+          "10.18653/v1/2024.eacl-short.41",
+          "10.18653/v1/2024.eacl-long.9",
+          "https://proceedings.mlr.press/v238/zhao24d.html",
+          "10.18653/v1/2024.eacl-long.150",
+          "https://proceedings.mlr.press/v238/berta24a.html",
+          "10.4230/lipics.ecoop.2025.26",
+          "https://proceedings.mlr.press/v238/verma24a.html",
+          "10.18653/v1/2024.eacl-short.33"
+        ],
+        "positive_ranks": {
+          "10.18653/v1/2024.eacl-long.57": 1,
+          "https://proceedings.mlr.press/v238/braun24b.html": 2,
+          "10.18653/v1/2024.eacl-short.41": 3,
+          "https://proceedings.mlr.press/v238/zhao24d.html": 5
+        }
+      }
+    }
+  ],
+  "papers": {
+    "10.4230/lipics.esa.2025.3": {
+      "row": 392,
+      "title": "Generalized Graph Packing Problems Parameterized by Treewidth",
+      "url": "https://doi.org/10.4230/lipics.esa.2025.3"
+    },
+    "10.4230/lipics.esa.2025.105": {
+      "row": 360,
+      "title": "Parameterized Algorithms for Computing Pareto Sets",
+      "url": "https://doi.org/10.4230/lipics.esa.2025.105"
+    },
+    "10.4230/lipics.icdt.2025.28": {
+      "row": 489,
+      "title": "Generalized Covers for Conjunctive Queries",
+      "url": "https://doi.org/10.4230/lipics.icdt.2025.28"
+    },
+    "10.4230/lipics.icdt.2025.8": {
+      "row": 503,
+      "title": "Enumeration of Minimal Hitting Sets Parameterized by Treewidth",
+      "url": "https://doi.org/10.4230/lipics.icdt.2025.8"
+    },
+    "https://proceedings.mlr.press/v238/wang24i.html": {
+      "row": 986,
+      "title": "Optimal estimation of Gaussian (poly)trees",
+      "url": "https://proceedings.mlr.press/v238/wang24i.html"
+    },
+    "10.4230/lipics.esa.2025.103": {
+      "row": 358,
+      "title": "On the Satisfiability of Random 3-SAT Formulas with k-Wise Independent Clauses",
+      "url": "https://doi.org/10.4230/lipics.esa.2025.103"
+    },
+    "10.4230/lipics.ecoop.2025.28": {
+      "row": 309,
+      "title": "Reusing Caches and Invariants for Efficient and Sound Incremental Static Analysis",
+      "url": "https://doi.org/10.4230/lipics.ecoop.2025.28"
+    },
+    "10.4230/lipics.ecoop.2025.32": {
+      "row": 314,
+      "title": "Compositional Static Value Analysis for Higher-Order Numerical Programs",
+      "url": "https://doi.org/10.4230/lipics.ecoop.2025.32"
+    },
+    "10.4230/lipics.ecoop.2025.22": {
+      "row": 303,
+      "title": "Quantifying Cache Side-Channel Leakage by Refining Set-Based Abstractions",
+      "url": "https://doi.org/10.4230/lipics.ecoop.2025.22"
+    },
+    "10.4230/lipics.esa.2025.70": {
+      "row": 437,
+      "title": "Improved Parallel Derandomization via Finite Automata with Applications",
+      "url": "https://doi.org/10.4230/lipics.esa.2025.70"
+    },
+    "10.4230/lipics.ecoop.2025.26": {
+      "row": 307,
+      "title": "Lightweight Diagramming for Lightweight Formal Methods: A Grounded Language Design",
+      "url": "https://doi.org/10.4230/lipics.ecoop.2025.26"
+    },
+    "https://proceedings.mlr.press/v238/zhang24k.html": {
+      "row": 1038,
+      "title": "Membership Testing in Markov Equivalence Classes via Independence Queries",
+      "url": "https://proceedings.mlr.press/v238/zhang24k.html"
+    },
+    "https://proceedings.mlr.press/v238/kalemaj24a.html": {
+      "row": 732,
+      "title": "Differentially Private Conditional Independence Testing",
+      "url": "https://proceedings.mlr.press/v238/kalemaj24a.html"
+    },
+    "https://proceedings.mlr.press/v238/ren24a.html": {
+      "row": 896,
+      "title": "Learning Adaptive Kernels for Statistical Independence Tests",
+      "url": "https://proceedings.mlr.press/v238/ren24a.html"
+    },
+    "https://proceedings.mlr.press/v238/choo24a.html": {
+      "row": 579,
+      "title": "Causal Discovery under Off-Target Interventions",
+      "url": "https://proceedings.mlr.press/v238/choo24a.html"
+    },
+    "https://proceedings.mlr.press/v238/faller24a.html": {
+      "row": 630,
+      "title": "Self-Compatibility: Evaluating Causal Discovery without Ground Truth",
+      "url": "https://proceedings.mlr.press/v238/faller24a.html"
+    },
+    "https://proceedings.mlr.press/v238/crepon24a.html": {
+      "row": 586,
+      "title": "Sequential learning of the Pareto front for multi-objective bandits",
+      "url": "https://proceedings.mlr.press/v238/crepon24a.html"
+    },
+    "https://proceedings.mlr.press/v238/kone24a.html": {
+      "row": 748,
+      "title": "Bandit Pareto Set Identification: the Fixed Budget Setting",
+      "url": "https://proceedings.mlr.press/v238/kone24a.html"
+    },
+    "https://proceedings.mlr.press/v238/nakamura24a.html": {
+      "row": 843,
+      "title": "Fixed-Budget Real-Valued Combinatorial Pure Exploration of Multi-Armed Bandit",
+      "url": "https://proceedings.mlr.press/v238/nakamura24a.html"
+    },
+    "https://proceedings.mlr.press/v238/takemori24a.html": {
+      "row": 947,
+      "title": "Model-Based Best Arm Identification for Decreasing Bandits",
+      "url": "https://proceedings.mlr.press/v238/takemori24a.html"
+    },
+    "https://proceedings.mlr.press/v238/bengs24a.html": {
+      "row": 542,
+      "title": "Identifying Copeland Winners in Dueling Bandits with Indifferences",
+      "url": "https://proceedings.mlr.press/v238/bengs24a.html"
+    },
+    "https://proceedings.mlr.press/v238/bickford-smith24a.html": {
+      "row": 545,
+      "title": "Making Better Use of Unlabelled Data in Bayesian Active Learning",
+      "url": "https://proceedings.mlr.press/v238/bickford-smith24a.html"
+    },
+    "https://proceedings.mlr.press/v238/adachi24b.html": {
+      "row": 511,
+      "title": "Adaptive Batch Sizes for Active Learning: A Probabilistic Numerics Approach",
+      "url": "https://proceedings.mlr.press/v238/adachi24b.html"
+    },
+    "https://proceedings.mlr.press/v238/li24k.html": {
+      "row": 779,
+      "title": "Multi-Resolution Active Learning of Fourier Neural Operators",
+      "url": "https://proceedings.mlr.press/v238/li24k.html"
+    },
+    "https://proceedings.mlr.press/v238/li24p.html": {
+      "row": 784,
+      "title": "Efficient Active Learning Halfspaces with Tsybakov Noise: A Non-convex Optimization Approach",
+      "url": "https://proceedings.mlr.press/v238/li24p.html"
+    },
+    "https://proceedings.mlr.press/v238/mukherjee24a.html": {
+      "row": 840,
+      "title": "SPEED: Experimental Design for Policy Evaluation in Linear Heteroscedastic Bandits",
+      "url": "https://proceedings.mlr.press/v238/mukherjee24a.html"
+    },
+    "https://proceedings.mlr.press/v238/tong24a.html": {
+      "row": 959,
+      "title": "Simulation-Free Schrödinger Bridges via Score and Flow Matching",
+      "url": "https://proceedings.mlr.press/v238/tong24a.html"
+    },
+    "https://proceedings.mlr.press/v238/kerrigan24a.html": {
+      "row": 740,
+      "title": "Functional Flow Matching",
+      "url": "https://proceedings.mlr.press/v238/kerrigan24a.html"
+    },
+    "https://proceedings.mlr.press/v238/verma24a.html": {
+      "row": 970,
+      "title": "Variational Gaussian Process Diffusion Processes",
+      "url": "https://proceedings.mlr.press/v238/verma24a.html"
+    },
+    "10.18653/v1/2024.eacl-short.33": {
+      "row": 207,
+      "title": "Flow Matching for Conditional Text Generation in a Few Sampling Steps",
+      "url": "https://aclanthology.org/2024.eacl-short.33/"
+    },
+    "https://proceedings.mlr.press/v238/pasteris24a.html": {
+      "row": 872,
+      "title": "Sum-max Submodular Bandits",
+      "url": "https://proceedings.mlr.press/v238/pasteris24a.html"
+    },
+    "10.18653/v1/2024.eacl-long.57": {
+      "row": 134,
+      "title": "LaMini-LM: A Diverse Herd of Distilled Models from Large-Scale Instructions",
+      "url": "https://aclanthology.org/2024.eacl-long.57/"
+    },
+    "https://proceedings.mlr.press/v238/braun24b.html": {
+      "row": 552,
+      "title": "Deep Classifier Mimicry without Data Access",
+      "url": "https://proceedings.mlr.press/v238/braun24b.html"
+    },
+    "https://proceedings.mlr.press/v238/zhao24d.html": {
+      "row": 1043,
+      "title": "Self-Supervised Quantization-Aware Knowledge Distillation",
+      "url": "https://proceedings.mlr.press/v238/zhao24d.html"
+    },
+    "10.18653/v1/2024.eacl-short.41": {
+      "row": 216,
+      "title": "Pre-Training Methods for Question Reranking",
+      "url": "https://aclanthology.org/2024.eacl-short.41/"
+    },
+    "10.18653/v1/2024.eacl-long.9": {
+      "row": 170,
+      "title": "Parameter-Efficient Conversational Recommender System as a Language Processing Task",
+      "url": "https://aclanthology.org/2024.eacl-long.9/"
+    },
+    "10.18653/v1/2024.eacl-long.150": {
+      "row": 57,
+      "title": "Effective Controllable Bias Mitigation for Classification and Retrieval using Gate Adapters",
+      "url": "https://aclanthology.org/2024.eacl-long.150/"
+    },
+    "https://proceedings.mlr.press/v238/berta24a.html": {
+      "row": 544,
+      "title": "Classifier Calibration with ROC-Regularized Isotonic Regression",
+      "url": "https://proceedings.mlr.press/v238/berta24a.html"
+    },
+    "https://proceedings.mlr.press/v238/gan24a.html": {
+      "row": 647,
+      "title": "Contextual Bandits with Budgeted Information Reveal",
+      "url": "https://proceedings.mlr.press/v238/gan24a.html"
+    },
+    "https://proceedings.mlr.press/v238/guo24b.html": {
+      "row": 666,
+      "title": "Online learning in bandits with predicted context",
+      "url": "https://proceedings.mlr.press/v238/guo24b.html"
+    },
+    "https://proceedings.mlr.press/v238/xiong24a.html": {
+      "row": 1005,
+      "title": "A/B Testing and Best-arm Identification for Linear Bandits with Robustness to Non-stationarity",
+      "url": "https://proceedings.mlr.press/v238/xiong24a.html"
+    },
+    "https://proceedings.mlr.press/v238/rizvi-martel24a.html": {
+      "row": 901,
+      "title": "Simulating weighted automata over sequences and trees with transformers",
+      "url": "https://proceedings.mlr.press/v238/rizvi-martel24a.html"
+    },
+    "10.4230/lipics.esa.2025.60": {
+      "row": 426,
+      "title": "Fast and Memory-Efficient BWT Construction of Repetitive Texts Using Lyndon Grammars",
+      "url": "https://doi.org/10.4230/lipics.esa.2025.60"
+    },
+    "https://proceedings.mlr.press/v238/wang24a.html": {
+      "row": 978,
+      "title": "Oracle-Efficient Pessimism: Offline Policy Optimization In Contextual Bandits",
+      "url": "https://proceedings.mlr.press/v238/wang24a.html"
+    },
+    "https://proceedings.mlr.press/v238/dai24a.html": {
+      "row": 590,
+      "title": "Local Causal Discovery with Linear non-Gaussian Cyclic Models",
+      "url": "https://proceedings.mlr.press/v238/dai24a.html"
+    },
+    "https://proceedings.mlr.press/v238/martin24a.html": {
+      "row": 819,
+      "title": "On the Impact of Overparameterization on the Training of a Shallow Neural Network in High Dimensions",
+      "url": "https://proceedings.mlr.press/v238/martin24a.html"
+    },
+    "https://proceedings.mlr.press/v238/zakerinia24a.html": {
+      "row": 1024,
+      "title": "Communication-Efficient Federated Learning With Data and Client Heterogeneity",
+      "url": "https://proceedings.mlr.press/v238/zakerinia24a.html"
+    }
+  }
+}

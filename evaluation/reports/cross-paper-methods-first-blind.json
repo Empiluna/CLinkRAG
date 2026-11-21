@@ -1,0 +1,670 @@
+{
+  "baseline_commit": "0ec95bd2855784f4e4eb34bd6776a912f7451be6",
+  "frozen_fixture_sha256_lf": "6f066c9a897b395cf66e7bd9b0859b785ee7fd8ef230e9059e9a787c451c02b6",
+  "source_sha256_lf": "1ecc96c6664e0d193d7e50f8982c346855d570d20e789e5062a4304dab173c7a",
+  "candidate_pool": 43,
+  "production_ranker_sha256_lf": "9ff4f39a94b9b3eff53822ee5821beceb65b7a8d8cc292a2395f0323227384d6",
+  "inference": {
+    "model": "BAAI/bge-reranker-v2-m3",
+    "device": "cuda:0",
+    "fp16": true,
+    "batch_size": 4,
+    "max_length": 512,
+    "offline": true,
+    "snapshot": "953dc6f6f85a1b2dbfca4c34a2796e7dde08d41e",
+    "FlagEmbedding": "1.3.5",
+    "transformers": "4.46.3",
+    "torch": "2.8.0+cu128",
+    "gpu": "NVIDIA GeForce RTX 5060"
+  },
+  "model_pairs": 301,
+  "activated": 7,
+  "protocol": "Row numbers are zero based in the source snapshot. Every question appends the source paper's real complete published abstract to its Chinese request. Anchor papers are all excluded. All 43 listed candidate papers are considered for each of seven queries. An author of the evaluation assigned grades before scoring: 3 directly shares the requested operation, 2 substantively related variant, 1 partially related, 0 no positive evidence under the stated criterion. Only grades 2-3 count as relevant for recall. Other plausible judgments are possible. Compare using the same fixed topical rewrite and actual BGE logits in both versions. No injected service ranks.",
+  "scope": "Project-authored sample and judgments, seven tasks. BGE scored each original bilingual request against actual candidate abstracts. A fixed topical rewrite avoids planner variability. This is a ranking-stage assessment; real web retrieval, model-generated rewrites and user satisfaction are not measured. Sample intervals do not establish broader generalization.",
+  "summary": {
+    "Recall@10": {
+      "before": 0.9714,
+      "after": 0.9357,
+      "metric": "Recall@10",
+      "resampling_units": 7,
+      "paired_percentile_95_interval": [
+        -0.1071,
+        0.0
+      ]
+    },
+    "nDCG@10": {
+      "before": 0.8114,
+      "after": 0.7984,
+      "metric": "nDCG@10",
+      "resampling_units": 7,
+      "paired_percentile_95_interval": [
+        -0.0352,
+        0.0014
+      ]
+    },
+    "Hit@3": {
+      "before": 0.8571,
+      "after": 0.8571,
+      "metric": "Hit@3",
+      "resampling_units": 7,
+      "paired_percentile_95_interval": [
+        0.0,
+        0.0
+      ]
+    }
+  },
+  "cases": [
+    {
+      "qid": "method-903",
+      "label": "区分回归估计误差后校准预测区间",
+      "source_title": "Integrating Uncertainty Awareness into Conformalized Quantile Regression",
+      "source_url": "https://proceedings.mlr.press/v238/rossellini24a.html",
+      "intent": "我在做覆盖率有保证的区间预测。请找出采用类似方法的其他论文，重点是用共形分数校准集合或区间，不要求也使用分位数回归。下面贴的是我已经读过的原文。",
+      "input_sha256": "39a5cbd664bfd7525e0fc7bab79f88e16b532b94ea8d14c38761c41d017cfa14",
+      "chars": 1295,
+      "passage_scorer_called": true,
+      "relevant": 4,
+      "before": {
+        "qid": "method-903",
+        "nDCG@10": 0.934464,
+        "Recall@10": 1.0,
+        "Hit@3": 1,
+        "top10": [
+          "https://proceedings.mlr.press/v238/diamant24a.html",
+          "https://proceedings.mlr.press/v238/gazin24a.html",
+          "https://proceedings.mlr.press/v238/pegoraro24a.html",
+          "https://proceedings.mlr.press/v238/dhillon24a.html",
+          "https://proceedings.mlr.press/v238/deshpande24a.html",
+          "https://proceedings.mlr.press/v238/li24o.html",
+          "https://proceedings.mlr.press/v238/plassier24a.html",
+          "https://proceedings.mlr.press/v238/losalka24a.html",
+          "https://proceedings.mlr.press/v238/han24b.html",
+          "10.4230/lipics.esa.2025.33"
+        ],
+        "positive_ranks": {
+          "https://proceedings.mlr.press/v238/diamant24a.html": 1,
+          "https://proceedings.mlr.press/v238/gazin24a.html": 2,
+          "https://proceedings.mlr.press/v238/plassier24a.html": 7,
+          "https://proceedings.mlr.press/v238/han24b.html": 9
+        }
+      },
+      "after": {
+        "qid": "method-903",
+        "nDCG@10": 0.859332,
+        "Recall@10": 0.75,
+        "Hit@3": 1,
+        "top10": [
+          "https://proceedings.mlr.press/v238/diamant24a.html",
+          "https://proceedings.mlr.press/v238/gazin24a.html",
+          "https://proceedings.mlr.press/v238/pegoraro24a.html",
+          "https://proceedings.mlr.press/v238/dhillon24a.html",
+          "https://proceedings.mlr.press/v238/li24o.html",
+          "https://proceedings.mlr.press/v238/deshpande24a.html",
+          "https://proceedings.mlr.press/v238/plassier24a.html",
+          "https://proceedings.mlr.press/v238/rashidi24a.html",
+          "https://proceedings.mlr.press/v238/chen24f.html",
+          "https://proceedings.mlr.press/v238/carpintero-perez24a.html"
+        ],
+        "positive_ranks": {
+          "https://proceedings.mlr.press/v238/diamant24a.html": 1,
+          "https://proceedings.mlr.press/v238/gazin24a.html": 2,
+          "https://proceedings.mlr.press/v238/plassier24a.html": 7,
+          "https://proceedings.mlr.press/v238/han24b.html": 14
+        }
+      }
+    },
+    {
+      "qid": "method-710",
+      "label": "联邦客户端压缩模型更新",
+      "source_title": "Adaptive Compression in Federated Learning via Side Information",
+      "source_url": "https://proceedings.mlr.press/v238/isik24a.html",
+      "intent": "我想对照下面这段联邦学习算法。请推荐采用相似方法的其他论文，必须真的压缩客户端和服务器之间传递的学习更新；能改变误差反馈或压缩器设计。",
+      "input_sha256": "0fc48f9542d2f801087053d79784225b6a906c3a7e7e9d09d14d56e136bfe194",
+      "chars": 1339,
+      "passage_scorer_called": true,
+      "relevant": 3,
+      "before": {
+        "qid": "method-710",
+        "nDCG@10": 0.732829,
+        "Recall@10": 1.0,
+        "Hit@3": 1,
+        "top10": [
+          "https://proceedings.mlr.press/v238/jhunjhunwala24a.html",
+          "https://proceedings.mlr.press/v238/hegazy24a.html",
+          "https://proceedings.mlr.press/v238/chen24d.html",
+          "https://proceedings.mlr.press/v238/rammal24a.html",
+          "https://proceedings.mlr.press/v238/sun24a.html",
+          "https://proceedings.mlr.press/v238/wu24d.html",
+          "https://proceedings.mlr.press/v238/chen24f.html",
+          "10.4230/lipics.esa.2025.79",
+          "10.18653/v1/2024.eacl-long.53",
+          "https://proceedings.mlr.press/v238/gazin24a.html"
+        ],
+        "positive_ranks": {
+          "https://proceedings.mlr.press/v238/hegazy24a.html": 2,
+          "https://proceedings.mlr.press/v238/chen24d.html": 3,
+          "https://proceedings.mlr.press/v238/rammal24a.html": 4
+        }
+      },
+      "after": {
+        "qid": "method-710",
+        "nDCG@10": 0.732829,
+        "Recall@10": 1.0,
+        "Hit@3": 1,
+        "top10": [
+          "https://proceedings.mlr.press/v238/jhunjhunwala24a.html",
+          "https://proceedings.mlr.press/v238/hegazy24a.html",
+          "https://proceedings.mlr.press/v238/chen24d.html",
+          "https://proceedings.mlr.press/v238/rammal24a.html",
+          "https://proceedings.mlr.press/v238/sun24a.html",
+          "10.18653/v1/2024.eacl-long.53",
+          "https://proceedings.mlr.press/v238/wu24d.html",
+          "10.4230/lipics.esa.2025.79",
+          "https://proceedings.mlr.press/v238/chen24f.html",
+          "https://proceedings.mlr.press/v238/reza-karimi24a.html"
+        ],
+        "positive_ranks": {
+          "https://proceedings.mlr.press/v238/hegazy24a.html": 2,
+          "https://proceedings.mlr.press/v238/chen24d.html": 3,
+          "https://proceedings.mlr.press/v238/rammal24a.html": 4
+        }
+      }
+    },
+    {
+      "qid": "method-547",
+      "label": "用梯度驱动的朗之万动力学近似采样",
+      "source_title": "autoMALA: Locally adaptive Metropolis-adjusted Langevin algorithm",
+      "source_url": "https://proceedings.mlr.press/v238/biron-lattes24a.html",
+      "intent": "我正在实现针对难抽样分布的马尔可夫链，希望保留用梯度和随机噪声模拟扩散的做法。有没有用类似算法近似后验采样的其他论文？下面是作为起点的英文摘要。",
+      "input_sha256": "3ee078f2b1f75d24c70480cc89be290bb9eb5b7734806a604a4af88c2a4b6450",
+      "chars": 1178,
+      "passage_scorer_called": true,
+      "relevant": 2,
+      "before": {
+        "qid": "method-547",
+        "nDCG@10": 0.722149,
+        "Recall@10": 1.0,
+        "Hit@3": 1,
+        "top10": [
+          "https://proceedings.mlr.press/v238/chen24f.html",
+          "https://proceedings.mlr.press/v238/jin24a.html",
+          "https://proceedings.mlr.press/v238/zheng24b.html",
+          "https://proceedings.mlr.press/v238/li24e.html",
+          "https://proceedings.mlr.press/v238/wu24d.html",
+          "10.4230/lipics.esa.2025.58",
+          "https://proceedings.mlr.press/v238/reza-karimi24a.html",
+          "https://proceedings.mlr.press/v238/rashidi24a.html",
+          "10.4230/lipics.esa.2025.79",
+          "10.4230/lipics.disc.2025.40"
+        ],
+        "positive_ranks": {
+          "https://proceedings.mlr.press/v238/jin24a.html": 2,
+          "https://proceedings.mlr.press/v238/zheng24b.html": 3
+        }
+      },
+      "after": {
+        "qid": "method-547",
+        "nDCG@10": 0.722149,
+        "Recall@10": 1.0,
+        "Hit@3": 1,
+        "top10": [
+          "https://proceedings.mlr.press/v238/chen24f.html",
+          "https://proceedings.mlr.press/v238/jin24a.html",
+          "https://proceedings.mlr.press/v238/zheng24b.html",
+          "https://proceedings.mlr.press/v238/wu24d.html",
+          "https://proceedings.mlr.press/v238/pegoraro24a.html",
+          "https://proceedings.mlr.press/v238/li24e.html",
+          "https://proceedings.mlr.press/v238/reza-karimi24a.html",
+          "https://proceedings.mlr.press/v238/rashidi24a.html",
+          "https://proceedings.mlr.press/v238/han24b.html",
+          "10.4230/lipics.esa.2025.58"
+        ],
+        "positive_ranks": {
+          "https://proceedings.mlr.press/v238/jin24a.html": 2,
+          "https://proceedings.mlr.press/v238/zheng24b.html": 3
+        }
+      }
+    },
+    {
+      "qid": "method-136",
+      "label": "用样本配对的对比目标学习语言表示",
+      "source_title": "Leveraging Multi-lingual Positive Instances in Contrastive Learning to Improve Sentence Embedding",
+      "source_url": "https://aclanthology.org/2024.eacl-long.59/",
+      "intent": "请找采用类似方法的其他工作。我在意的是为文本表示构造有监督或自动获得的对比样本，让同一含义或标签的表示接近；语言、任务和标签来源都可以不同。下面给了我读过的一篇。",
+      "input_sha256": "df9247c9a93494522f29b463fd0faeb005bbef00e3f76300d9560bf33a6ad790",
+      "chars": 1296,
+      "passage_scorer_called": true,
+      "relevant": 3,
+      "before": {
+        "qid": "method-136",
+        "nDCG@10": 0.460573,
+        "Recall@10": 1.0,
+        "Hit@3": 0,
+        "top10": [
+          "10.18653/v1/2024.eacl-short.36",
+          "10.18653/v1/2024.eacl-long.53",
+          "10.18653/v1/2024.eacl-long.104",
+          "https://proceedings.mlr.press/v238/houry24a.html",
+          "https://proceedings.mlr.press/v238/lee24a.html",
+          "https://proceedings.mlr.press/v238/demetci24a.html",
+          "10.18653/v1/2024.eacl-long.134",
+          "https://proceedings.mlr.press/v238/jhunjhunwala24a.html",
+          "10.18653/v1/2024.eacl-short.5",
+          "10.18653/v1/2024.eacl-long.181"
+        ],
+        "positive_ranks": {
+          "10.18653/v1/2024.eacl-long.134": 7,
+          "10.18653/v1/2024.eacl-short.5": 9,
+          "10.18653/v1/2024.eacl-long.181": 10
+        }
+      },
+      "after": {
+        "qid": "method-136",
+        "nDCG@10": 0.439701,
+        "Recall@10": 1.0,
+        "Hit@3": 0,
+        "top10": [
+          "10.18653/v1/2024.eacl-short.36",
+          "10.18653/v1/2024.eacl-long.104",
+          "10.18653/v1/2024.eacl-long.53",
+          "https://proceedings.mlr.press/v238/houry24a.html",
+          "https://proceedings.mlr.press/v238/demetci24a.html",
+          "https://proceedings.mlr.press/v238/lee24a.html",
+          "https://proceedings.mlr.press/v238/jhunjhunwala24a.html",
+          "10.18653/v1/2024.eacl-long.134",
+          "10.18653/v1/2024.eacl-short.5",
+          "10.18653/v1/2024.eacl-long.181"
+        ],
+        "positive_ranks": {
+          "10.18653/v1/2024.eacl-long.134": 8,
+          "10.18653/v1/2024.eacl-short.5": 9,
+          "10.18653/v1/2024.eacl-long.181": 10
+        }
+      }
+    },
+    {
+      "qid": "method-378",
+      "label": "用单遍边流逼近图匹配",
+      "source_title": "Weighted Matching in a Poly-Streaming Model",
+      "source_url": "https://doi.org/10.4230/lipics.esa.2025.17",
+      "intent": "我只能读一次按顺序到达的边，无法把整张图存在内存。请推荐采用类似算法的其他论文，要用一次扫描构造近似匹配，超图也可以。我已经看过这项工作。",
+      "input_sha256": "2dc9b73e0d0729886cac68a69142c7d3fc1c7e1c0bcbb85397eb9d85d8a13079",
+      "chars": 1649,
+      "passage_scorer_called": true,
+      "relevant": 1,
+      "before": {
+        "qid": "method-378",
+        "nDCG@10": 0.973758,
+        "Recall@10": 1.0,
+        "Hit@3": 1,
+        "top10": [
+          "10.4230/lipics.esa.2025.79",
+          "10.4230/lipics.esa.2025.33",
+          "10.4230/lipics.disc.2025.40",
+          "10.4230/lipics.esa.2025.58",
+          "10.4230/lipics.esa.2025.19",
+          "https://proceedings.mlr.press/v238/losalka24a.html",
+          "https://proceedings.mlr.press/v238/zheng24b.html",
+          "https://proceedings.mlr.press/v238/jhunjhunwala24a.html",
+          "https://proceedings.mlr.press/v238/lee24a.html",
+          "https://proceedings.mlr.press/v238/carpintero-perez24a.html"
+        ],
+        "positive_ranks": {
+          "10.4230/lipics.esa.2025.79": 1
+        }
+      },
+      "after": {
+        "qid": "method-378",
+        "nDCG@10": 0.973758,
+        "Recall@10": 1.0,
+        "Hit@3": 1,
+        "top10": [
+          "10.4230/lipics.esa.2025.79",
+          "10.4230/lipics.esa.2025.33",
+          "10.4230/lipics.disc.2025.40",
+          "10.4230/lipics.esa.2025.58",
+          "https://proceedings.mlr.press/v238/losalka24a.html",
+          "10.4230/lipics.esa.2025.19",
+          "https://proceedings.mlr.press/v238/zheng24b.html",
+          "https://proceedings.mlr.press/v238/jhunjhunwala24a.html",
+          "https://proceedings.mlr.press/v238/lee24a.html",
+          "https://proceedings.mlr.press/v238/wu24d.html"
+        ],
+        "positive_ranks": {
+          "10.4230/lipics.esa.2025.79": 1
+        }
+      }
+    },
+    {
+      "qid": "method-760",
+      "label": "用树度量加速最优运输",
+      "source_title": "Optimal Transport for Measures with Noisy Tree Metric",
+      "source_url": "https://proceedings.mlr.press/v238/le24a.html",
+      "intent": "我需要在许多概率测度之间快速计算运输距离。下面的论文通过树的结构来计算；还有哪些论文用类似方法，把运输或匹配规约到树度量上？",
+      "input_sha256": "1704caf1b2e17d2735a29034653c4fa71dc671441b655278dcdfbc89e90dc8d3",
+      "chars": 1581,
+      "passage_scorer_called": true,
+      "relevant": 1,
+      "before": {
+        "qid": "method-760",
+        "nDCG@10": 0.986084,
+        "Recall@10": 1.0,
+        "Hit@3": 1,
+        "top10": [
+          "https://proceedings.mlr.press/v238/houry24a.html",
+          "https://proceedings.mlr.press/v238/demetci24a.html",
+          "https://proceedings.mlr.press/v238/lin24a.html",
+          "https://proceedings.mlr.press/v238/reza-karimi24a.html",
+          "https://proceedings.mlr.press/v238/carpintero-perez24a.html",
+          "10.4230/lipics.esa.2025.33",
+          "10.4230/lipics.esa.2025.79",
+          "https://proceedings.mlr.press/v238/zheng24b.html",
+          "https://proceedings.mlr.press/v238/wu24d.html",
+          "https://proceedings.mlr.press/v238/jhunjhunwala24a.html"
+        ],
+        "positive_ranks": {
+          "https://proceedings.mlr.press/v238/houry24a.html": 1
+        }
+      },
+      "after": {
+        "qid": "method-760",
+        "nDCG@10": 0.986084,
+        "Recall@10": 1.0,
+        "Hit@3": 1,
+        "top10": [
+          "https://proceedings.mlr.press/v238/houry24a.html",
+          "https://proceedings.mlr.press/v238/demetci24a.html",
+          "https://proceedings.mlr.press/v238/reza-karimi24a.html",
+          "https://proceedings.mlr.press/v238/lin24a.html",
+          "https://proceedings.mlr.press/v238/carpintero-perez24a.html",
+          "10.4230/lipics.esa.2025.79",
+          "https://proceedings.mlr.press/v238/wu24d.html",
+          "10.4230/lipics.esa.2025.33",
+          "https://proceedings.mlr.press/v238/zheng24b.html",
+          "https://proceedings.mlr.press/v238/iwazaki24a.html"
+        ],
+        "positive_ranks": {
+          "https://proceedings.mlr.press/v238/houry24a.html": 1
+        }
+      }
+    },
+    {
+      "qid": "method-709",
+      "label": "用代理模型序贯选择黑箱函数的下一次评估",
+      "source_title": "Bounding Box-based Multi-objective Bayesian Optimization of Risk Measures under Input Uncertainty",
+      "source_url": "https://proceedings.mlr.press/v238/inatsu24a.html",
+      "intent": "我想减少昂贵实验的次数。请找使用相似研究方法的其他论文，例如先建不确定性模型，再根据采集策略逐次选择要试的输入；对约束、风险和目标个数不作限制。我读过的例子如下。",
+      "input_sha256": "a99945b112a2e62cd4e48f370cc7488e73a538d3f664ba825e7f8bcbf6253135",
+      "chars": 1616,
+      "passage_scorer_called": true,
+      "relevant": 5,
+      "before": {
+        "qid": "method-709",
+        "nDCG@10": 0.869746,
+        "Recall@10": 0.8,
+        "Hit@3": 1,
+        "top10": [
+          "https://proceedings.mlr.press/v238/iwazaki24a.html",
+          "https://proceedings.mlr.press/v238/rashidi24a.html",
+          "https://proceedings.mlr.press/v238/chen24f.html",
+          "https://proceedings.mlr.press/v238/deshpande24a.html",
+          "https://proceedings.mlr.press/v238/losalka24a.html",
+          "https://proceedings.mlr.press/v238/chen24d.html",
+          "https://proceedings.mlr.press/v238/reza-karimi24a.html",
+          "https://proceedings.mlr.press/v238/sun24a.html",
+          "https://proceedings.mlr.press/v238/li24e.html",
+          "https://proceedings.mlr.press/v238/wu24d.html"
+        ],
+        "positive_ranks": {
+          "https://proceedings.mlr.press/v238/iwazaki24a.html": 1,
+          "https://proceedings.mlr.press/v238/rashidi24a.html": 2,
+          "https://proceedings.mlr.press/v238/deshpande24a.html": 4,
+          "https://proceedings.mlr.press/v238/losalka24a.html": 5,
+          "https://proceedings.mlr.press/v238/adachi24a.html": 13
+        }
+      },
+      "after": {
+        "qid": "method-709",
+        "nDCG@10": 0.874626,
+        "Recall@10": 0.8,
+        "Hit@3": 1,
+        "top10": [
+          "https://proceedings.mlr.press/v238/iwazaki24a.html",
+          "https://proceedings.mlr.press/v238/rashidi24a.html",
+          "https://proceedings.mlr.press/v238/chen24f.html",
+          "https://proceedings.mlr.press/v238/deshpande24a.html",
+          "https://proceedings.mlr.press/v238/li24e.html",
+          "https://proceedings.mlr.press/v238/losalka24a.html",
+          "https://proceedings.mlr.press/v238/chen24d.html",
+          "https://proceedings.mlr.press/v238/sun24a.html",
+          "https://proceedings.mlr.press/v238/tebbe24a.html",
+          "https://proceedings.mlr.press/v238/wu24d.html"
+        ],
+        "positive_ranks": {
+          "https://proceedings.mlr.press/v238/iwazaki24a.html": 1,
+          "https://proceedings.mlr.press/v238/rashidi24a.html": 2,
+          "https://proceedings.mlr.press/v238/deshpande24a.html": 4,
+          "https://proceedings.mlr.press/v238/losalka24a.html": 6,
+          "https://proceedings.mlr.press/v238/adachi24a.html": 12
+        }
+      }
+    }
+  ],
+  "papers": {
+    "https://proceedings.mlr.press/v238/diamant24a.html": {
+      "row": 606,
+      "title": "Conformalized Deep Splines for Optimal and Efficient Prediction Sets",
+      "url": "https://proceedings.mlr.press/v238/diamant24a.html"
+    },
+    "https://proceedings.mlr.press/v238/han24b.html": {
+      "row": 674,
+      "title": "Conformalized Semi-supervised Random Forest for Classification and Abnormality Detection",
+      "url": "https://proceedings.mlr.press/v238/han24b.html"
+    },
+    "https://proceedings.mlr.press/v238/plassier24a.html": {
+      "row": 881,
+      "title": "Efficient Conformal Prediction under Data Heterogeneity",
+      "url": "https://proceedings.mlr.press/v238/plassier24a.html"
+    },
+    "https://proceedings.mlr.press/v238/gazin24a.html": {
+      "row": 652,
+      "title": "Transductive conformal inference with adaptive scores",
+      "url": "https://proceedings.mlr.press/v238/gazin24a.html"
+    },
+    "https://proceedings.mlr.press/v238/dhillon24a.html": {
+      "row": 605,
+      "title": "On the Expected Size of Conformal Prediction Sets",
+      "url": "https://proceedings.mlr.press/v238/dhillon24a.html"
+    },
+    "https://proceedings.mlr.press/v238/deshpande24a.html": {
+      "row": 603,
+      "title": "Online Calibrated and Conformal Prediction Improves Bayesian Optimization",
+      "url": "https://proceedings.mlr.press/v238/deshpande24a.html"
+    },
+    "https://proceedings.mlr.press/v238/pegoraro24a.html": {
+      "row": 876,
+      "title": "Vector Quantile Regression on Manifolds",
+      "url": "https://proceedings.mlr.press/v238/pegoraro24a.html"
+    },
+    "https://proceedings.mlr.press/v238/haan24a.html": {
+      "row": 669,
+      "title": "Euclidean, Projective, Conformal: Choosing a Geometric Algebra for Equivariant Transformers",
+      "url": "https://proceedings.mlr.press/v238/haan24a.html"
+    },
+    "https://proceedings.mlr.press/v238/hegazy24a.html": {
+      "row": 681,
+      "title": "Compression with Exact Error Distribution for Federated Learning",
+      "url": "https://proceedings.mlr.press/v238/hegazy24a.html"
+    },
+    "https://proceedings.mlr.press/v238/chen24d.html": {
+      "row": 574,
+      "title": "Escaping Saddle Points in Heterogeneous Federated Learning via Distributed SGD with Communication Compression",
+      "url": "https://proceedings.mlr.press/v238/chen24d.html"
+    },
+    "https://proceedings.mlr.press/v238/rammal24a.html": {
+      "row": 888,
+      "title": "Communication Compression for Byzantine Robust Learning: New Efficient Algorithms and Improved Rates",
+      "url": "https://proceedings.mlr.press/v238/rammal24a.html"
+    },
+    "https://proceedings.mlr.press/v238/jhunjhunwala24a.html": {
+      "row": 722,
+      "title": "FedFisher: Leveraging Fisher Information for One-Shot Federated Learning",
+      "url": "https://proceedings.mlr.press/v238/jhunjhunwala24a.html"
+    },
+    "https://proceedings.mlr.press/v238/sun24a.html": {
+      "row": 940,
+      "title": "Understanding Generalization of Federated Learning via Stability: Heterogeneity Matters",
+      "url": "https://proceedings.mlr.press/v238/sun24a.html"
+    },
+    "https://proceedings.mlr.press/v238/phan24a.html": {
+      "row": 879,
+      "title": "Importance Matching Lemma for Lossy Compression with Side Information",
+      "url": "https://proceedings.mlr.press/v238/phan24a.html"
+    },
+    "https://proceedings.mlr.press/v238/jin24a.html": {
+      "row": 724,
+      "title": "Subsampling Error in Stochastic Gradient Langevin Diffusions",
+      "url": "https://proceedings.mlr.press/v238/jin24a.html"
+    },
+    "https://proceedings.mlr.press/v238/zheng24b.html": {
+      "row": 1045,
+      "title": "Accelerating Approximate Thompson Sampling with Underdamped Langevin Monte Carlo",
+      "url": "https://proceedings.mlr.press/v238/zheng24b.html"
+    },
+    "https://proceedings.mlr.press/v238/chen24f.html": {
+      "row": 576,
+      "title": "Coreset Markov chain Monte Carlo",
+      "url": "https://proceedings.mlr.press/v238/chen24f.html"
+    },
+    "https://proceedings.mlr.press/v238/souveton24a.html": {
+      "row": 938,
+      "title": "Fixed-kinetic Neural Hamiltonian Flows for enhanced interpretability and reduced complexity",
+      "url": "https://proceedings.mlr.press/v238/souveton24a.html"
+    },
+    "https://proceedings.mlr.press/v238/li24e.html": {
+      "row": 773,
+      "title": "Prior-dependent analysis of posterior sampling reinforcement learning with function approximation",
+      "url": "https://proceedings.mlr.press/v238/li24e.html"
+    },
+    "10.18653/v1/2024.eacl-short.5": {
+      "row": 218,
+      "title": "Injecting Wiktionary to improve token-level contextual representations using contrastive learning",
+      "url": "https://aclanthology.org/2024.eacl-short.5/"
+    },
+    "10.18653/v1/2024.eacl-long.134": {
+      "row": 39,
+      "title": "Improving Contrastive Learning in Emotion Recognition in Conversation via Data Augmentation and Decoupled Neutral Emotion",
+      "url": "https://aclanthology.org/2024.eacl-long.134/"
+    },
+    "10.18653/v1/2024.eacl-long.181": {
+      "row": 91,
+      "title": "CCPrefix: Counterfactual Contrastive Prefix-Tuning for Many-Class Classification",
+      "url": "https://aclanthology.org/2024.eacl-long.181/"
+    },
+    "https://proceedings.mlr.press/v238/lee24a.html": {
+      "row": 763,
+      "title": "Analysis of Using Sigmoid Loss for Contrastive Learning",
+      "url": "https://proceedings.mlr.press/v238/lee24a.html"
+    },
+    "10.18653/v1/2024.eacl-long.53": {
+      "row": 130,
+      "title": "VOLTAGE: A Versatile Contrastive Learning based OCR Methodology for ultra low-resource scripts through Auto Glyph Feature Extraction",
+      "url": "https://aclanthology.org/2024.eacl-long.53/"
+    },
+    "10.18653/v1/2024.eacl-short.36": {
+      "row": 210,
+      "title": "Sentence Representations via Gaussian Embedding",
+      "url": "https://aclanthology.org/2024.eacl-short.36/"
+    },
+    "10.18653/v1/2024.eacl-long.104": {
+      "row": 6,
+      "title": "A Comprehensive Survey of Sentence Representations: From the BERT Epoch to the CHATGPT Era and Beyond",
+      "url": "https://aclanthology.org/2024.eacl-long.104/"
+    },
+    "10.4230/lipics.esa.2025.79": {
+      "row": 446,
+      "title": "Semi-Streaming Algorithms for Hypergraph Matching",
+      "url": "https://doi.org/10.4230/lipics.esa.2025.79"
+    },
+    "10.4230/lipics.esa.2025.58": {
+      "row": 423,
+      "title": "Streaming Diameter of High-Dimensional Points",
+      "url": "https://doi.org/10.4230/lipics.esa.2025.58"
+    },
+    "10.4230/lipics.esa.2025.19": {
+      "row": 380,
+      "title": "On Finding 𝓁-Th Smallest Perfect Matchings",
+      "url": "https://doi.org/10.4230/lipics.esa.2025.19"
+    },
+    "10.4230/lipics.disc.2025.40": {
+      "row": 257,
+      "title": "On the Randomized Locality of Matching Problems in Regular Graphs",
+      "url": "https://doi.org/10.4230/lipics.disc.2025.40"
+    },
+    "10.4230/lipics.esa.2025.33": {
+      "row": 396,
+      "title": "Better Indexing for Rectangular Pattern Matching",
+      "url": "https://doi.org/10.4230/lipics.esa.2025.33"
+    },
+    "https://proceedings.mlr.press/v238/houry24a.html": {
+      "row": 694,
+      "title": "Fast 1-Wasserstein distance approximations using greedy strategies",
+      "url": "https://proceedings.mlr.press/v238/houry24a.html"
+    },
+    "https://proceedings.mlr.press/v238/carpintero-perez24a.html": {
+      "row": 560,
+      "title": "Gaussian process regression with Sliced Wasserstein Weisfeiler-Lehman graph kernels",
+      "url": "https://proceedings.mlr.press/v238/carpintero-perez24a.html"
+    },
+    "https://proceedings.mlr.press/v238/demetci24a.html": {
+      "row": 598,
+      "title": "Breaking isometric ties and introducing priors in Gromov-Wasserstein distances",
+      "url": "https://proceedings.mlr.press/v238/demetci24a.html"
+    },
+    "https://proceedings.mlr.press/v238/reza-karimi24a.html": {
+      "row": 899,
+      "title": "Sinkhorn Flow as Mirror Flow: A Continuous-Time Framework for Generalizing the Sinkhorn Algorithm",
+      "url": "https://proceedings.mlr.press/v238/reza-karimi24a.html"
+    },
+    "https://proceedings.mlr.press/v238/lin24a.html": {
+      "row": 789,
+      "title": "A Specialized Semismooth Newton Method for Kernel-Based Optimal Transport",
+      "url": "https://proceedings.mlr.press/v238/lin24a.html"
+    },
+    "https://proceedings.mlr.press/v238/losalka24a.html": {
+      "row": 803,
+      "title": "No-Regret Algorithms for Safe Bayesian Optimization with Monotonicity Constraints",
+      "url": "https://proceedings.mlr.press/v238/losalka24a.html"
+    },
+    "https://proceedings.mlr.press/v238/rashidi24a.html": {
+      "row": 891,
+      "title": "Cylindrical Thompson Sampling for High-Dimensional Bayesian Optimization",
+      "url": "https://proceedings.mlr.press/v238/rashidi24a.html"
+    },
+    "https://proceedings.mlr.press/v238/iwazaki24a.html": {
+      "row": 712,
+      "title": "Risk Seeking Bayesian Optimization under Uncertainty for Obtaining Extremum",
+      "url": "https://proceedings.mlr.press/v238/iwazaki24a.html"
+    },
+    "https://proceedings.mlr.press/v238/adachi24a.html": {
+      "row": 510,
+      "title": "Looping in the Human: Collaborative and Explainable Bayesian Optimization",
+      "url": "https://proceedings.mlr.press/v238/adachi24a.html"
+    },
+    "https://proceedings.mlr.press/v238/tebbe24a.html": {
+      "row": 954,
+      "title": "Efficiently Computable Safety Bounds for Gaussian Processes in Active Learning",
+      "url": "https://proceedings.mlr.press/v238/tebbe24a.html"
+    },
+    "https://proceedings.mlr.press/v238/li24o.html": {
+      "row": 783,
+      "title": "Trigonometric Quadrature Fourier Features for Scalable Gaussian Process Regression",
+      "url": "https://proceedings.mlr.press/v238/li24o.html"
+    },
+    "https://proceedings.mlr.press/v238/wu24d.html": {
+      "row": 997,
+      "title": "Large-Scale Gaussian Processes via Alternating Projection",
+      "url": "https://proceedings.mlr.press/v238/wu24d.html"
+    }
+  }
+}

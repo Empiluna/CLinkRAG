@@ -12,6 +12,7 @@ from urllib.parse import urlparse
 from .retrieval import LexicalIndex
 from .paper_ids import paper_references, without_references
 from .technical import concepts, identifiers
+from .cross_language import chinese_glosses, gloss_matches, query_units
 
 _STOP = set(('a an the in on of to as for at with by from or and how what which when can do does is '
              'are was were study paper research result results using related about across tell show '
@@ -254,6 +255,23 @@ class LibraryIndex:
                 boost = max(scores,default=0)+1
                 for i in named_titles:
                     scores[i] += boost
+        translated = {}
+        if not refs and _HAS_CJK.search(question):
+            groups = chinese_glosses(question)
+            if groups:
+                units, unit_count = query_units(question,groups)
+                threshold = max(min(2,unit_count),math.ceil(.4*unit_count))
+                for idx, evidence in gloss_matches(self.full, groups, self.rows).items():
+                    matched = 0
+                    for name in evidence.headwords:
+                        matched |= units[name]
+                    covered = matched.bit_count()
+                    # Broad glosses such as "consensus" on their own cannot
+                    # introduce a new paper for a multi-concept question.
+                    if not scores[idx] and (covered<threshold or (covered<3 and not evidence.in_title)):
+                        continue
+                    scores[idx] += (covered/unit_count)*sum(score for score,_ in evidence.hits)
+                    translated[idx] = [word for _,words in evidence.hits for word in words]
         if refs:
             # A cited DOI in someone else's abstract is not that paper's identity.
             boost = max(scores,default=0) + 1
@@ -269,7 +287,16 @@ class LibraryIndex:
                 continue
             seen.add(row['paper_id'])
             metadata = {k:v for k,v in row.items() if k not in ('text','keywords')}
-            matches.append(deepcopy(metadata) | _excerpt(row,words+sorted(tags),self.sentences(idx,bool(tags))) |
+            excerpt_terms = words + sorted(tags)
+            english_terms = translated.get(idx)
+            if english_terms:
+                # A Chinese catalogue label identifies a paper, not a particular
+                # sentence. A broad gloss (e.g. 年代 → age) must not narrow a
+                # catalogue-only match and hide the results later in its abstract.
+                catalogue_terms = {t for t in key_terms(row['keywords']) if _HAS_CJK.search(t)}
+                if catalogue_terms.isdisjoint(words):
+                    excerpt_terms += english_terms
+            matches.append(deepcopy(metadata) | _excerpt(row,excerpt_terms,self.sentences(idx,bool(tags))) |
                            {'score':round(scores[idx],6)})
             if len(matches) == limit:
                 break

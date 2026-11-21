@@ -1,0 +1,1283 @@
+{
+  "baseline_commit": "0ec95bd2855784f4e4eb34bd6776a912f7451be6",
+  "fixed_corpus_sha256": "91aa2da8162a11f79d0472309b03b73b4b18623274478c8f4f02775712ca62ff",
+  "question_sha256": "e76e5fca3eac5d37e582b83a34a9d229746a80e740b3958bb21682c0475f9f49",
+  "protocol": "Git archive and working tree loaded in separate interpreters. Same public search_library on 36 frozen English records. All ranks include the full pool and null means no match. Known original questions and added unrelated diagnostics were used during development, so they are not blind tests.",
+  "all_original_zh_top1": {
+    "previous": 15,
+    "current": 24
+  },
+  "all_original_en_top1": {
+    "previous": 23,
+    "current": 23
+  },
+  "original_misses": [
+    "Q01",
+    "Q04",
+    "Q07",
+    "Q08",
+    "Q10",
+    "Q15",
+    "Q17",
+    "Q19",
+    "Q22"
+  ],
+  "newly_missed": [],
+  "source_offsets_checked": {
+    "previous": 672,
+    "current": 718
+  },
+  "cases": [
+    {
+      "previous": {
+        "id": "Q01",
+        "question": "哪项双向语言模型使用掩码词预测和下一句预测预训练？",
+        "expected_id": "1810.04805",
+        "expected_title": "BERT: Pre-training of Deep Bidirectional Transformers for Language Understanding",
+        "rank": 4,
+        "english_rank": 1,
+        "winner": "RoBERTa: A Robustly Optimized BERT Pretraining Approach",
+        "winner_id": "1907.11692",
+        "winner_score": 3.778628,
+        "expected_score": 2.519085,
+        "results_count": 10,
+        "curated_query_concepts": [
+          "pretraining"
+        ]
+      },
+      "current": {
+        "id": "Q01",
+        "question": "哪项双向语言模型使用掩码词预测和下一句预测预训练？",
+        "expected_id": "1810.04805",
+        "expected_title": "BERT: Pre-training of Deep Bidirectional Transformers for Language Understanding",
+        "rank": 1,
+        "english_rank": 1,
+        "winner": "BERT: Pre-training of Deep Bidirectional Transformers for Language Understanding",
+        "winner_id": "1810.04805",
+        "winner_score": 13.876038,
+        "expected_score": 13.876038,
+        "results_count": 10,
+        "curated_query_concepts": [
+          "pretraining"
+        ],
+        "target_matched_english_groups": [
+          [
+            "bidirectional"
+          ],
+          [
+            "pre",
+            "training"
+          ],
+          [
+            "language"
+          ],
+          [
+            "models"
+          ]
+        ]
+      }
+    },
+    {
+      "previous": {
+        "id": "Q02",
+        "question": "哪篇工作系统研究了更大批次和更多预训练数据如何改进掩码语言模型？",
+        "expected_id": "1907.11692",
+        "expected_title": "RoBERTa: A Robustly Optimized BERT Pretraining Approach",
+        "rank": 1,
+        "english_rank": 2,
+        "winner": "RoBERTa: A Robustly Optimized BERT Pretraining Approach",
+        "winner_id": "1907.11692",
+        "winner_score": 3.778628,
+        "expected_score": 3.778628,
+        "results_count": 10,
+        "curated_query_concepts": [
+          "pretraining"
+        ]
+      },
+      "current": {
+        "id": "Q02",
+        "question": "哪篇工作系统研究了更大批次和更多预训练数据如何改进掩码语言模型？",
+        "expected_id": "1907.11692",
+        "expected_title": "RoBERTa: A Robustly Optimized BERT Pretraining Approach",
+        "rank": 1,
+        "english_rank": 2,
+        "winner": "RoBERTa: A Robustly Optimized BERT Pretraining Approach",
+        "winner_id": "1907.11692",
+        "winner_score": 14.119224,
+        "expected_score": 14.119224,
+        "results_count": 21,
+        "curated_query_concepts": [
+          "pretraining"
+        ],
+        "target_matched_english_groups": [
+          [
+            "pretraining"
+          ],
+          [
+            "improvements"
+          ],
+          [
+            "data"
+          ],
+          [
+            "training"
+          ],
+          [
+            "language",
+            "model"
+          ]
+        ]
+      }
+    },
+    {
+      "previous": {
+        "id": "Q03",
+        "question": "只依靠注意力而不用循环网络的机器翻译架构出自哪篇论文？",
+        "expected_id": "1706.03762",
+        "expected_title": "Attention Is All You Need",
+        "rank": 1,
+        "english_rank": 1,
+        "winner": "Attention Is All You Need",
+        "winner_id": "1706.03762",
+        "winner_score": 2.694627,
+        "expected_score": 2.694627,
+        "results_count": 2,
+        "curated_query_concepts": [
+          "machine translation"
+        ]
+      },
+      "current": {
+        "id": "Q03",
+        "question": "只依靠注意力而不用循环网络的机器翻译架构出自哪篇论文？",
+        "expected_id": "1706.03762",
+        "expected_title": "Attention Is All You Need",
+        "rank": 1,
+        "english_rank": 1,
+        "winner": "Attention Is All You Need",
+        "winner_id": "1706.03762",
+        "winner_score": 8.21078,
+        "expected_score": 8.21078,
+        "results_count": 3,
+        "curated_query_concepts": [
+          "machine translation"
+        ],
+        "target_matched_english_groups": [
+          [
+            "attention"
+          ],
+          [
+            "machine",
+            "translation"
+          ],
+          [
+            "networks"
+          ],
+          [
+            "architecture"
+          ]
+        ]
+      }
+    },
+    {
+      "previous": {
+        "id": "Q04",
+        "question": "如何让序列生成模型从外部知识库中检索资料，完成需要知识的任务？",
+        "expected_id": "2005.11401",
+        "expected_title": "Retrieval-Augmented Generation for Knowledge-Intensive NLP Tasks",
+        "rank": null,
+        "english_rank": 1,
+        "winner": null,
+        "winner_id": null,
+        "winner_score": null,
+        "expected_score": 0,
+        "results_count": 0,
+        "curated_query_concepts": []
+      },
+      "current": {
+        "id": "Q04",
+        "question": "如何让序列生成模型从外部知识库中检索资料，完成需要知识的任务？",
+        "expected_id": "2005.11401",
+        "expected_title": "Retrieval-Augmented Generation for Knowledge-Intensive NLP Tasks",
+        "rank": 1,
+        "english_rank": 1,
+        "winner": "Retrieval-Augmented Generation for Knowledge-Intensive NLP Tasks",
+        "winner_id": "2005.11401",
+        "winner_score": 13.947028,
+        "expected_score": 13.947028,
+        "results_count": 7,
+        "curated_query_concepts": [],
+        "target_matched_english_groups": [
+          [
+            "generation"
+          ],
+          [
+            "knowledge"
+          ],
+          [
+            "tasks"
+          ],
+          [
+            "retrieval"
+          ],
+          [
+            "sequence"
+          ],
+          [
+            "models"
+          ]
+        ]
+      }
+    },
+    {
+      "previous": {
+        "id": "Q05",
+        "question": "哪篇论文用双编码器和稠密段落表示做开放域问答？",
+        "expected_id": "2004.04906",
+        "expected_title": "Dense Passage Retrieval for Open-Domain Question Answering",
+        "rank": 1,
+        "english_rank": 1,
+        "winner": "Dense Passage Retrieval for Open-Domain Question Answering",
+        "winner_id": "2004.04906",
+        "winner_score": 6.320522,
+        "expected_score": 6.320522,
+        "results_count": 4,
+        "curated_query_concepts": [
+          "question answering"
+        ]
+      },
+      "current": {
+        "id": "Q05",
+        "question": "哪篇论文用双编码器和稠密段落表示做开放域问答？",
+        "expected_id": "2004.04906",
+        "expected_title": "Dense Passage Retrieval for Open-Domain Question Answering",
+        "rank": 1,
+        "english_rank": 1,
+        "winner": "Dense Passage Retrieval for Open-Domain Question Answering",
+        "winner_id": "2004.04906",
+        "winner_score": 24.836229,
+        "expected_score": 24.836229,
+        "results_count": 5,
+        "curated_query_concepts": [
+          "question answering"
+        ],
+        "target_matched_english_groups": [
+          [
+            "dense"
+          ],
+          [
+            "passage"
+          ],
+          [
+            "open"
+          ],
+          [
+            "encoder"
+          ],
+          [
+            "state"
+          ]
+        ]
+      }
+    },
+    {
+      "previous": {
+        "id": "Q06",
+        "question": "请找出最初提出 ColBERT 让查询和文档词向量延迟交互的方法。",
+        "expected_id": "2004.12832",
+        "expected_title": "ColBERT: Efficient and Effective Passage Search via Contextualized Late Interaction over BERT",
+        "rank": 1,
+        "english_rank": 1,
+        "winner": "ColBERT: Efficient and Effective Passage Search via Contextualized Late Interaction over BERT",
+        "winner_id": "2004.12832",
+        "winner_score": 5.97291,
+        "expected_score": 5.97291,
+        "results_count": 1,
+        "curated_query_concepts": []
+      },
+      "current": {
+        "id": "Q06",
+        "question": "请找出最初提出 ColBERT 让查询和文档词向量延迟交互的方法。",
+        "expected_id": "2004.12832",
+        "expected_title": "ColBERT: Efficient and Effective Passage Search via Contextualized Late Interaction over BERT",
+        "rank": 1,
+        "english_rank": 1,
+        "winner": "ColBERT: Efficient and Effective Passage Search via Contextualized Late Interaction over BERT",
+        "winner_id": "2004.12832",
+        "winner_score": 10.864362,
+        "expected_score": 10.864362,
+        "results_count": 4,
+        "curated_query_concepts": [],
+        "target_matched_english_groups": [
+          [
+            "document"
+          ],
+          [
+            "delaying"
+          ],
+          [
+            "query"
+          ],
+          [
+            "vector"
+          ]
+        ]
+      }
+    },
+    {
+      "previous": {
+        "id": "Q07",
+        "question": "哪篇论文将目标检测建模为集合预测，并用二分图匹配进行端到端训练？",
+        "expected_id": "2005.12872",
+        "expected_title": "End-to-End Object Detection with Transformers",
+        "rank": 3,
+        "english_rank": 1,
+        "winner": "Faster R-CNN: Towards Real-Time Object Detection with Region Proposal Networks",
+        "winner_id": "1506.01497",
+        "winner_score": 5.718509,
+        "expected_score": 5.718509,
+        "results_count": 5,
+        "curated_query_concepts": [
+          "object detection"
+        ]
+      },
+      "current": {
+        "id": "Q07",
+        "question": "哪篇论文将目标检测建模为集合预测，并用二分图匹配进行端到端训练？",
+        "expected_id": "2005.12872",
+        "expected_title": "End-to-End Object Detection with Transformers",
+        "rank": 1,
+        "english_rank": 1,
+        "winner": "End-to-End Object Detection with Transformers",
+        "winner_id": "2005.12872",
+        "winner_score": 26.216496,
+        "expected_score": 26.216496,
+        "results_count": 5,
+        "curated_query_concepts": [
+          "object detection"
+        ],
+        "target_matched_english_groups": [
+          [
+            "object",
+            "detection"
+          ],
+          [
+            "end",
+            "end"
+          ],
+          [
+            "predictions"
+          ],
+          [
+            "set"
+          ],
+          [
+            "matching"
+          ],
+          [
+            "training"
+          ]
+        ]
+      }
+    },
+    {
+      "previous": {
+        "id": "Q08",
+        "question": "哪项实例分割方法在检测框分支旁边并行增加一个像素掩码分支？",
+        "expected_id": "1703.06870",
+        "expected_title": "Mask R-CNN",
+        "rank": null,
+        "english_rank": 1,
+        "winner": null,
+        "winner_id": null,
+        "winner_score": null,
+        "expected_score": 0,
+        "results_count": 0,
+        "curated_query_concepts": []
+      },
+      "current": {
+        "id": "Q08",
+        "question": "哪项实例分割方法在检测框分支旁边并行增加一个像素掩码分支？",
+        "expected_id": "1703.06870",
+        "expected_title": "Mask R-CNN",
+        "rank": 1,
+        "english_rank": 1,
+        "winner": "Mask R-CNN",
+        "winner_id": "1703.06870",
+        "winner_score": 11.080455,
+        "expected_score": 11.080455,
+        "results_count": 1,
+        "curated_query_concepts": [],
+        "target_matched_english_groups": [
+          [
+            "mask"
+          ],
+          [
+            "instance"
+          ],
+          [
+            "branch"
+          ],
+          [
+            "detects"
+          ]
+        ]
+      }
+    },
+    {
+      "previous": {
+        "id": "Q09",
+        "question": "YOLO9000 当年如何通过联合训练，在九千多类对象上执行实时检测？",
+        "expected_id": "1612.08242",
+        "expected_title": "YOLO9000: Better, Faster, Stronger",
+        "rank": 1,
+        "english_rank": 1,
+        "winner": "YOLO9000: Better, Faster, Stronger",
+        "winner_id": "1612.08242",
+        "winner_score": 19.458189,
+        "expected_score": 19.458189,
+        "results_count": 1,
+        "curated_query_concepts": [
+          "yolo9000"
+        ]
+      },
+      "current": {
+        "id": "Q09",
+        "question": "YOLO9000 当年如何通过联合训练，在九千多类对象上执行实时检测？",
+        "expected_id": "1612.08242",
+        "expected_title": "YOLO9000: Better, Faster, Stronger",
+        "rank": 1,
+        "english_rank": 1,
+        "winner": "YOLO9000: Better, Faster, Stronger",
+        "winner_id": "1612.08242",
+        "winner_score": 27.530748,
+        "expected_score": 27.530748,
+        "results_count": 4,
+        "curated_query_concepts": [
+          "yolo9000"
+        ],
+        "target_matched_english_groups": [
+          [
+            "object"
+          ],
+          [
+            "real",
+            "time"
+          ],
+          [
+            "detect"
+          ],
+          [
+            "runs"
+          ],
+          [
+            "training"
+          ]
+        ]
+      }
+    },
+    {
+      "previous": {
+        "id": "Q10",
+        "question": "哪项工作冻结预训练权重并训练低秩矩阵，减少微调参数？",
+        "expected_id": "2106.09685",
+        "expected_title": "LoRA: Low-Rank Adaptation of Large Language Models",
+        "rank": 6,
+        "english_rank": 1,
+        "winner": "QLoRA: Efficient Finetuning of Quantized LLMs",
+        "winner_id": "2305.14314",
+        "winner_score": 6.47689,
+        "expected_score": 2.998658,
+        "results_count": 12,
+        "curated_query_concepts": [
+          "fine tuning",
+          "pretraining"
+        ]
+      },
+      "current": {
+        "id": "Q10",
+        "question": "哪项工作冻结预训练权重并训练低秩矩阵，减少微调参数？",
+        "expected_id": "2106.09685",
+        "expected_title": "LoRA: Low-Rank Adaptation of Large Language Models",
+        "rank": 1,
+        "english_rank": 1,
+        "winner": "LoRA: Low-Rank Adaptation of Large Language Models",
+        "winner_id": "2106.09685",
+        "winner_score": 20.752588,
+        "expected_score": 20.752588,
+        "results_count": 12,
+        "curated_query_concepts": [
+          "fine tuning",
+          "pretraining"
+        ],
+        "target_matched_english_groups": [
+          [
+            "fine",
+            "tuning"
+          ],
+          [
+            "freezes"
+          ],
+          [
+            "matrices"
+          ],
+          [
+            "parameters"
+          ],
+          [
+            "weights"
+          ],
+          [
+            "pre",
+            "training"
+          ],
+          [
+            "reducing"
+          ]
+        ]
+      }
+    },
+    {
+      "previous": {
+        "id": "Q11",
+        "question": "哪篇论文通过四比特量化冻结的大模型，再学习低秩适配器，以节省微调显存？",
+        "expected_id": "2305.14314",
+        "expected_title": "QLoRA: Efficient Finetuning of Quantized LLMs",
+        "rank": 1,
+        "english_rank": 1,
+        "winner": "QLoRA: Efficient Finetuning of Quantized LLMs",
+        "winner_id": "2305.14314",
+        "winner_score": 10.270129,
+        "expected_score": 10.270129,
+        "results_count": 8,
+        "curated_query_concepts": [
+          "fine tuning",
+          "low rank adaptation",
+          "quantization"
+        ]
+      },
+      "current": {
+        "id": "Q11",
+        "question": "哪篇论文通过四比特量化冻结的大模型，再学习低秩适配器，以节省微调显存？",
+        "expected_id": "2305.14314",
+        "expected_title": "QLoRA: Efficient Finetuning of Quantized LLMs",
+        "rank": 1,
+        "english_rank": 1,
+        "winner": "QLoRA: Efficient Finetuning of Quantized LLMs",
+        "winner_id": "2305.14314",
+        "winner_score": 25.802908,
+        "expected_score": 25.802908,
+        "results_count": 8,
+        "curated_query_concepts": [
+          "fine tuning",
+          "low rank adaptation",
+          "quantization"
+        ],
+        "target_matched_english_groups": [
+          [
+            "finetuning"
+          ],
+          [
+            "bit"
+          ],
+          [
+            "quantization"
+          ],
+          [
+            "adapters"
+          ],
+          [
+            "save"
+          ],
+          [
+            "models"
+          ]
+        ]
+      }
+    },
+    {
+      "previous": {
+        "id": "Q12",
+        "question": "第一代 Flash Attention 如何利用分块减少 GPU 的显存读写？",
+        "expected_id": "2205.14135",
+        "expected_title": "FlashAttention: Fast and Memory-Efficient Exact Attention with IO-Awareness",
+        "rank": 1,
+        "english_rank": 1,
+        "winner": "FlashAttention: Fast and Memory-Efficient Exact Attention with IO-Awareness",
+        "winner_id": "2205.14135",
+        "winner_score": 4.345455,
+        "expected_score": 4.345455,
+        "results_count": 14,
+        "curated_query_concepts": []
+      },
+      "current": {
+        "id": "Q12",
+        "question": "第一代 Flash Attention 如何利用分块减少 GPU 的显存读写？",
+        "expected_id": "2205.14135",
+        "expected_title": "FlashAttention: Fast and Memory-Efficient Exact Attention with IO-Awareness",
+        "rank": 1,
+        "english_rank": 1,
+        "winner": "FlashAttention: Fast and Memory-Efficient Exact Attention with IO-Awareness",
+        "winner_id": "2205.14135",
+        "winner_score": 5.697425,
+        "expected_score": 5.697425,
+        "results_count": 14,
+        "curated_query_concepts": [],
+        "target_matched_english_groups": [
+          [
+            "first"
+          ],
+          [
+            "reduce"
+          ]
+        ]
+      }
+    },
+    {
+      "previous": {
+        "id": "Q13",
+        "question": "FlashAttention-2 怎样通过减少非矩阵乘运算并调整工作分配来提高并行度？",
+        "expected_id": "2307.08691",
+        "expected_title": "FlashAttention-2: Faster Attention with Better Parallelism and Work Partitioning",
+        "rank": 1,
+        "english_rank": 1,
+        "winner": "FlashAttention-2: Faster Attention with Better Parallelism and Work Partitioning",
+        "winner_id": "2307.08691",
+        "winner_score": 22.297699,
+        "expected_score": 22.297699,
+        "results_count": 10,
+        "curated_query_concepts": [
+          "flashattention2"
+        ]
+      },
+      "current": {
+        "id": "Q13",
+        "question": "FlashAttention-2 怎样通过减少非矩阵乘运算并调整工作分配来提高并行度？",
+        "expected_id": "2307.08691",
+        "expected_title": "FlashAttention-2: Faster Attention with Better Parallelism and Work Partitioning",
+        "rank": 1,
+        "english_rank": 1,
+        "winner": "FlashAttention-2: Faster Attention with Better Parallelism and Work Partitioning",
+        "winner_id": "2307.08691",
+        "winner_score": 37.085457,
+        "expected_score": 37.085457,
+        "results_count": 12,
+        "curated_query_concepts": [
+          "flashattention2"
+        ],
+        "target_matched_english_groups": [
+          [
+            "partitioning"
+          ],
+          [
+            "parallelism"
+          ],
+          [
+            "increase"
+          ],
+          [
+            "matrix"
+          ],
+          [
+            "operations"
+          ],
+          [
+            "reduce"
+          ]
+        ]
+      }
+    },
+    {
+      "previous": {
+        "id": "Q14",
+        "question": "哪种大语言模型推理服务借用了操作系统分页思想来管理键值缓存？",
+        "expected_id": "2309.06180",
+        "expected_title": "Efficient Memory Management for Large Language Model Serving with PagedAttention",
+        "rank": 1,
+        "english_rank": 1,
+        "winner": "Efficient Memory Management for Large Language Model Serving with PagedAttention",
+        "winner_id": "2309.06180",
+        "winner_score": 8.4228,
+        "expected_score": 8.4228,
+        "results_count": 6,
+        "curated_query_concepts": [
+          "large language model",
+          "operating system"
+        ]
+      },
+      "current": {
+        "id": "Q14",
+        "question": "哪种大语言模型推理服务借用了操作系统分页思想来管理键值缓存？",
+        "expected_id": "2309.06180",
+        "expected_title": "Efficient Memory Management for Large Language Model Serving with PagedAttention",
+        "rank": 1,
+        "english_rank": 1,
+        "winner": "Efficient Memory Management for Large Language Model Serving with PagedAttention",
+        "winner_id": "2309.06180",
+        "winner_score": 27.740888,
+        "expected_score": 27.740888,
+        "results_count": 6,
+        "curated_query_concepts": [
+          "large language model",
+          "operating system"
+        ],
+        "target_matched_english_groups": [
+          [
+            "serving"
+          ],
+          [
+            "cache"
+          ],
+          [
+            "operating",
+            "systems"
+          ],
+          [
+            "management"
+          ],
+          [
+            "language"
+          ],
+          [
+            "models"
+          ]
+        ]
+      }
+    },
+    {
+      "previous": {
+        "id": "Q15",
+        "question": "如何在数据并行训练中消除显存冗余来训练万亿参数模型？",
+        "expected_id": "1910.02054",
+        "expected_title": "ZeRO: Memory Optimizations Toward Training Trillion Parameter Models",
+        "rank": null,
+        "english_rank": 1,
+        "winner": "Billion-scale similarity search with GPUs",
+        "winner_id": "1702.08734",
+        "winner_score": 3.205453,
+        "expected_score": 0,
+        "results_count": 1,
+        "curated_query_concepts": [
+          "data parallelism"
+        ]
+      },
+      "current": {
+        "id": "Q15",
+        "question": "如何在数据并行训练中消除显存冗余来训练万亿参数模型？",
+        "expected_id": "1910.02054",
+        "expected_title": "ZeRO: Memory Optimizations Toward Training Trillion Parameter Models",
+        "rank": 1,
+        "english_rank": 1,
+        "winner": "ZeRO: Memory Optimizations Toward Training Trillion Parameter Models",
+        "winner_id": "1910.02054",
+        "winner_score": 24.741683,
+        "expected_score": 24.741683,
+        "results_count": 7,
+        "curated_query_concepts": [
+          "data parallelism"
+        ],
+        "target_matched_english_groups": [
+          [
+            "trillion"
+          ],
+          [
+            "parameter"
+          ],
+          [
+            "parallelisms"
+          ],
+          [
+            "eliminates"
+          ],
+          [
+            "redundancies"
+          ],
+          [
+            "training"
+          ],
+          [
+            "data"
+          ],
+          [
+            "models"
+          ]
+        ]
+      }
+    },
+    {
+      "previous": {
+        "id": "Q16",
+        "question": "哪篇论文通过分层可导航小世界图加速近似最近邻搜索？",
+        "expected_id": "1603.09320",
+        "expected_title": "Efficient and robust approximate nearest neighbor search using Hierarchical Navigable Small World graphs",
+        "rank": 1,
+        "english_rank": 1,
+        "winner": "Efficient and robust approximate nearest neighbor search using Hierarchical Navigable Small World graphs",
+        "winner_id": "1603.09320",
+        "winner_score": 14.494787,
+        "expected_score": 14.494787,
+        "results_count": 2,
+        "curated_query_concepts": [
+          "approximate nearest neighbor",
+          "nearest neighbor"
+        ]
+      },
+      "current": {
+        "id": "Q16",
+        "question": "哪篇论文通过分层可导航小世界图加速近似最近邻搜索？",
+        "expected_id": "1603.09320",
+        "expected_title": "Efficient and robust approximate nearest neighbor search using Hierarchical Navigable Small World graphs",
+        "rank": 1,
+        "english_rank": 1,
+        "winner": "Efficient and robust approximate nearest neighbor search using Hierarchical Navigable Small World graphs",
+        "winner_id": "1603.09320",
+        "winner_score": 28.744962,
+        "expected_score": 28.744962,
+        "results_count": 2,
+        "curated_query_concepts": [
+          "approximate nearest neighbor",
+          "nearest neighbor"
+        ],
+        "target_matched_english_groups": [
+          [
+            "approximate"
+          ],
+          [
+            "search"
+          ],
+          [
+            "world"
+          ],
+          [
+            "nearest"
+          ]
+        ]
+      }
+    },
+    {
+      "previous": {
+        "id": "Q17",
+        "question": "哪项工作把排序数组中的键位置预测当作学习问题，用学习模型替代传统数据库索引？",
+        "expected_id": "1712.01208",
+        "expected_title": "The Case for Learned Index Structures",
+        "rank": null,
+        "english_rank": 1,
+        "winner": "Billion-scale similarity search with GPUs",
+        "winner_id": "1702.08734",
+        "winner_score": 3.205453,
+        "expected_score": 0,
+        "results_count": 1,
+        "curated_query_concepts": [
+          "database"
+        ]
+      },
+      "current": {
+        "id": "Q17",
+        "question": "哪项工作把排序数组中的键位置预测当作学习问题，用学习模型替代传统数据库索引？",
+        "expected_id": "1712.01208",
+        "expected_title": "The Case for Learned Index Structures",
+        "rank": 1,
+        "english_rank": 1,
+        "winner": "The Case for Learned Index Structures",
+        "winner_id": "1712.01208",
+        "winner_score": 17.712141,
+        "expected_score": 17.712141,
+        "results_count": 3,
+        "curated_query_concepts": [
+          "database"
+        ],
+        "target_matched_english_groups": [
+          [
+            "index"
+          ],
+          [
+            "learned"
+          ],
+          [
+            "array"
+          ],
+          [
+            "position"
+          ],
+          [
+            "replaced"
+          ],
+          [
+            "traditional"
+          ],
+          [
+            "models"
+          ]
+        ]
+      }
+    },
+    {
+      "previous": {
+        "id": "Q18",
+        "question": "PGM index 怎样用分段线性模型构建压缩的学习型索引？",
+        "expected_id": "1910.06169",
+        "expected_title": "The PGM-index: a multicriteria, compressed and learned approach to data indexing",
+        "rank": 1,
+        "english_rank": 1,
+        "winner": "The PGM-index: a multicriteria, compressed and learned approach to data indexing",
+        "winner_id": "1910.06169",
+        "winner_score": 9.892503,
+        "expected_score": 9.892503,
+        "results_count": 4,
+        "curated_query_concepts": []
+      },
+      "current": {
+        "id": "Q18",
+        "question": "PGM index 怎样用分段线性模型构建压缩的学习型索引？",
+        "expected_id": "1910.06169",
+        "expected_title": "The PGM-index: a multicriteria, compressed and learned approach to data indexing",
+        "rank": 1,
+        "english_rank": 1,
+        "winner": "The PGM-index: a multicriteria, compressed and learned approach to data indexing",
+        "winner_id": "1910.06169",
+        "winner_score": 28.166462,
+        "expected_score": 28.166462,
+        "results_count": 8,
+        "curated_query_concepts": [],
+        "target_matched_english_groups": [
+          [
+            "index"
+          ],
+          [
+            "compressed"
+          ],
+          [
+            "learned"
+          ],
+          [
+            "linear"
+          ],
+          [
+            "models"
+          ]
+        ]
+      }
+    },
+    {
+      "previous": {
+        "id": "Q19",
+        "question": "如何用邻居特征采样和聚合来给训练中没见过的图节点计算嵌入？",
+        "expected_id": "1706.02216",
+        "expected_title": "Inductive Representation Learning on Large Graphs",
+        "rank": null,
+        "english_rank": 1,
+        "winner": null,
+        "winner_id": null,
+        "winner_score": null,
+        "expected_score": 0,
+        "results_count": 0,
+        "curated_query_concepts": []
+      },
+      "current": {
+        "id": "Q19",
+        "question": "如何用邻居特征采样和聚合来给训练中没见过的图节点计算嵌入？",
+        "expected_id": "1706.02216",
+        "expected_title": "Inductive Representation Learning on Large Graphs",
+        "rank": 1,
+        "english_rank": 1,
+        "winner": "Inductive Representation Learning on Large Graphs",
+        "winner_id": "1706.02216",
+        "winner_score": 6.559361,
+        "expected_score": 6.559361,
+        "results_count": 1,
+        "curated_query_concepts": [],
+        "target_matched_english_groups": [
+          [
+            "node"
+          ],
+          [
+            "embeddings"
+          ],
+          [
+            "sampling"
+          ],
+          [
+            "training"
+          ]
+        ]
+      }
+    },
+    {
+      "previous": {
+        "id": "Q20",
+        "question": "哪种图神经网络通过掩码自注意力为邻居分配不同权重？",
+        "expected_id": "1710.10903",
+        "expected_title": "Graph Attention Networks",
+        "rank": 1,
+        "english_rank": 1,
+        "winner": "Graph Attention Networks",
+        "winner_id": "1710.10903",
+        "winner_score": 5.724538,
+        "expected_score": 5.724538,
+        "results_count": 17,
+        "curated_query_concepts": [
+          "attention mechanism",
+          "graph neural network",
+          "neural network",
+          "self attention"
+        ]
+      },
+      "current": {
+        "id": "Q20",
+        "question": "哪种图神经网络通过掩码自注意力为邻居分配不同权重？",
+        "expected_id": "1710.10903",
+        "expected_title": "Graph Attention Networks",
+        "rank": 1,
+        "english_rank": 1,
+        "winner": "Graph Attention Networks",
+        "winner_id": "1710.10903",
+        "winner_score": 12.921026,
+        "expected_score": 12.921026,
+        "results_count": 17,
+        "curated_query_concepts": [
+          "attention mechanism",
+          "graph neural network",
+          "neural network",
+          "self attention"
+        ],
+        "target_matched_english_groups": [
+          [
+            "attention"
+          ],
+          [
+            "neural",
+            "networks"
+          ],
+          [
+            "masked"
+          ],
+          [
+            "weights"
+          ]
+        ]
+      }
+    },
+    {
+      "previous": {
+        "id": "Q21",
+        "question": "想找用 data flow 预训练代码表示的论文，要求区别于只用词序列的方法。",
+        "expected_id": "2009.08366",
+        "expected_title": "GraphCodeBERT: Pre-training Code Representations with Data Flow",
+        "rank": 1,
+        "english_rank": 1,
+        "winner": "GraphCodeBERT: Pre-training Code Representations with Data Flow",
+        "winner_id": "2009.08366",
+        "winner_score": 15.465125,
+        "expected_score": 15.465125,
+        "results_count": 21,
+        "curated_query_concepts": [
+          "pretraining"
+        ]
+      },
+      "current": {
+        "id": "Q21",
+        "question": "想找用 data flow 预训练代码表示的论文，要求区别于只用词序列的方法。",
+        "expected_id": "2009.08366",
+        "expected_title": "GraphCodeBERT: Pre-training Code Representations with Data Flow",
+        "rank": 1,
+        "english_rank": 1,
+        "winner": "GraphCodeBERT: Pre-training Code Representations with Data Flow",
+        "winner_id": "2009.08366",
+        "winner_score": 22.717303,
+        "expected_score": 22.717303,
+        "results_count": 24,
+        "curated_query_concepts": [
+          "pretraining"
+        ],
+        "target_matched_english_groups": [
+          [
+            "pre",
+            "training"
+          ],
+          [
+            "code"
+          ],
+          [
+            "sequence"
+          ],
+          [
+            "state"
+          ]
+        ]
+      }
+    },
+    {
+      "previous": {
+        "id": "Q22",
+        "question": "哪篇论文用人工编写的单元测试评估语言模型从文档字符串生成程序的功能正确性？",
+        "expected_id": "2107.03374",
+        "expected_title": "Evaluating Large Language Models Trained on Code",
+        "rank": null,
+        "english_rank": 1,
+        "winner": null,
+        "winner_id": null,
+        "winner_score": null,
+        "expected_score": 0,
+        "results_count": 0,
+        "curated_query_concepts": []
+      },
+      "current": {
+        "id": "Q22",
+        "question": "哪篇论文用人工编写的单元测试评估语言模型从文档字符串生成程序的功能正确性？",
+        "expected_id": "2107.03374",
+        "expected_title": "Evaluating Large Language Models Trained on Code",
+        "rank": 1,
+        "english_rank": 1,
+        "winner": "Evaluating Large Language Models Trained on Code",
+        "winner_id": "2107.03374",
+        "winner_score": 5.555621,
+        "expected_score": 5.555621,
+        "results_count": 1,
+        "curated_query_concepts": [],
+        "target_matched_english_groups": [
+          [
+            "docstrings"
+          ],
+          [
+            "evaluation"
+          ],
+          [
+            "language"
+          ],
+          [
+            "generation"
+          ],
+          [
+            "model"
+          ]
+        ]
+      }
+    },
+    {
+      "previous": {
+        "id": "Q23",
+        "question": "我手里的编号是 arXiv:2005.11401，请定位到这篇论文。",
+        "expected_id": "2005.11401",
+        "expected_title": "Retrieval-Augmented Generation for Knowledge-Intensive NLP Tasks",
+        "rank": 1,
+        "english_rank": 1,
+        "winner": "Retrieval-Augmented Generation for Knowledge-Intensive NLP Tasks",
+        "winner_id": "2005.11401",
+        "winner_score": 1.0,
+        "expected_score": 1.0,
+        "results_count": 1,
+        "curated_query_concepts": []
+      },
+      "current": {
+        "id": "Q23",
+        "question": "我手里的编号是 arXiv:2005.11401，请定位到这篇论文。",
+        "expected_id": "2005.11401",
+        "expected_title": "Retrieval-Augmented Generation for Knowledge-Intensive NLP Tasks",
+        "rank": 1,
+        "english_rank": 1,
+        "winner": "Retrieval-Augmented Generation for Knowledge-Intensive NLP Tasks",
+        "winner_id": "2005.11401",
+        "winner_score": 1.0,
+        "expected_score": 1.0,
+        "results_count": 1,
+        "curated_query_concepts": [],
+        "target_matched_english_groups": []
+      }
+    },
+    {
+      "previous": {
+        "id": "Q24",
+        "question": "请按 DOI 10.48550/arXiv.2106.09685 帮我找原始文献。",
+        "expected_id": "2106.09685",
+        "expected_title": "LoRA: Low-Rank Adaptation of Large Language Models",
+        "rank": 1,
+        "english_rank": 1,
+        "winner": "LoRA: Low-Rank Adaptation of Large Language Models",
+        "winner_id": "2106.09685",
+        "winner_score": 1.0,
+        "expected_score": 1.0,
+        "results_count": 1,
+        "curated_query_concepts": []
+      },
+      "current": {
+        "id": "Q24",
+        "question": "请按 DOI 10.48550/arXiv.2106.09685 帮我找原始文献。",
+        "expected_id": "2106.09685",
+        "expected_title": "LoRA: Low-Rank Adaptation of Large Language Models",
+        "rank": 1,
+        "english_rank": 1,
+        "winner": "LoRA: Low-Rank Adaptation of Large Language Models",
+        "winner_id": "2106.09685",
+        "winner_score": 1.0,
+        "expected_score": 1.0,
+        "results_count": 1,
+        "curated_query_concepts": [],
+        "target_matched_english_groups": []
+      }
+    }
+  ],
+  "development_unrelated_queries": {
+    "previous": {
+      "地质学家如何测量火山碎屑沉积物的年龄": [],
+      "豇豆通过什么方式固定土壤中的氮": [],
+      "如何评价中世纪欧洲行会对城市艺术家的作用": [],
+      "怀孕时血红蛋白下降是否需要额外补铁": [],
+      "何种方法能抑制城市热岛效应": [],
+      "核桃蛋白粉如何制作": [],
+      "低温超导体在磁场中的阻抗变化": [],
+      "怎样弹奏钢琴琶音能让乐句更连贯": [],
+      "土壤碳储量具有哪些季节性变化": [],
+      "湖泊富营养化如何改变藻类群落": [],
+      "西班牙风格小吃配方的口感与风味": []
+    },
+    "current": {
+      "地质学家如何测量火山碎屑沉积物的年龄": [],
+      "豇豆通过什么方式固定土壤中的氮": [],
+      "如何评价中世纪欧洲行会对城市艺术家的作用": [],
+      "怀孕时血红蛋白下降是否需要额外补铁": [],
+      "何种方法能抑制城市热岛效应": [],
+      "核桃蛋白粉如何制作": [],
+      "低温超导体在磁场中的阻抗变化": [],
+      "怎样弹奏钢琴琶音能让乐句更连贯": [],
+      "土壤碳储量具有哪些季节性变化": [],
+      "湖泊富营养化如何改变藻类群落": [],
+      "西班牙风格小吃配方的口感与风味": []
+    }
+  },
+  "timing_protocol": "Median of nine warm batches of 24 original Chinese questions, top five requested from the same 36-paper LibraryIndex. Includes ranking and quote extraction; excludes HTTP, construction and imports.",
+  "timing": {
+    "previous": {
+      "batch_median_ms": 1.768,
+      "repeated_24_chinese_queries_ms": [
+        25.117,
+        1.939,
+        1.667,
+        1.891,
+        1.848,
+        1.768,
+        1.736,
+        1.719,
+        1.715
+      ]
+    },
+    "current": {
+      "batch_median_ms": 41.292,
+      "repeated_24_chinese_queries_ms": [
+        60.064,
+        41.114,
+        41.275,
+        41.502,
+        41.292,
+        40.052,
+        39.295,
+        41.644,
+        41.311
+      ]
+    }
+  },
+  "source_digest": {
+    "clinkrag/library.py": "e6bc0926a9f58036a98f8d76ef5f16d92efaec5d937378470150d2349cce0e5e",
+    "clinkrag/cross_language.py": "1e13165148b24f39816adc6f2e4d3cb34078b82c65ebd74452a65a7d7ce1c03d",
+    "clinkrag/data/cedict-glosses.idx": "2887a5e5e228f1bd235cf2a84aa18ba6115ff4ad398fcd74571b81266950ba43",
+    "clinkrag/data/technical-names.tsv": "b4be5ecd0377137ee834d6602826376ad9404213ed51dbce457af2cc06dc0ee7"
+  }
+}

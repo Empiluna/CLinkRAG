@@ -1,0 +1,329 @@
+{
+  "baseline": "0ec95bd2855784f4e4eb34bd6776a912f7451be6",
+  "source": "clinkrag/data/computing.jsonl",
+  "source_sha256_lf": "1ecc96c6664e0d193d7e50f8982c346855d570d20e789e5062a4304dab173c7a",
+  "protocol": "A second independently sealed diagnostic set. Distinct anchor papers, prompts and common candidate pool. A span selects an exact contiguous English passage from the CC BY abstract using Python character offsets. Two bare method passages, two Chinese method requests plus a selected passage, and three Chinese requests plus the full abstract. The intent label for bare passages is for judging only and is never passed as a user instruction. Both variants use one short topical rewrite fixed from each intent. Seven source articles are excluded from the whole pool. Ordinal labels assigned by the project evaluator before running this set: 3 directly shares the mechanism, 2 substantive variant, 1 partial, 0 no relevant method demonstrated. Recall threshold 2. No search-provider ranks.",
+  "pool": [
+    392,
+    360,
+    489,
+    503,
+    986,
+    358,
+    309,
+    314,
+    303,
+    437,
+    307,
+    1038,
+    732,
+    896,
+    579,
+    630,
+    586,
+    748,
+    843,
+    947,
+    542,
+    545,
+    511,
+    779,
+    784,
+    840,
+    959,
+    740,
+    970,
+    207,
+    872,
+    134,
+    552,
+    1043,
+    216,
+    170,
+    57,
+    544,
+    647,
+    666,
+    1005,
+    901,
+    426,
+    978,
+    590,
+    819,
+    1024
+  ],
+  "cases": [
+    {
+      "anchor": 372,
+      "label": "树分解与低宽度算法",
+      "request": "",
+      "rewrite": "tree decomposition width parameter efficient computation graph algorithm",
+      "span": [
+        225,
+        803
+      ],
+      "judgments": [
+        [
+          392,
+          3,
+          "以给定树分解求解图打包并使运行时间依赖树宽。"
+        ],
+        [
+          360,
+          3,
+          "在树分解上动态规划，并按宽度分析和比较分解。"
+        ],
+        [
+          489,
+          2,
+          "联合使用查询的多个树分解产生可高效枚举的表示。"
+        ],
+        [
+          503,
+          2,
+          "预处理与枚举延迟依赖超图的树宽。"
+        ]
+      ],
+      "distractors": [
+        [
+          986,
+          "学习得到的是树形概率图，不以输入图的树分解设计算法。"
+        ],
+        [
+          358,
+          "研究随机公式的可满足性，摘要无树分解算法。"
+        ]
+      ]
+    },
+    {
+      "anchor": 316,
+      "label": "抽象解释求程序不动点",
+      "request": "",
+      "rewrite": "static analysis abstract interpretation invariants sound program fixpoint narrowing widening",
+      "span": [
+        1175,
+        1925
+      ],
+      "judgments": [
+        [
+          309,
+          3,
+          "基于抽象解释的静态分析复用程序不变量及缓存，关注正确性。"
+        ],
+        [
+          314,
+          3,
+          "通过抽象解释进行高阶数值程序的静态值与不变量分析。"
+        ],
+        [
+          303,
+          2,
+          "细化抽象状态域与转移函数来解释缓存访问。"
+        ]
+      ],
+      "distractors": [
+        [
+          437,
+          "自动机用于并行去随机化，未用于程序语义抽象解释。"
+        ],
+        [
+          307,
+          "轻量形式方法的绘图与语言设计，摘要未构造抽象解释器。"
+        ]
+      ]
+    },
+    {
+      "anchor": 750,
+      "label": "条件独立查询识别概率图",
+      "request": "我已有一篇通过条件独立性检验学习图结构的文章。请找用类似方法恢复或检验另一种概率图结构的论文。只检验两个变量而不推断图结构的工作也请区分开。",
+      "rewrite": "constraint based graph structure learning testing conditional independence queries",
+      "span": [
+        0,
+        913
+      ],
+      "judgments": [
+        [
+          986,
+          3,
+          "修改 PC 算法，利用偏相关进行条件独立检验来学习多叉树。"
+        ],
+        [
+          1038,
+          3,
+          "用条件独立查询检验观测图是否属于给定马尔可夫等价类。"
+        ],
+        [
+          732,
+          1,
+          "开发用于发现结构的条件独立检验组件，本身不以恢复图为目标。"
+        ],
+        [
+          896,
+          1,
+          "构造独立检验的核，本身没有据此恢复图。"
+        ]
+      ],
+      "distractors": [
+        [
+          579,
+          "用随机干预定位因果图，需要实际干预。"
+        ],
+        [
+          630,
+          "研究没有真值时怎样评估发现结果，并非这里的结构测试方案。"
+        ]
+      ]
+    },
+    {
+      "anchor": 735,
+      "label": "多目标老虎机纯探索",
+      "request": "我想找做相似实验设计的其他论文，具体是反复抽取向量奖励、纯探索一组非支配臂。我的方法例子贴在下面；同样谈 Pareto，但不从有噪声的臂取样的工作，和我的任务有区别。",
+      "rewrite": "vector rewards multiobjective bandit pure exploration Pareto optimal arms",
+      "judgments": [
+        [
+          586,
+          3,
+          "对多目标奖励臂进行序贯学习以辨识 Pareto 前沿。"
+        ],
+        [
+          748,
+          3,
+          "在固定采样预算下识别多目标臂的 Pareto 集合。"
+        ],
+        [
+          843,
+          1,
+          "同为有限采样预算的组合纯探索，目标不是多目标 Pareto 臂。"
+        ],
+        [
+          947,
+          1,
+          "有抽样识别机制，但只找最优臂。"
+        ]
+      ],
+      "distractors": [
+        [
+          360,
+          "列举离散解的 Pareto 集合，采用确定性动态规划。"
+        ],
+        [
+          542,
+          "决斗老虎机找 Copeland 赢者而非向量奖励的非支配集合。"
+        ]
+      ]
+    },
+    {
+      "anchor": 857,
+      "label": "主动学习选择下一批要标注的实例",
+      "request": "我把大量未标注观测送进候选池，昂贵的模拟器只能给少数样例打标签。哪些研究采用类似方法，用查询规则选择下一批样例训练预测器？实验的应用领域可以不同。",
+      "rewrite": "active learning query selection label acquisition unlabeled pool expensive oracle",
+      "judgments": [
+        [
+          545,
+          3,
+          "将未标注数据引入贝叶斯主动学习，联合选择获取哪些标签。"
+        ],
+        [
+          511,
+          3,
+          "为贝叶斯批量主动学习自适应构造下一批查询。"
+        ],
+        [
+          779,
+          3,
+          "以效用和成本选择神经算子训练查询。"
+        ],
+        [
+          784,
+          2,
+          "主动请求标签以学习半空间并控制标签复杂度。"
+        ]
+      ],
+      "distractors": [
+        [
+          840,
+          "实验设计用于在线性 bandit 中评估策略，不以识别待标注训练数据为目标。"
+        ],
+        [
+          586,
+          "序贯采样用来辨别 Pareto 臂而非训练预测器。"
+        ]
+      ]
+    },
+    {
+      "anchor": 651,
+      "label": "由初末分布确定随机桥",
+      "request": "下面是我用的办法。我想寻找使用相似方法的研究，以随机过程把未配对的起始与目标分布连接起来，并按薛定谔桥或它的松弛形式求解。",
+      "rewrite": "Schrodinger bridge stochastic dynamics source target marginals stochastic process",
+      "span": [
+        0,
+        717
+      ],
+      "judgments": [
+        [
+          959,
+          3,
+          "显式把源目标样本之间的随机动力学建为薛定谔桥，用分数和流匹配求解。"
+        ],
+        [
+          740,
+          1,
+          "用流匹配插值分布，但单凭此摘要没有随机桥约束。"
+        ],
+        [
+          970,
+          1,
+          "变分方法处理扩散过程后验，未指定双端边缘约束。"
+        ]
+      ],
+      "distractors": [
+        [
+          207,
+          "条件文本生成中的流匹配，摘要没有求一个两端受约束的随机桥。"
+        ],
+        [
+          872,
+          "组合 bandit 选择与桥控制无关。"
+        ]
+      ]
+    },
+    {
+      "anchor": 154,
+      "label": "用教师输出蒸馏模型",
+      "request": "这段是我手里的示例。我在找使用类似方法的论文，核心是让学生网络模仿已有教师的回答、分数或输出分布；学生可以是语言模型或分类器。",
+      "rewrite": "knowledge distillation student mimic teacher outputs smaller models training synthetic responses",
+      "judgments": [
+        [
+          134,
+          3,
+          "生成教师语言模型的指令回答数据，再微调多种较小学生。"
+        ],
+        [
+          552,
+          3,
+          "使用合成数据让学生分类器模仿现有老师。"
+        ],
+        [
+          1043,
+          3,
+          "通过最小化精度不同的师生输出分布 KL 损失来蒸馏。"
+        ],
+        [
+          216,
+          2,
+          "从已有问题检索模型蒸馏以训练重排器。"
+        ]
+      ],
+      "distractors": [
+        [
+          170,
+          "参数高效会话推荐并不等于使用老师监督。"
+        ],
+        [
+          57,
+          "模块化门控适配器用于去偏，摘要未用师生模仿。"
+        ]
+      ]
+    }
+  ]
+}

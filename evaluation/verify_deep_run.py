@@ -19,13 +19,16 @@ def main():
     parser.add_argument('--live', required=True, action='store_true',
                         help='Use configured Semantic Scholar, model API and local reranker')
     parser.add_argument('--out', type=Path, required=True)
-    parser.add_argument('--case', choices=('education','computing'), default='education')
+    parser.add_argument('--case', choices=('education','computing','image-matching'), default='education')
     args = parser.parse_args()
     question = '间隔学习能否改善中学物理学习的保持效果？'
     dimension = '中学物理学习的保持效果'
     if args.case == 'computing':
         question = 'BERT（DOI:10.18653/v1/N19-1423）怎样预训练双向语言表示，原论文摘要给出了哪些结果？'
         dimension = 'BERT 的双向预训练与原论文结果'
+    elif args.case == 'image-matching':
+        question = '哪篇原始论文把有方向的快速角点和经过旋转的二进制描述子结合起来，用于实时图像匹配？原作者怎样比较速度和旋转鲁棒性？'
+        dimension = '局部图像特征的速度与旋转鲁棒性'
     request = validate_request({'question':question, 'method':'clinkrag_online','online_papers':3,
                                 'research_dimensions':[dimension], 'extra_queries':0,
                                 'initial_papers':2, 'answer_words':500,'max_tokens':1800})
@@ -61,6 +64,16 @@ def main():
             named_cited = bool(named and any(i<len(sources) and sources[i]['id']==named for i in cited))
             report.update(requested_references=requested, named_paper_used_in_answer=named_cited,
                           selected_titles=[p['title'] for p in by_id.values()])
+        elif args.case == 'image-matching':
+            # Keep the adjudication DOI entirely outside the question, planner and worker.
+            target = '10.1109/iccv.2011.6126544'
+            candidates = online.get('candidates',[])
+            target_ids = {p['paperId'] for p in candidates
+                          if str((p.get('externalIds') or {}).get('DOI','')).lower()==target}
+            named_cited = any(i<len(sources) and sources[i]['id'] in target_ids for i in cited)
+            report.update(expected_doi=target, target_in_candidates=bool(target_ids),
+                          target_selected=bool(target_ids.intersection(by_id)), target_cited=named_cited,
+                          selected_titles=[p['title'] for p in by_id.values()], queries=online.get('queries',[]))
         args.out.parent.mkdir(parents=True,exist_ok=True)
         args.out.write_text(json.dumps(report,ensure_ascii=False,indent=2),encoding='utf-8')
         print(report['state'],'selected',len(by_id),'cited',len(cited))

@@ -205,6 +205,7 @@ run-local.ps1               诊断、排序模型准备与命令行入口
 | [重构规划](REBUILD_PLAN.md) / [版本验收](WORKBENCH_ACCEPTANCE.md) | 原版本问题、交付范围、基准与功能实测 |
 | [跨领域实测](evaluation/RETRIEVAL_VALIDATION.md) / [界面实测](FIELDWORK_UI.md) | 真实文献与公开标注评测、浏览器操作及界面截图 |
 | [计算机与 AI 检索实测](COMPUTING_RETRIEVAL.md) | 新增会议与年份、中文检索改进、外部评测、GPU 计时及可复现命令 |
+| [中文查找与相似方法复核](RETRIEVAL_FOLLOWUP.md) | 九道未命中题的原因、相似方法论文的名次、新问题与多条件检索实测 |
 | [模型设置](MODEL_SETTINGS.md) / [服务预设](PROVIDER_PRESETS.md) | 连接配置、模型商分组与多模型选择 |
 | [在线研究](ONLINE_CLINKRAG.md) / [研究选项](RESEARCH_OPTIONS.md) | 检索与分析流程、参数含义 |
 | [跨领域算法与论文依据](ALGORITHM_CROSS_DOMAIN.md) | 融合检索、证据多样性、有限纠正、上下文分配与验证边界 |

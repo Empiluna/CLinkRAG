@@ -1,0 +1,676 @@
+一个正确答案	one right answer
+三元语法	trigram
+三引号字符串	triple-quoted string
+上下文	context
+上下文变量	context variable
+上下文学习	in-context learning
+上下文窗口	context window
+上下文管理协议	context management protocol
+上下文管理器	context manager
+下标	subscript
+下采样	subsampling
+不可变对象	immutable
+不同影响	disparate impact
+不平衡的数据集	imbalanced dataset
+个体公平性	individual fairness
+主动学习	active learning
+主机	host
+二元分类	binary classification
+二元条件	binary condition
+二元语法	bigram
+二进制文件	binary file
+交互	interactive
+交叉熵	cross-entropy
+交叉验证	cross-validation
+交并比	intersection over union
+人份	serving
+人口统计均等	demographic parity
+人工智能	artificial intelligence
+人工评估	human evaluation
+人工通用智能	artificial general intelligence
+人机协同	human in the loop
+代理	agent|proxy
+代理型	agentic
+代理标签	proxy labels
+价值插补	value imputation
+任务	task
+任务分解	task decomposition
+位置参数	positional argument
+位置编码	positional encoding
+低秩自适应	low-rank adaptability
+便利抽样	convenience sampling
+保护措施	guardrails
+信息增益	information gain
+修正线性单元	rectified linear unit
+候选采样	candidate sampling
+候选集生成	candidate generation
+借入引用	borrowed reference
+假正例	false positive
+假正例率	false positive rate
+假负例	false negative
+假负例率	false negative rate
+偏导数	partial derivative
+偏差	bias
+偷取	steal
+元学习	meta-learning
+元类	metaclass
+元路径查找器	meta path finder
+先验信念	prior belief
+免加锁	lock-free
+全局状态	global state
+全局解释器锁	global interpreter lock
+全连接层	fully connected layer
+公平性指标	fairness metric
+公平性指标互不相容	incompatibility of fairness metrics
+公平性约束	fairness constraint
+共同训练	co-training
+关键字参数	keyword argument
+关键点	keypoints
+具名元组	named tuple
+决策树	decision tree
+决策森林	decision forest
+决策边界	decision boundary
+决策阈值	decision threshold
+冷知识问答	trivia question answering
+准确性	accuracy
+凝聚式层次聚类	agglomerative clustering
+凸优化	convex optimization
+凸函数	convex function
+凸集	convex set
+函数	function
+函数标注	function annotation
+函数转换	function transformation
+分代理	sub-agent
+分位数	quantile
+分位数分桶	quantile bucketing
+分割器	splitter
+分布式训练	distribution
+分桶	bucketing
+分片	shard
+分箱	binning
+分类器	classifier
+分类数据	categorical data
+分类模型	classification model
+分类阈值	classification threshold
+分裂式层次聚类	divisive clustering
+分阶段训练	staged training
+分集	episode
+切片	slice
+划分策略	partitioning strategy
+列表	list
+列表推导式	list comprehension
+判别器	discriminator
+判别模型	discriminative model
+前馈神经网络	feedforward neural network
+副本	replica
+功能	feature
+加权交替最小二乘	weighted alternating least squares
+加权和	weighted sum
+加载器	loader
+加速器芯片	accelerator chip
+动态	dynamic
+动态模型	dynamic model
+升幅建模	uplift modeling
+半监督式学习	semi-supervised learning
+协同过滤	collaborative filtering
+协同适应	co-adaptation
+协程	coroutine
+协程函数	coroutine function
+单分派	single dispatch
+单向	unidirectional
+单向语言模型	unidirectional language model
+单样本学习	one-shot learning
+单样本提示	one-shot prompting
+即刻执行	eager execution
+卷积	convolution
+卷积层	convolutional layer
+卷积滤波器	convolutional filter
+卷积神经网络	convolutional neural network
+卷积运算	convolutional operation
+历史偏差	historical bias
+原子化操作	atomic operation
+原生代码	native code
+参与偏差	participation bias
+参数	parameter|argument
+参数更新	parameter update
+参数服务器	parameter server
+参数高效调优	parameter-efficient tuning
+参考文本	reference text
+双向	bidirectional
+双向语言模型	bidirectional language model
+反事实公平性	counterfactual fairness
+反向传播	backpropagation
+反思	reflection
+反馈	feedback
+反馈环	feedback loop
+变分自编码器	variational autoencoder
+变量标注	variable annotation
+变量重要性	variable importances
+召回	recall
+可变对象	mutable
+可哈希	hashable
+可等待对象	awaitable
+可解释性	interpretability
+可调用对象	callable
+可迭代对象	iterable
+可选模块	optional module
+可重入	reentrant
+合成特征	synthetic feature
+合页损失函数	hinge loss
+同步原语	synchronization primitive
+后处理	post-processing
+后训练模型	post-trained model
+向下取整除法	floor division
+启发法	heuristic
+周期数	epoch
+命名空间	namespace
+命名空间包	namespace package
+哈希技术	hashing
+商品矩阵	item matrix
+噪声	noise
+回归模型	regression model
+回放缓冲区	replay buffer
+回答集	response set
+回调	callback
+回车键	return
+因果语言模型	causal language model
+困惑度	perplexity
+图像识别	image recognition
+图层	layer
+图执行	graph execution
+图表	graph
+在线	online
+在线推理	online inference
+在集合条件中	in-set condition
+均方根误差	root mean squared error
+均方误差	mean squared error
+均衡赔率	equalized odds
+垃圾回收	garbage collection
+基于提示的学习	prompt-based learning
+基于路径的查找器	path based finder
+基础模型	base model|foundation model
+增强学习	boosting
+增强现实	augmented reality
+复数	complex number
+多任务处理	multitask
+多句阅读理解	multi-sentence reading comprehension
+多头自注意力	multi-head self-attention
+多数类	majority class
+多智能体协作	multi-agent collaboration
+多模态指令调优	multimodal instruction-tuned
+多模态模型	multimodal model
+多类别分类	multi-class classification
+多类别逻辑回归	multi-class logistic regression
+多项分类	multinomial classification
+多项回归	multinomial regression
+大语言模型	large language model
+奖励	reward
+子词令牌	subword token
+字典	dictionary
+字典推导式	dictionary comprehension
+字典视图	dictionary view
+字节型对象	bytes-like object
+字节码	bytecode
+学习速率	learning rate
+完全匹配	exact match
+实例	instance
+实惠	saver
+宽度模型	wide model
+密集层	dense layer
+密集特征	dense feature
+对数几率	log-odds
+对数损失函数	log loss
+对话式编码	conversational coding
+对象	object
+导入	importing
+导入器	importer
+导入路径	import path
+小批次	mini-batch
+小提琴	fiddle
+少数类	minority class
+少样本提示	few-shot prompting
+少量样本学习	few-shot learning
+层次聚类	hierarchical clustering
+属性	attribute
+属性抽样	attribute sampling
+岭正则化	ridge regularization
+嵌入向量	embedding vector
+嵌入层	embedding layer
+嵌入空间	embedding space
+嵌套作用域	nested scope
+差分隐私	differential privacy
+差别待遇	disparate treatment
+已优化的作用域	optimized scope
+布尔值问题	boolean questions
+常规包	regular package
+平均绝对误差	mean absolute error
+平方合页损失函数	squared hinge loss
+平方损失函数	squared loss
+平移不变性	translational invariance
+平稳性	stationarity
+并发	concurrency
+并发修改	concurrent modification
+并排评估	side-by-side evaluation
+并行	parallelism
+幻觉	hallucination
+广义线性模型	generalized linear model
+广播	broadcasting
+序列	sequence
+序列到序列任务	sequence-to-sequence task
+序列模型	sequence model
+延迟时间	latency
+异常值检测	anomaly detection
+异步上下文管理器	asynchronous context manager
+异步可迭代对象	asynchronous iterable
+异步生成器	asynchronous generator
+异步生成器函数	asynchronous generator function
+异步生成器迭代器	asynchronous generator iterator
+异步迭代器	asynchronous iterator
+引用召回率	citation recall
+引用精确度	citation precision
+引用计数	reference count
+张量处理单元	tensor processing unit
+张量大小	tensor size
+张量形状	tensor shape
+张量的阶	tensor rank
+强化学习	reinforcement learning
+强引用	strong reference
+归一化	normalization
+当前上下文	current context
+形参	parameter
+形心	centroid
+形心聚类	centroid-based clustering
+形状	shape
+循环神经网络	recurrent neural network
+循环隔离	cyclic isolate
+微调	fine-tuning
+忘记门控	forget gate
+快速衰减	fast decay
+思维树提示	tree-of-thought prompting
+思维链提示	chain-of-thought prompting
+性能	performance
+恶意	toxicity
+情境化语言嵌入	contextualized language embedding
+情感分析	sentiment analysis
+情景记忆	episodic memory
+感知机	perceptron
+成分句法分析	constituency parsing
+成功次数所占的比例	fraction of successes
+打包数据	packed data
+扩展模块	extension module
+扩缩	scaling
+批处理	batch
+批次大小	batch size
+批次归一化	batch normalization
+批量推理	batch inference
+承诺银行	commitmentbank
+抽象基类	abstract base class
+拆分	split
+指令调优	instruction tuning
+指标	metric
+损失	loss
+损失函数	loss function
+损失曲线	loss curve
+损失曲面	loss surface
+损失汇总器	loss aggregator
+排列变量重要性	permutation variable importances
+排名	ranking
+排序	rank
+推理	inference
+推理路径	inference path
+推荐系统	recommendation system
+掩码语言模型	masked language model
+描述器	descriptor
+提示	prompt
+提示工程	prompt engineering
+提示设计	prompt design
+提示调优	prompt tuning
+提示链	prompt chaining
+提示集	prompt set
+插件	plugin
+插补	imputation
+摘要	summary
+操作	operation
+收敛	convergence
+收缩	shrinkage
+改编	adaptation
+放回抽样	sampling with replacement
+政策	policy
+敏感属性	sensitive attribute
+数值数据	numerical data
+数据分析	data analysis
+数据增强	data augmentation
+数据并行处理	data parallelism
+数据竞争	data race
+数据集	data set or dataset
+文件型对象	file-like object
+文件对象	file object
+文本文件	text file
+文本编码格式	text encoding
+文档字符串	docstring
+斜向条件	oblique condition
+新式类	new-style class
+新颖点检测	novelty detection
+方法	method
+方法解析顺序	method resolution order
+旋转不变性	rotational invariance
+无反应误差	non-response bias
+无感知	unawareness
+无效声明率	unsupported-claim rate
+无标签样本	unlabeled example
+早停法	early stopping
+时序分析	time series analysis
+时态数据	temporal data
+时间步长	timestep
+映射	mapping
+智能体工作流	agentic workflow
+智能体循环	agentic loop
+智能体编排	agent orchestration
+暂定包	provisional package
+最小二乘回归	least squares regression
+有标签样本	labeled example
+机会均等	equality of opportunity
+机器学习	machine learning|ml
+机器翻译	machine translation
+权重上调	upweighting
+极速摘要	extreme summarization
+查找器	finder
+标准库	standard library|stdlib
+标准答案	ground truth
+标准答案关联性	groundedness
+标注	annotation
+标注函数	annotate function
+标注者	rater
+标签	label
+标签泄露	label leakage
+标量	scalar
+校准层	calibration layer
+核支持向量机	kernel support vector machines
+根目录	root directory
+梯度下降法	gradient descent
+梯度提升	gradient boosting
+梯度消失问题	vanishing gradient problem
+梯度爆炸问题	exploding gradient problem
+梯度累积	gradient accumulation
+梯度裁剪	gradient clipping
+检查点	checkpoint
+检索增强生成	retrieval-augmented generation
+概念漂移	concept drift
+概率	probabilistic
+概率回归模型	probabilistic regression model
+概率密度函数	probability density function
+模块	module
+模块规格	module spec
+模型	model
+模型并行处理	model parallelism
+模型级联	model cascading
+模型能力	model capacity
+模型训练	model training
+模型路由器	model router
+欠拟合	underfitting
+欠采样	undersampling
+正则化	regularization
+正则化率	regularization rate
+正类别	positive class
+步长	step size|stride
+步骤	step
+歧义	crash blossom
+死锁	deadlock
+每对象锁	per-object lock
+氛围编程	vibe coding
+永生对象	immortal
+求值函数	evaluate function
+池化	pooling
+没有唯一正确答案	no one right answer
+泛化	generalization
+泛化曲线	generalization curve
+泛型	generic type
+泛型函数	generic function
+派生标签	derived label
+流水线	pipeline|pipelining
+测试损失	test loss
+测试集	test set
+海象运算符	walrus operator
+消融	ablation
+深度	depth
+深度模型	deep model
+混合专家	mixture of experts
+混淆矩阵	confusion matrix
+渐变色	gradient
+温度	temperature
+潜在空间	latent space
+激活函数	activation function
+爬坡	hill climbing
+特征化	featurization
+特征向量	feature vector
+特征工程	feature engineering
+特征提取	feature extraction
+特征组合	feature cross
+特征规范	feature spec
+特征重要性	feature importances
+特征集	feature set
+特殊方法	special method
+状态机代理	state machine agent
+独热编码	one-hot encoding
+独立同分布	independently and identically distributed
+环境	environment
+环境接地	environment grounding
+生成器	generator
+生成器函数	generator function
+生成器表达式	generator expression
+生成器迭代器	generator iterator
+生成对抗网络	generative adversarial network
+生成式智能体	generative agents
+生成模型	generative model
+生成的文本	generated text
+用户矩阵	user matrix
+由简入繁的提示	least-to-most prompting
+留出数据	holdout data
+监督式机器学习	supervised machine learning
+目标	objective|target
+目标函数	objective function
+目标网络	target network
+直接提示	direct prompting
+相似度度量	similarity measure
+真实性	factuality
+真正例	true positive
+真正例率	true positive rate
+真负例	true negative
+矩阵分解	matrix factorization
+确定性	deterministic
+确认偏差	confirmation bias
+示例	example
+神经元	neuron
+神经架构搜索	neural architecture search
+离散特征	discrete feature
+离线	offline
+离线推理	offline inference
+离群值检测	outlier detection
+离群数据	outliers
+稀疏向量	sparse vector
+稀疏性	sparsity
+稀疏特征	sparse feature
+稀疏表示法	sparse representation
+程序性记忆	procedural memory
+突现行为	emergent behavior
+竞争条件	race condition
+类别	class
+类别不平衡的数据集	class-imbalanced dataset
+类别平衡的数据集	class-balanced dataset
+类变量	class variable
+类型	type
+类型别名	type alias
+类型提示	type hint
+粗略分析	sketching
+精确度	precision
+精确率与召回率曲线	precision-recall curve
+索引	index
+紧凑型模型	compact model
+累积分布函数	cumulative distribution function
+纯函数	pure function
+线性	linear
+线性回归	linear regression
+线性模型	linear model
+线程安全	thread-safe
+线程状态	thread state
+终止条件	termination condition
+经理代理	manager agent
+经验回放	experience replay
+经验累积分布函数	empirical cumulative distribution function
+经验风险最小化	empirical risk minimization
+结构风险最小化	structural risk minimization
+维度	dimensions
+编码器	encoder
+编辑距离	edit distance
+缩放不变性	size invariance
+网格	mesh
+群体归因偏差	group attribution bias
+群体的智慧	wisdom of the crowd
+群内偏差	in-group bias
+群外同质性偏差	out-group homogeneity bias
+耗尽	exhausted
+聊天	chat
+联合学习	federated learning
+聚类	clustering
+自主智能体	autonomous agent
+自动化偏差	automation bias
+自动编码器	autoencoder
+自动评估	automatic evaluation
+自动评估器评估	autorater evaluation
+自回归模型	auto-regressive model
+自我修正	self-correction
+自注意力	self-attention
+自然语言处理	natural language processing
+自然语言理解	natural language understanding
+自由变量	free variable
+自由线程	free threading
+自由线程构建版	free-threaded build
+自监督式学习	self-supervised learning
+自训练	self-training
+节点	node
+蒸馏	distillation
+虚拟子类	virtual subclass
+虚拟机	virtual machine
+虚拟环境	virtual environment
+虚构	confabulation
+行动空间	action space
+表达式	expression
+袋外评估	out-of-bag evaluation
+裁剪	clipping
+装袋	bagging
+装饰器	decorator
+覆盖偏差	coverage bias
+观察	observe
+规范化编码	specificational coding
+角色提示	role prompting
+解码器	decoder
+解释器关闭	interpreter shutdown
+解释型	interpreted
+计算	compute
+训练	training
+训练损失	training loss
+训练集	training set
+设备	device
+评估	evaluation
+评估器代理	evaluator agent
+评分	scoring
+评分者间一致性信度	inter-rater agreement
+评论者	critic
+识别文本蕴涵关系	recognizing textual entailment
+词元	token
+词嵌入	word embedding
+词法分析器	lexical analyzer
+词袋	bag of words
+语义记忆	semantic memory
+语句	statement
+语言区域编码格式	locale encoding
+语言模型	language model
+贝叶斯优化	bayesian optimization
+贝叶斯神经网络	bayesian neural network
+贝尔曼方程	bellman equation
+负类别	negative class
+负采样	negative sampling
+贪婪策略	greedy policy
+费用	cost
+超参数	hyperparameter
+超平面	hyperplane
+路径型对象	path-like object
+路径条目	path entry
+路径条目查找器	path entry finder
+路径条目钩子	path entry hook
+路由器代理	router agent
+轨迹	trajectory
+软弃用	soft deprecated
+软提示调优	soft prompt tuning
+轴对齐条件	axis-aligned condition
+辅助损失	auxiliary loss
+输入层	input layer
+输入生成器	input generator
+输出层	output layer
+输出表示	neural network
+边界框	bounding box
+迁移学习	transfer learning
+过拟合	overfitting
+过采样	oversampling
+连续	contiguous
+连续特征	continuous feature
+迭代	iteration
+迭代器	iterator
+选择合理的替代方案	choice of plausible alternatives
+选择性偏差	selection bias
+通报偏差	reporting bias
+通用换行	universal newlines
+造势	momentum
+逻辑回归	logistic regression
+部分	portion
+配置	configuration
+采样偏差	sampling bias
+重排序	re-ranking
+重量	weight
+量化	quantization
+键函数	key function
+长短期记忆	long short-term memory
+闭包变量	closure variable
+阈值	threshold
+队列	queue
+附加线程状态	attached thread state
+降噪	denoising
+降维	dimension reduction
+降采样	downsampling
+限定名称	qualified name
+随机政策	random policy
+随机梯度下降法	stochastic gradient descent
+随机森林	random forest
+隐性偏差	implicit bias
+隐藏层	hidden layer
+集合推导式	set comprehension
+集成学习	ensemble
+零样本学习	zero-shot learning
+零样本提示	zero-shot prompting
+静态	static
+静态推理	static inference
+静态类型检查器	static type checker
+非二元性别条件	non-binary condition
+非平稳性	nonstationarity
+非监督式机器学习	unsupervised machine learning
+非确定性的	nondeterministic|non-deterministic
+非线性	nonlinear
+项目	items
+预处理	preprocessing
+预测	prediction
+预测偏差	prediction bias
+预测性价格一致性	predictive rate parity
+预测性平价	predictive parity
+预测性机器学习	predictive ml
+预训练	pre-training
+预训练模型	pre-trained model
+马尔可夫决策过程	markov decision process
+马尔可夫性质	markov property
+验证	validation
+验证损失	validation loss
+验证集	validation set
+魔术方法	magic method
+鸭子类型	duck-typing
+黄金回答	golden response
+黄金数据集	golden dataset
+黑盒模型	black box model

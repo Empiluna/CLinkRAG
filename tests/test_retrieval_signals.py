@@ -75,6 +75,76 @@ class RetrievalSignalsTests(unittest.TestCase):
         self.assertTrue(any('rare' in p['queries'] for p in assessment_pool(papers, plan, 16)))
         self.assertEqual(assessment_pool(papers, plan, 16)[0]['paperId'], '0')
 
+    def test_long_question_matches_joint_evidence_in_one_sentence(self):
+        question = ('We model covariance in signals that have been collected across several sensor arrays. '
+                    'The records contain irregular intervals of acquisition with independent errors at each site. '
+                    'We remove drift using the reference sensors before calculating the spectrum. '
+                    'Please find papers using a similar method to measure the covariance of the residual spectrum.')
+        items = [
+            # Identical bag of words, different sentence boundaries.
+            {'paperId':'scattered','title':'Model fit','abstract':'Measure uncertainty. Covariance shifts. Residual drift. Spectrum varies.'},
+            {'paperId':'joint','title':'Model fit','abstract':'Measure covariance residual spectrum. Uncertainty shifts. Drift varies.'},
+            {'paperId':'empty','title':'','abstract':None},
+        ]
+        ranked = fuse_rankings(question, items, {'topic_queries':[]})
+        ranks = {p['paperId']:p['ranking'] for p in ranked}
+        self.assertEqual(ranks['joint']['lexical_rank'], 1)
+        self.assertIsNone(ranks['empty']['lexical_rank'])
+        self.assertEqual(ranks['joint']['lexical_scope'], 'best-passage-and-query-variants')
+
+    def test_long_question_flat_signal_does_not_break_ties(self):
+        papers = [{'paperId':str(i),'title':'same','abstract':'相同摘要。第二句。'} for i in range(3)]
+        material = '记录中各个阶段的原始输入都包含噪声并保存了校准时的观测值。'*14
+        ranked = fuse_rankings(material+'请找使用相同实验方法的研究。',papers,{'topic_queries':['相同摘要']})
+        self.assertEqual([p['paperId'] for p in ranked], ['0','1','2'])
+        self.assertTrue(all(p['ranking']['lexical_rank'] is None for p in ranked))
+
+    def test_long_method_example_and_broad_evidence_requests_take_distinct_paths(self):
+        observations = ('The observations include repeated samples for each site, a chronology of the '
+                        'measurements and sensor calibration offsets. ')*3
+        chinese = '每个站点都保留了重复测量的原始数值，记录了采集时间，并且单独保存了校准样本。'*10
+        items = [{'paperId':'x','title':'Sensor calibration','abstract':'Describe covariance.'}]
+        requests = [
+            (observations+'Which papers use a similar protocol for calibration?', True),
+            (observations+'We construct a calibrated variance estimator using the reference sensors.', True),
+            (observations+'Find papers using the same procedure and compare the costs and results.', False),
+            (observations+'What is the most reliable calibration? Which data support the result?', False),
+            (chinese+'请检索使用相似实验设计的论文。',True),
+            (chinese+'本研究采用分层抽样，通过重复抽样估计方差。',True),
+            (chinese+'请寻找采用相似实验设计的论文，同时给出设备成本和适用条件。',False),
+            (chinese+'我们提出了新的方差估计模型，结果表明在多个采集批次中误差更小。',False),
+        ]
+        for question,single_method in requests:
+            with self.subTest(question=question[-75:]):
+                self.assertGreater(len(question),300)
+                row = fuse_rankings(question,items,{'topic_queries':['calibration']})[0]
+                expected = 'best-passage-and-query-variants' if single_method else 'document'
+                self.assertEqual(row['ranking']['lexical_scope'],expected)
+
+    def test_pasted_abstract_and_pasted_protocol_keep_different_evidence_scopes(self):
+        task_en = 'Find other studies that use a similar protocol for measuring model stability.'
+        task_zh = '请找出采用类似方法的其他研究，关注利用重复采样评估模型稳定性的步骤。'
+        context = ('Each site records the acquisition conditions and the schedule of measurements. ' * 4)
+        procedure = ('First, draw repeated samples from each group. Then fit the model independently to each sample. '
+                     'Compute the variance of the fitted predictions by averaging within each acquisition period.')
+        complete = 'Existing methods rely on manual input. '+procedure+' Our experiments show lower error across sites.'
+        chinese_full = '现有方法需要手动确定参数。本文提出分层方差模型，通过重复采样估计稳定性。实验结果表明多站点的误差更低。'
+        papers = [{'paperId':'record','title':'Study','abstract':'We computed model variance.'}]
+        examples = [
+            (task_zh+'\n\n'+context+complete, 'document'),
+            (task_zh+'\n'+context+complete, 'document'),
+            (task_en+' Abstract: '+context+complete, 'document'),
+            (context+complete+'\r\n\r\n'+task_en, 'document'),
+            (context+task_zh+' 摘要：'+chinese_full, 'document'),
+            (task_zh+'\n\n'+procedure+' '+procedure, 'best-passage-and-query-variants'),
+            (context+task_en+' Methods excerpt: '+procedure, 'best-passage-and-query-variants'),
+        ]
+        for question,scope in examples:
+            with self.subTest(question=question[:45]):
+                self.assertGreater(len(question),300)
+                row = fuse_rankings(question,papers,{'topic_queries':['model stability']})[0]
+                self.assertEqual(row['ranking']['lexical_scope'],scope)
+
     def test_cjk_sentence_windows_keep_exact_offsets(self):
         text = ''.join(f'档案{i}记载了制度变化，研究者同时注明材料的时间范围和适用限制。' for i in range(80))
         corpus = prepare_corpus([{'id': 'history', 'text': text}])
