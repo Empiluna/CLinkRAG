@@ -1,0 +1,86 @@
+{
+  "fixture": "28 frozen S2 passages from evaluation/data/corpus.json, 16 then +6 and +6. Five HTTP responses and planner/assessor are deterministic fixtures, BGE inference and selection are real.",
+  "device": "NVIDIA GeForce RTX 5060",
+  "model": "BAAI/bge-reranker-v2-m3",
+  "warmup": "one excluded pair before measurement; mode order alternates",
+  "repetitions": 5,
+  "modes": {
+    "full": {
+      "pairs": [
+        66,
+        66,
+        66,
+        66,
+        66
+      ],
+      "model_seconds": [
+        0.8836,
+        0.8491,
+        0.8513,
+        0.8476,
+        0.8565
+      ],
+      "collect_seconds": [
+        1.0147,
+        0.9753,
+        0.9861,
+        0.9899,
+        0.986
+      ],
+      "median_model_seconds": 0.8513,
+      "median_collect_seconds": 0.9861,
+      "http_calls": 5,
+      "candidates": 28,
+      "selected": [
+        "5bbc2b5aa6c63c6a2cfccf095d6020b063ad47ac",
+        "ddbd8fe782ac98e9c64dd98710687a962195dd9b",
+        "88dc871460a3a03699dc0a8ca248542a5d39f41e",
+        "5fa96579b00b0672b71a5accec188fde37100f7b",
+        "ba7952e7c4fb891c36980ca19f94251257da6eb7",
+        "63a1617af179ee8b5b096b3038913a19166168d4",
+        "2c8af71f48a82b950d5ed8f5f8b51a33cd206ebd",
+        "0513d9a10c0c06caaad30f68bf5051884f5a2327"
+      ]
+    },
+    "incremental": {
+      "pairs": [
+        28,
+        28,
+        28,
+        28,
+        28
+      ],
+      "model_seconds": [
+        0.4497,
+        0.4513,
+        0.4548,
+        0.4577,
+        0.4625
+      ],
+      "collect_seconds": [
+        0.5706,
+        0.5716,
+        0.5908,
+        0.5939,
+        0.6014
+      ],
+      "median_model_seconds": 0.4548,
+      "median_collect_seconds": 0.5908,
+      "http_calls": 5,
+      "candidates": 28,
+      "selected": [
+        "5bbc2b5aa6c63c6a2cfccf095d6020b063ad47ac",
+        "ddbd8fe782ac98e9c64dd98710687a962195dd9b",
+        "88dc871460a3a03699dc0a8ca248542a5d39f41e",
+        "5fa96579b00b0672b71a5accec188fde37100f7b",
+        "ba7952e7c4fb891c36980ca19f94251257da6eb7",
+        "63a1617af179ee8b5b096b3038913a19166168d4",
+        "2c8af71f48a82b950d5ed8f5f8b51a33cd206ebd",
+        "0513d9a10c0c06caaad30f68bf5051884f5a2327"
+      ]
+    }
+  },
+  "same_selected_and_order": true,
+  "same_semantic_order": true,
+  "max_raw_score_difference": 0.00390625
+}

@@ -1,0 +1,1194 @@
+{
+  "fixture": "36 frozen DataCite CS titles/abstracts, one known article per question; no numbered-reference queries. Both systems receive the same real BGE scores and the same parallel English query. No S2 rank is supplied.",
+  "baseline": "b0eb8e0b8652e57b7e187e0bfc42f40d25c806af",
+  "evaluation": "known-item rank within provided candidate pool, not web recall",
+  "summary": {
+    "zh": {
+      "before": {
+        "queries": 22,
+        "top1": 21,
+        "top5": 22,
+        "mrr": 0.9773
+      },
+      "after": {
+        "queries": 22,
+        "top1": 21,
+        "top5": 22,
+        "mrr": 0.9773
+      }
+    },
+    "en": {
+      "before": {
+        "queries": 22,
+        "top1": 21,
+        "top5": 22,
+        "mrr": 0.9697
+      },
+      "after": {
+        "queries": 22,
+        "top1": 21,
+        "top5": 22,
+        "mrr": 0.9697
+      }
+    }
+  },
+  "cases": [
+    {
+      "query_id": "Q01",
+      "language": "zh",
+      "expected": "1810.04805",
+      "before": 2,
+      "after": 2
+    },
+    {
+      "query_id": "Q01",
+      "language": "en",
+      "expected": "1810.04805",
+      "before": 1,
+      "after": 1
+    },
+    {
+      "query_id": "Q02",
+      "language": "zh",
+      "expected": "1907.11692",
+      "before": 1,
+      "after": 1
+    },
+    {
+      "query_id": "Q02",
+      "language": "en",
+      "expected": "1907.11692",
+      "before": 3,
+      "after": 3
+    },
+    {
+      "query_id": "Q03",
+      "language": "zh",
+      "expected": "1706.03762",
+      "before": 1,
+      "after": 1
+    },
+    {
+      "query_id": "Q03",
+      "language": "en",
+      "expected": "1706.03762",
+      "before": 1,
+      "after": 1
+    },
+    {
+      "query_id": "Q04",
+      "language": "zh",
+      "expected": "2005.11401",
+      "before": 1,
+      "after": 1
+    },
+    {
+      "query_id": "Q04",
+      "language": "en",
+      "expected": "2005.11401",
+      "before": 1,
+      "after": 1
+    },
+    {
+      "query_id": "Q05",
+      "language": "zh",
+      "expected": "2004.04906",
+      "before": 1,
+      "after": 1
+    },
+    {
+      "query_id": "Q05",
+      "language": "en",
+      "expected": "2004.04906",
+      "before": 1,
+      "after": 1
+    },
+    {
+      "query_id": "Q06",
+      "language": "zh",
+      "expected": "2004.12832",
+      "before": 1,
+      "after": 1
+    },
+    {
+      "query_id": "Q06",
+      "language": "en",
+      "expected": "2004.12832",
+      "before": 1,
+      "after": 1
+    },
+    {
+      "query_id": "Q07",
+      "language": "zh",
+      "expected": "2005.12872",
+      "before": 1,
+      "after": 1
+    },
+    {
+      "query_id": "Q07",
+      "language": "en",
+      "expected": "2005.12872",
+      "before": 1,
+      "after": 1
+    },
+    {
+      "query_id": "Q08",
+      "language": "zh",
+      "expected": "1703.06870",
+      "before": 1,
+      "after": 1
+    },
+    {
+      "query_id": "Q08",
+      "language": "en",
+      "expected": "1703.06870",
+      "before": 1,
+      "after": 1
+    },
+    {
+      "query_id": "Q09",
+      "language": "zh",
+      "expected": "1612.08242",
+      "before": 1,
+      "after": 1
+    },
+    {
+      "query_id": "Q09",
+      "language": "en",
+      "expected": "1612.08242",
+      "before": 1,
+      "after": 1
+    },
+    {
+      "query_id": "Q10",
+      "language": "zh",
+      "expected": "2106.09685",
+      "before": 1,
+      "after": 1
+    },
+    {
+      "query_id": "Q10",
+      "language": "en",
+      "expected": "2106.09685",
+      "before": 1,
+      "after": 1
+    },
+    {
+      "query_id": "Q11",
+      "language": "zh",
+      "expected": "2305.14314",
+      "before": 1,
+      "after": 1
+    },
+    {
+      "query_id": "Q11",
+      "language": "en",
+      "expected": "2305.14314",
+      "before": 1,
+      "after": 1
+    },
+    {
+      "query_id": "Q12",
+      "language": "zh",
+      "expected": "2205.14135",
+      "before": 1,
+      "after": 1
+    },
+    {
+      "query_id": "Q12",
+      "language": "en",
+      "expected": "2205.14135",
+      "before": 1,
+      "after": 1
+    },
+    {
+      "query_id": "Q13",
+      "language": "zh",
+      "expected": "2307.08691",
+      "before": 1,
+      "after": 1
+    },
+    {
+      "query_id": "Q13",
+      "language": "en",
+      "expected": "2307.08691",
+      "before": 1,
+      "after": 1
+    },
+    {
+      "query_id": "Q14",
+      "language": "zh",
+      "expected": "2309.06180",
+      "before": 1,
+      "after": 1
+    },
+    {
+      "query_id": "Q14",
+      "language": "en",
+      "expected": "2309.06180",
+      "before": 1,
+      "after": 1
+    },
+    {
+      "query_id": "Q15",
+      "language": "zh",
+      "expected": "1910.02054",
+      "before": 1,
+      "after": 1
+    },
+    {
+      "query_id": "Q15",
+      "language": "en",
+      "expected": "1910.02054",
+      "before": 1,
+      "after": 1
+    },
+    {
+      "query_id": "Q16",
+      "language": "zh",
+      "expected": "1603.09320",
+      "before": 1,
+      "after": 1
+    },
+    {
+      "query_id": "Q16",
+      "language": "en",
+      "expected": "1603.09320",
+      "before": 1,
+      "after": 1
+    },
+    {
+      "query_id": "Q17",
+      "language": "zh",
+      "expected": "1712.01208",
+      "before": 1,
+      "after": 1
+    },
+    {
+      "query_id": "Q17",
+      "language": "en",
+      "expected": "1712.01208",
+      "before": 1,
+      "after": 1
+    },
+    {
+      "query_id": "Q18",
+      "language": "zh",
+      "expected": "1910.06169",
+      "before": 1,
+      "after": 1
+    },
+    {
+      "query_id": "Q18",
+      "language": "en",
+      "expected": "1910.06169",
+      "before": 1,
+      "after": 1
+    },
+    {
+      "query_id": "Q19",
+      "language": "zh",
+      "expected": "1706.02216",
+      "before": 1,
+      "after": 1
+    },
+    {
+      "query_id": "Q19",
+      "language": "en",
+      "expected": "1706.02216",
+      "before": 1,
+      "after": 1
+    },
+    {
+      "query_id": "Q20",
+      "language": "zh",
+      "expected": "1710.10903",
+      "before": 1,
+      "after": 1
+    },
+    {
+      "query_id": "Q20",
+      "language": "en",
+      "expected": "1710.10903",
+      "before": 1,
+      "after": 1
+    },
+    {
+      "query_id": "Q21",
+      "language": "zh",
+      "expected": "2009.08366",
+      "before": 1,
+      "after": 1
+    },
+    {
+      "query_id": "Q21",
+      "language": "en",
+      "expected": "2009.08366",
+      "before": 1,
+      "after": 1
+    },
+    {
+      "query_id": "Q22",
+      "language": "zh",
+      "expected": "2107.03374",
+      "before": 1,
+      "after": 1
+    },
+    {
+      "query_id": "Q22",
+      "language": "en",
+      "expected": "2107.03374",
+      "before": 1,
+      "after": 1
+    }
+  ],
+  "expert_evaluation": {
+    "protocol": "Same expert-judged CSFCube candidate pools and facet questions as benchmark_cs_ai.py. Both systems receive the same BGE scores and source title as the short search variant. No provider ranking.",
+    "metrics": {
+      "before": {
+        "n": 50,
+        "nDCG@10": 0.42,
+        "Hit@3": 0.72,
+        "Recall@10": 0.3201
+      },
+      "after": {
+        "n": 50,
+        "nDCG@10": 0.435,
+        "Hit@3": 0.76,
+        "Recall@10": 0.3207
+      }
+    },
+    "by_facet": {
+      "background": {
+        "before": {
+          "n": 16,
+          "nDCG@10": 0.4537,
+          "Hit@3": 0.75,
+          "Recall@10": 0.2997
+        },
+        "after": {
+          "n": 16,
+          "nDCG@10": 0.466,
+          "Hit@3": 0.8125,
+          "Recall@10": 0.2973
+        }
+      },
+      "method": {
+        "before": {
+          "n": 17,
+          "nDCG@10": 0.3208,
+          "Hit@3": 0.5294,
+          "Recall@10": 0.2717
+        },
+        "after": {
+          "n": 17,
+          "nDCG@10": 0.326,
+          "Hit@3": 0.5882,
+          "Recall@10": 0.2507
+        }
+      },
+      "result": {
+        "before": {
+          "n": 17,
+          "nDCG@10": 0.4875,
+          "Hit@3": 0.8824,
+          "Recall@10": 0.3878
+        },
+        "after": {
+          "n": 17,
+          "nDCG@10": 0.5148,
+          "Hit@3": 0.8824,
+          "Recall@10": 0.4128
+        }
+      }
+    },
+    "long_questions": {
+      "before": {
+        "n": 34,
+        "nDCG@10": 0.4368,
+        "Hit@3": 0.7353,
+        "Recall@10": 0.3509
+      },
+      "after": {
+        "n": 34,
+        "nDCG@10": 0.4588,
+        "Hit@3": 0.7941,
+        "Recall@10": 0.3518
+      }
+    },
+    "short_questions": {
+      "before": {
+        "n": 16,
+        "nDCG@10": 0.3844,
+        "Hit@3": 0.6875,
+        "Recall@10": 0.2548
+      },
+      "after": {
+        "n": 16,
+        "nDCG@10": 0.3844,
+        "Hit@3": 0.6875,
+        "Recall@10": 0.2548
+      }
+    },
+    "interval": {
+      "metric": "nDCG@10",
+      "resampling_units": 34,
+      "paired_percentile_95_interval": [
+        -0.0012,
+        0.032
+      ]
+    },
+    "cases": [
+      {
+        "qid": "10014168",
+        "facet": "background",
+        "question_chars": 214,
+        "before": {
+          "nDCG@10": 0.229348,
+          "Hit@3": 0,
+          "Recall@10": 0.0
+        },
+        "after": {
+          "nDCG@10": 0.229348,
+          "Hit@3": 0,
+          "Recall@10": 0.0
+        }
+      },
+      {
+        "qid": "10695055",
+        "facet": "background",
+        "question_chars": 203,
+        "before": {
+          "nDCG@10": 0.166634,
+          "Hit@3": 0,
+          "Recall@10": 0.058824
+        },
+        "after": {
+          "nDCG@10": 0.166634,
+          "Hit@3": 0,
+          "Recall@10": 0.058824
+        }
+      },
+      {
+        "qid": "5764728",
+        "facet": "background",
+        "question_chars": 708,
+        "before": {
+          "nDCG@10": 0.522377,
+          "Hit@3": 1,
+          "Recall@10": 0.238095
+        },
+        "after": {
+          "nDCG@10": 0.506076,
+          "Hit@3": 1,
+          "Recall@10": 0.238095
+        }
+      },
+      {
+        "qid": "51977123",
+        "facet": "background",
+        "question_chars": 362,
+        "before": {
+          "nDCG@10": 0.441373,
+          "Hit@3": 1,
+          "Recall@10": 0.416667
+        },
+        "after": {
+          "nDCG@10": 0.404287,
+          "Hit@3": 1,
+          "Recall@10": 0.416667
+        }
+      },
+      {
+        "qid": "929877",
+        "facet": "background",
+        "question_chars": 456,
+        "before": {
+          "nDCG@10": 0.541427,
+          "Hit@3": 1,
+          "Recall@10": 0.333333
+        },
+        "after": {
+          "nDCG@10": 0.637335,
+          "Hit@3": 1,
+          "Recall@10": 0.333333
+        }
+      },
+      {
+        "qid": "3264891",
+        "facet": "background",
+        "question_chars": 387,
+        "before": {
+          "nDCG@10": 0.438959,
+          "Hit@3": 1,
+          "Recall@10": 0.277778
+        },
+        "after": {
+          "nDCG@10": 0.458398,
+          "Hit@3": 1,
+          "Recall@10": 0.277778
+        }
+      },
+      {
+        "qid": "1936997",
+        "facet": "background",
+        "question_chars": 248,
+        "before": {
+          "nDCG@10": 0.297257,
+          "Hit@3": 1,
+          "Recall@10": 0.166667
+        },
+        "after": {
+          "nDCG@10": 0.297257,
+          "Hit@3": 1,
+          "Recall@10": 0.166667
+        }
+      },
+      {
+        "qid": "11844559",
+        "facet": "background",
+        "question_chars": 856,
+        "before": {
+          "nDCG@10": 0.706685,
+          "Hit@3": 1,
+          "Recall@10": 0.333333
+        },
+        "after": {
+          "nDCG@10": 0.645504,
+          "Hit@3": 1,
+          "Recall@10": 0.296296
+        }
+      },
+      {
+        "qid": "8781666",
+        "facet": "background",
+        "question_chars": 233,
+        "before": {
+          "nDCG@10": 0.43456,
+          "Hit@3": 1,
+          "Recall@10": 0.111111
+        },
+        "after": {
+          "nDCG@10": 0.43456,
+          "Hit@3": 1,
+          "Recall@10": 0.111111
+        }
+      },
+      {
+        "qid": "1587",
+        "facet": "background",
+        "question_chars": 274,
+        "before": {
+          "nDCG@10": 0.44894,
+          "Hit@3": 1,
+          "Recall@10": 0.266667
+        },
+        "after": {
+          "nDCG@10": 0.44894,
+          "Hit@3": 1,
+          "Recall@10": 0.266667
+        }
+      },
+      {
+        "qid": "189897839",
+        "facet": "background",
+        "question_chars": 366,
+        "before": {
+          "nDCG@10": 0.426495,
+          "Hit@3": 0,
+          "Recall@10": 0.153846
+        },
+        "after": {
+          "nDCG@10": 0.466234,
+          "Hit@3": 1,
+          "Recall@10": 0.153846
+        }
+      },
+      {
+        "qid": "6173686",
+        "facet": "background",
+        "question_chars": 154,
+        "before": {
+          "nDCG@10": 0.716452,
+          "Hit@3": 1,
+          "Recall@10": 0.4
+        },
+        "after": {
+          "nDCG@10": 0.716452,
+          "Hit@3": 1,
+          "Recall@10": 0.4
+        }
+      },
+      {
+        "qid": "7898033",
+        "facet": "background",
+        "question_chars": 507,
+        "before": {
+          "nDCG@10": 0.492057,
+          "Hit@3": 0,
+          "Recall@10": 0.666667
+        },
+        "after": {
+          "nDCG@10": 0.508732,
+          "Hit@3": 0,
+          "Recall@10": 0.666667
+        }
+      },
+      {
+        "qid": "52194540",
+        "facet": "background",
+        "question_chars": 589,
+        "before": {
+          "nDCG@10": 0.414895,
+          "Hit@3": 1,
+          "Recall@10": 0.171429
+        },
+        "after": {
+          "nDCG@10": 0.488419,
+          "Hit@3": 1,
+          "Recall@10": 0.171429
+        }
+      },
+      {
+        "qid": "1791179",
+        "facet": "background",
+        "question_chars": 266,
+        "before": {
+          "nDCG@10": 0.250514,
+          "Hit@3": 1,
+          "Recall@10": 0.2
+        },
+        "after": {
+          "nDCG@10": 0.250514,
+          "Hit@3": 1,
+          "Recall@10": 0.2
+        }
+      },
+      {
+        "qid": "6431039",
+        "facet": "background",
+        "question_chars": 1102,
+        "before": {
+          "nDCG@10": 0.731838,
+          "Hit@3": 1,
+          "Recall@10": 1.0
+        },
+        "after": {
+          "nDCG@10": 0.797553,
+          "Hit@3": 1,
+          "Recall@10": 1.0
+        }
+      },
+      {
+        "qid": "1198964",
+        "facet": "method",
+        "question_chars": 583,
+        "before": {
+          "nDCG@10": 0.726276,
+          "Hit@3": 1,
+          "Recall@10": 0.5
+        },
+        "after": {
+          "nDCG@10": 0.577904,
+          "Hit@3": 1,
+          "Recall@10": 0.5
+        }
+      },
+      {
+        "qid": "11310392",
+        "facet": "method",
+        "question_chars": 760,
+        "before": {
+          "nDCG@10": 0.251823,
+          "Hit@3": 1,
+          "Recall@10": 0.125
+        },
+        "after": {
+          "nDCG@10": 0.252914,
+          "Hit@3": 1,
+          "Recall@10": 0.125
+        }
+      },
+      {
+        "qid": "10010426",
+        "facet": "method",
+        "question_chars": 508,
+        "before": {
+          "nDCG@10": 0.135508,
+          "Hit@3": 0,
+          "Recall@10": 0.25
+        },
+        "after": {
+          "nDCG@10": 0.370856,
+          "Hit@3": 1,
+          "Recall@10": 0.375
+        }
+      },
+      {
+        "qid": "53080736",
+        "facet": "method",
+        "question_chars": 371,
+        "before": {
+          "nDCG@10": 0.295932,
+          "Hit@3": 0,
+          "Recall@10": 0.0
+        },
+        "after": {
+          "nDCG@10": 0.297983,
+          "Hit@3": 0,
+          "Recall@10": 0.0
+        }
+      },
+      {
+        "qid": "53082542",
+        "facet": "method",
+        "question_chars": 428,
+        "before": {
+          "nDCG@10": 0.359866,
+          "Hit@3": 1,
+          "Recall@10": 0.166667
+        },
+        "after": {
+          "nDCG@10": 0.362996,
+          "Hit@3": 1,
+          "Recall@10": 0.166667
+        }
+      },
+      {
+        "qid": "1791179",
+        "facet": "method",
+        "question_chars": 291,
+        "before": {
+          "nDCG@10": 0.211455,
+          "Hit@3": 0,
+          "Recall@10": 0.0
+        },
+        "after": {
+          "nDCG@10": 0.211455,
+          "Hit@3": 0,
+          "Recall@10": 0.0
+        }
+      },
+      {
+        "qid": "2468783",
+        "facet": "method",
+        "question_chars": 410,
+        "before": {
+          "nDCG@10": 0.393602,
+          "Hit@3": 1,
+          "Recall@10": 0.214286
+        },
+        "after": {
+          "nDCG@10": 0.514955,
+          "Hit@3": 1,
+          "Recall@10": 0.285714
+        }
+      },
+      {
+        "qid": "80628431",
+        "facet": "method",
+        "question_chars": 455,
+        "before": {
+          "nDCG@10": 0.284687,
+          "Hit@3": 1,
+          "Recall@10": 0.5
+        },
+        "after": {
+          "nDCG@10": 0.248875,
+          "Hit@3": 1,
+          "Recall@10": 0.375
+        }
+      },
+      {
+        "qid": "189897839",
+        "facet": "method",
+        "question_chars": 308,
+        "before": {
+          "nDCG@10": 0.083097,
+          "Hit@3": 0,
+          "Recall@10": 0.0
+        },
+        "after": {
+          "nDCG@10": 0.04891,
+          "Hit@3": 0,
+          "Recall@10": 0.0
+        }
+      },
+      {
+        "qid": "52194540",
+        "facet": "method",
+        "question_chars": 331,
+        "before": {
+          "nDCG@10": 0.504771,
+          "Hit@3": 1,
+          "Recall@10": 0.333333
+        },
+        "after": {
+          "nDCG@10": 0.440331,
+          "Hit@3": 1,
+          "Recall@10": 0.333333
+        }
+      },
+      {
+        "qid": "929877",
+        "facet": "method",
+        "question_chars": 322,
+        "before": {
+          "nDCG@10": 0.05753,
+          "Hit@3": 0,
+          "Recall@10": 0.125
+        },
+        "after": {
+          "nDCG@10": 0.05753,
+          "Hit@3": 0,
+          "Recall@10": 0.125
+        }
+      },
+      {
+        "qid": "1936997",
+        "facet": "method",
+        "question_chars": 284,
+        "before": {
+          "nDCG@10": 0.332254,
+          "Hit@3": 1,
+          "Recall@10": 0.285714
+        },
+        "after": {
+          "nDCG@10": 0.332254,
+          "Hit@3": 1,
+          "Recall@10": 0.285714
+        }
+      },
+      {
+        "qid": "102353905",
+        "facet": "method",
+        "question_chars": 456,
+        "before": {
+          "nDCG@10": 0.369447,
+          "Hit@3": 1,
+          "Recall@10": 0.285714
+        },
+        "after": {
+          "nDCG@10": 0.411652,
+          "Hit@3": 1,
+          "Recall@10": 0.357143
+        }
+      },
+      {
+        "qid": "5052952",
+        "facet": "method",
+        "question_chars": 828,
+        "before": {
+          "nDCG@10": 0.055177,
+          "Hit@3": 0,
+          "Recall@10": 0.0
+        },
+        "after": {
+          "nDCG@10": 0.128116,
+          "Hit@3": 0,
+          "Recall@10": 0.0
+        }
+      },
+      {
+        "qid": "13949438",
+        "facet": "method",
+        "question_chars": 200,
+        "before": {
+          "nDCG@10": 0.384096,
+          "Hit@3": 0,
+          "Recall@10": 0.333333
+        },
+        "after": {
+          "nDCG@10": 0.384096,
+          "Hit@3": 0,
+          "Recall@10": 0.333333
+        }
+      },
+      {
+        "qid": "174799296",
+        "facet": "method",
+        "question_chars": 477,
+        "before": {
+          "nDCG@10": 0.380398,
+          "Hit@3": 0,
+          "Recall@10": 0.5
+        },
+        "after": {
+          "nDCG@10": 0.274172,
+          "Hit@3": 0,
+          "Recall@10": 0.0
+        }
+      },
+      {
+        "qid": "5270848",
+        "facet": "method",
+        "question_chars": 245,
+        "before": {
+          "nDCG@10": 0.627578,
+          "Hit@3": 1,
+          "Recall@10": 1.0
+        },
+        "after": {
+          "nDCG@10": 0.627578,
+          "Hit@3": 1,
+          "Recall@10": 1.0
+        }
+      },
+      {
+        "qid": "1198964",
+        "facet": "result",
+        "question_chars": 306,
+        "before": {
+          "nDCG@10": 0.409515,
+          "Hit@3": 1,
+          "Recall@10": 0.2
+        },
+        "after": {
+          "nDCG@10": 0.424788,
+          "Hit@3": 1,
+          "Recall@10": 0.2
+        }
+      },
+      {
+        "qid": "10052042",
+        "facet": "result",
+        "question_chars": 274,
+        "before": {
+          "nDCG@10": 0.284114,
+          "Hit@3": 1,
+          "Recall@10": 0.142857
+        },
+        "after": {
+          "nDCG@10": 0.284114,
+          "Hit@3": 1,
+          "Recall@10": 0.142857
+        }
+      },
+      {
+        "qid": "11629674",
+        "facet": "result",
+        "question_chars": 423,
+        "before": {
+          "nDCG@10": 0.422496,
+          "Hit@3": 1,
+          "Recall@10": 0.333333
+        },
+        "after": {
+          "nDCG@10": 0.419664,
+          "Hit@3": 1,
+          "Recall@10": 0.333333
+        }
+      },
+      {
+        "qid": "1587",
+        "facet": "result",
+        "question_chars": 218,
+        "before": {
+          "nDCG@10": 0.369711,
+          "Hit@3": 1,
+          "Recall@10": 0.222222
+        },
+        "after": {
+          "nDCG@10": 0.369711,
+          "Hit@3": 1,
+          "Recall@10": 0.222222
+        }
+      },
+      {
+        "qid": "174799296",
+        "facet": "result",
+        "question_chars": 353,
+        "before": {
+          "nDCG@10": 0.501716,
+          "Hit@3": 1,
+          "Recall@10": 0.6
+        },
+        "after": {
+          "nDCG@10": 0.489816,
+          "Hit@3": 1,
+          "Recall@10": 0.6
+        }
+      },
+      {
+        "qid": "1306065",
+        "facet": "result",
+        "question_chars": 402,
+        "before": {
+          "nDCG@10": 0.41521,
+          "Hit@3": 1,
+          "Recall@10": 0.333333
+        },
+        "after": {
+          "nDCG@10": 0.522233,
+          "Hit@3": 1,
+          "Recall@10": 0.444444
+        }
+      },
+      {
+        "qid": "53080736",
+        "facet": "result",
+        "question_chars": 522,
+        "before": {
+          "nDCG@10": 0.601844,
+          "Hit@3": 1,
+          "Recall@10": 0.666667
+        },
+        "after": {
+          "nDCG@10": 0.704405,
+          "Hit@3": 1,
+          "Recall@10": 1.0
+        }
+      },
+      {
+        "qid": "2090262",
+        "facet": "result",
+        "question_chars": 399,
+        "before": {
+          "nDCG@10": 0.412825,
+          "Hit@3": 1,
+          "Recall@10": 0.307692
+        },
+        "after": {
+          "nDCG@10": 0.456028,
+          "Hit@3": 1,
+          "Recall@10": 0.307692
+        }
+      },
+      {
+        "qid": "2865563",
+        "facet": "result",
+        "question_chars": 502,
+        "before": {
+          "nDCG@10": 0.719484,
+          "Hit@3": 1,
+          "Recall@10": 0.357143
+        },
+        "after": {
+          "nDCG@10": 0.755057,
+          "Hit@3": 1,
+          "Recall@10": 0.428571
+        }
+      },
+      {
+        "qid": "11844559",
+        "facet": "result",
+        "question_chars": 473,
+        "before": {
+          "nDCG@10": 0.69508,
+          "Hit@3": 1,
+          "Recall@10": 0.454545
+        },
+        "after": {
+          "nDCG@10": 0.684223,
+          "Hit@3": 1,
+          "Recall@10": 0.363636
+        }
+      },
+      {
+        "qid": "2468783",
+        "facet": "result",
+        "question_chars": 238,
+        "before": {
+          "nDCG@10": 0.809982,
+          "Hit@3": 1,
+          "Recall@10": 0.666667
+        },
+        "after": {
+          "nDCG@10": 0.809982,
+          "Hit@3": 1,
+          "Recall@10": 0.666667
+        }
+      },
+      {
+        "qid": "5052952",
+        "facet": "result",
+        "question_chars": 280,
+        "before": {
+          "nDCG@10": 0.217071,
+          "Hit@3": 1,
+          "Recall@10": 0.222222
+        },
+        "after": {
+          "nDCG@10": 0.217071,
+          "Hit@3": 1,
+          "Recall@10": 0.222222
+        }
+      },
+      {
+        "qid": "2360770",
+        "facet": "result",
+        "question_chars": 422,
+        "before": {
+          "nDCG@10": 0.722102,
+          "Hit@3": 1,
+          "Recall@10": 0.6
+        },
+        "after": {
+          "nDCG@10": 0.754407,
+          "Hit@3": 1,
+          "Recall@10": 0.6
+        }
+      },
+      {
+        "qid": "3264891",
+        "facet": "result",
+        "question_chars": 231,
+        "before": {
+          "nDCG@10": 0.370447,
+          "Hit@3": 0,
+          "Recall@10": 0.0
+        },
+        "after": {
+          "nDCG@10": 0.370447,
+          "Hit@3": 0,
+          "Recall@10": 0.0
+        }
+      },
+      {
+        "qid": "6431039",
+        "facet": "result",
+        "question_chars": 538,
+        "before": {
+          "nDCG@10": 0.639197,
+          "Hit@3": 1,
+          "Recall@10": 1.0
+        },
+        "after": {
+          "nDCG@10": 0.740267,
+          "Hit@3": 1,
+          "Recall@10": 1.0
+        }
+      },
+      {
+        "qid": "80628431",
+        "facet": "result",
+        "question_chars": 580,
+        "before": {
+          "nDCG@10": 0.161818,
+          "Hit@3": 0,
+          "Recall@10": 0.2
+        },
+        "after": {
+          "nDCG@10": 0.193265,
+          "Hit@3": 0,
+          "Recall@10": 0.2
+        }
+      },
+      {
+        "qid": "8781666",
+        "facet": "result",
+        "question_chars": 308,
+        "before": {
+          "nDCG@10": 0.534125,
+          "Hit@3": 1,
+          "Recall@10": 0.285714
+        },
+        "after": {
+          "nDCG@10": 0.556339,
+          "Hit@3": 1,
+          "Recall@10": 0.285714
+        }
+      }
+    ]
+  }
+}

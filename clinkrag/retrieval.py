@@ -104,7 +104,11 @@ def fuse_rankings(question, semantic_ranked, plan, query_dimensions=None):
     papers = list({p['paperId']: p for p in semantic_ranked}.values())
     ids = [p['paperId'] for p in papers]
     documents = [(p.get('title') or '')+'\n'+(p.get('abstract') or '') for p in papers]
+    # Outgoing query validation caps each search string at 300 characters.
+    # Local ranking can also use the researcher's complete original question.
     queries = clean_queries([question]+list(plan.get('topic_queries', [])), maximum=3)
+    if len(' '.join(question.split())) > 300:
+        queries = [question, *queries[:2]]
     lexical = defaultdict(float)
     index = LexicalIndex(documents)
     for query in queries:

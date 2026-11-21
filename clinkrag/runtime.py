@@ -61,6 +61,9 @@ class Model:
         raise StructuredOutputError(f'结构化结果经过 {max_attempts} 次尝试仍无法解析。'+str(failure)) from failure
 
 class Ranker:
+    # BGE computes each (question, passage) logit independently of other papers.
+    independent_pair_scores = True
+
     def __init__(self,device='cuda:0',recorder=None):
         self.device=device;self.recorder=recorder;self.model=None
     def rank(self,query,items,text=lambda x:x['text']):

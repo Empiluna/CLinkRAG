@@ -11,6 +11,7 @@
       <textarea id="lit-question" rows="2" minlength="2" maxlength="1500" required placeholder="想从文献中核对什么？"></textarea>
       <fieldset class="collection-choice"><legend>资料来源</legend>
         <label><input type="radio" name="collection" value="builtin" checked><span>示例文献</span></label>
+        <label><input type="radio" name="collection" value="computing"><span>计算机与 AI</span></label>
         <label><input type="radio" name="collection" value="personal"><span>我的资料</span></label>
         <label><input type="radio" name="collection" value="crossref"><span>在线查找</span></label>
       </fieldset>
@@ -41,7 +42,7 @@
         <button type="button" id="lit-connect" class="text-button" hidden>设置回答模型</button>
         <p id="brief-status" role="status"></p><div id="brief-content"></div></section></section>`;
 
-  for (const [value, name] of [['builtin','book'],['personal','folder'],['crossref','globe']]) {
+  for (const [value, name] of [['builtin','book'],['computing','paper'],['personal','folder'],['crossref','globe']]) {
     desk.querySelector(`input[value="${value}"] + span`).prepend(window.researchIcon(name));
   }
   $('lit-search').prepend(window.researchIcon('search'));
@@ -67,6 +68,7 @@
     $('lit-scope').textContent = {
       builtin: catalog ? `随附 ${catalog.count} 篇文献，可在本机直接查证。` : '使用随项目附带的文献，在本机查证。',
       personal: '可加入 1–20 篇文本。单篇最多 5 万字，共 30 万字。',
+      computing: '离线查找 2024–2025 年的会议摘要，涵盖机器学习、语言处理、数据库、算法与系统。',
       crossref: '查找时会将问题发送至 Crossref，使用其公开文献记录。'
     }[collection()];
   }
@@ -299,6 +301,7 @@
       label.append(choose,node('span','来源 '+(index+1)));
       header.append(label);
       if(item.year)header.append(node('span',String(item.year)));
+      if(item.container)header.append(node('span',item.container));
       if(item.page_start)header.append(node('span',item.page_end&&item.page_start!==item.page_end?`第 ${item.page_start}–${item.page_end} 页`:`第 ${item.page_start} 页`));
       const link=sourceLink(item.url);if(link)header.append(link);
       const title = node('h3',item.title||'未命名资料');

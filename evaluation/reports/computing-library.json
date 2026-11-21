@@ -1,0 +1,170 @@
+{
+  "documents": 1052,
+  "venues": {
+    "AISTATS 2024": 547,
+    "DISC 2025": 66,
+    "EACL 2024": 223,
+    "ECOOP 2025": 42,
+    "ECRTS 2025": 22,
+    "ESA 2025": 116,
+    "ICDT 2025": 36
+  },
+  "source_sha256_lf": "1ecc96c6664e0d193d7e50f8982c346855d570d20e789e5062a4304dab173c7a",
+  "protocol": "Five alternating runs in one process. First query rebuilds or loads the index; the OS file cache may be warm. Each warm lap issues the same 12 service calls, top 5, including excerpt and export creation. This is application time, not network time.",
+  "timing": {
+    "prepared": {
+      "first_query_ms": [
+        108.744,
+        103.506,
+        101.633,
+        95.584,
+        104.04
+      ],
+      "warm_12_queries_ms": [
+        3.288,
+        3.608,
+        3.547,
+        3.642,
+        4.194
+      ],
+      "first_query_ms_median": 103.506,
+      "warm_12_queries_ms_median": 3.608
+    },
+    "rebuild": {
+      "first_query_ms": [
+        347.876,
+        340.705,
+        342.394,
+        376.78,
+        337.21
+      ],
+      "warm_12_queries_ms": [
+        3.317,
+        3.738,
+        3.832,
+        3.257,
+        3.241
+      ],
+      "first_query_ms_median": 342.394,
+      "warm_12_queries_ms_median": 3.317
+    }
+  },
+  "queries": {
+    "图神经网络": {
+      "hits": 5,
+      "first_id": "https://proceedings.mlr.press/v238/eliasof24a.html"
+    },
+    "分布式共识": {
+      "hits": 5,
+      "first_id": "10.4230/lipics.disc.2025.28"
+    },
+    "数据库查询优化": {
+      "hits": 5,
+      "first_id": "10.4230/lipics.icdt.2025.34"
+    },
+    "类型系统": {
+      "hits": 5,
+      "first_id": "10.4230/lipics.ecoop.2025.15"
+    },
+    "动态规划": {
+      "hits": 5,
+      "first_id": "10.4230/lipics.esa.2025.23"
+    },
+    "大语言模型": {
+      "hits": 5,
+      "first_id": "10.18653/v1/2024.eacl-long.1"
+    },
+    "graph neural network": {
+      "hits": 5,
+      "first_id": "https://proceedings.mlr.press/v238/wen24a.html"
+    },
+    "distributed consensus": {
+      "hits": 5,
+      "first_id": "10.4230/lipics.disc.2025.28"
+    },
+    "query optimization": {
+      "hits": 5,
+      "first_id": "10.4230/lipics.icdt.2025.34"
+    },
+    "type systems": {
+      "hits": 5,
+      "first_id": "10.4230/lipics.ecoop.2025.15"
+    },
+    "dynamic programming": {
+      "hits": 5,
+      "first_id": "10.4230/lipics.esa.2025.23"
+    },
+    "large language models": {
+      "hits": 5,
+      "first_id": "https://proceedings.mlr.press/v238/harsha-tanneru24a.html"
+    }
+  },
+  "prepared_dynamic_all_ids_scores_and_offsets_equal": true,
+  "known_title_checks": [
+    {
+      "venue": "AISTATS 2024",
+      "id": "https://proceedings.mlr.press/v238/li24j.html",
+      "title": "Backward Filtering Forward Deciding in Linear Non-Gaussian State Space Models",
+      "rank": 1
+    },
+    {
+      "venue": "DISC 2025",
+      "id": "10.4230/lipics.disc.2025.4",
+      "title": "pod: An Optimal-Latency, Censorship-Free, and Accountable Generalized Consensus Layer",
+      "rank": 1
+    },
+    {
+      "venue": "EACL 2024",
+      "id": "10.18653/v1/2024.eacl-long.36",
+      "title": "GAINER: Graph Machine Learning with Node-specific Radius for Classification of Short Texts and Documents",
+      "rank": 1
+    },
+    {
+      "venue": "ECOOP 2025",
+      "id": "10.4230/lipics.ecoop.2025.29",
+      "title": "Declarative Dynamic Object Reclassification",
+      "rank": 1
+    },
+    {
+      "venue": "ECRTS 2025",
+      "id": "10.4230/lipics.ecrts.2025.2",
+      "title": "Multi-Objective Memory Bandwidth Regulation and Cache Partitioning for Multicore Real-Time Systems",
+      "rank": 1
+    },
+    {
+      "venue": "ESA 2025",
+      "id": "10.4230/lipics.esa.2025.47",
+      "title": "Fast and Lightweight Distributed Suffix Array Construction",
+      "rank": 1
+    },
+    {
+      "venue": "ICDT 2025",
+      "id": "10.4230/lipics.icdt.2025.26",
+      "title": "Dynamic Direct Access of MSO Query Evaluation over Strings",
+      "rank": 1
+    }
+  ],
+  "crossref": {
+    "query": "graph neural networks oversmoothing",
+    "runs": [
+      {
+        "ms": 1127.51,
+        "http_calls": 1,
+        "dois": [
+          "10.1007/s10489-025-06426-0",
+          "10.1007/s10994-025-06822-0",
+          "10.21203/rs.3.rs-9446792/v1"
+        ]
+      },
+      {
+        "ms": 3.641,
+        "http_calls": 0,
+        "dois": [
+          "10.1007/s10489-025-06426-0",
+          "10.1007/s10994-025-06822-0",
+          "10.21203/rs.3.rs-9446792/v1"
+        ]
+      }
+    ]
+  }
+}

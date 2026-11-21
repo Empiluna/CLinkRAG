@@ -19,10 +19,15 @@ def main():
     parser.add_argument('--live', required=True, action='store_true',
                         help='Use configured Semantic Scholar, model API and local reranker')
     parser.add_argument('--out', type=Path, required=True)
+    parser.add_argument('--case', choices=('education','computing'), default='education')
     args = parser.parse_args()
     question = '间隔学习能否改善中学物理学习的保持效果？'
+    dimension = '中学物理学习的保持效果'
+    if args.case == 'computing':
+        question = 'BERT（DOI:10.18653/v1/N19-1423）怎样预训练双向语言表示，原论文摘要给出了哪些结果？'
+        dimension = 'BERT 的双向预训练与原论文结果'
     request = validate_request({'question':question, 'method':'clinkrag_online','online_papers':3,
-                                'research_dimensions':['中学物理学习的保持效果'], 'extra_queries':0,
+                                'research_dimensions':[dimension], 'extra_queries':0,
                                 'initial_papers':2, 'answer_words':500,'max_tokens':1800})
     start = time.monotonic()
     folder = ROOT/'.cache'/'acceptance'
@@ -49,10 +54,17 @@ def main():
                 'query_count':len(online.get('queries',[])), 'candidate_count':len(online.get('candidates',[])),
                 'selected_papers':len(by_id), 'cited_source_indices':sorted(cited),'cited_passages_match_abstract':verified,
                 'has_separate_review':bool(result.get('evidence_review')),'answer':result.get('answer','')}
+        named_cited = True
+        if args.case == 'computing':
+            requested = online.get('requested_references',{})
+            named = requested.get('DOI:10.18653/v1/n19-1423')
+            named_cited = bool(named and any(i<len(sources) and sources[i]['id']==named for i in cited))
+            report.update(requested_references=requested, named_paper_used_in_answer=named_cited,
+                          selected_titles=[p['title'] for p in by_id.values()])
         args.out.parent.mkdir(parents=True,exist_ok=True)
         args.out.write_text(json.dumps(report,ensure_ascii=False,indent=2),encoding='utf-8')
         print(report['state'],'selected',len(by_id),'cited',len(cited))
-        return int(not (report['state']=='success' and verified and report['has_separate_review']))
+        return int(not (report['state']=='success' and verified and named_cited and report['has_separate_review']))
 
 
 if __name__=='__main__':

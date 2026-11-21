@@ -1,0 +1,236 @@
+{
+  "description": "Project-authored, parallel Chinese and English known-item questions. One intended paper per question; other relevant papers may exist. Candidate titles and abstracts come from DataCite arXiv metadata without Chinese tags. The expert-judged CSFCube evaluation is separate.",
+  "source": "https://api.datacite.org/dois",
+  "paper_ids": [
+    "1506.02640",
+    "1612.08242",
+    "2005.12872",
+    "1506.01497",
+    "1703.06870",
+    "1706.03762",
+    "1810.04805",
+    "1907.11692",
+    "1910.10683",
+    "2005.11401",
+    "2004.04906",
+    "2002.08909",
+    "2004.12832",
+    "2112.01488",
+    "2106.09685",
+    "2305.14314",
+    "2205.14135",
+    "2307.08691",
+    "2305.13245",
+    "2309.06180",
+    "1503.02531",
+    "1603.09320",
+    "1702.08734",
+    "1712.01208",
+    "1910.06169",
+    "2107.03374",
+    "2002.08155",
+    "2009.08366",
+    "1609.02907",
+    "1706.02216",
+    "1710.10903",
+    "1603.04467",
+    "1910.02054",
+    "1909.08053",
+    "1811.06965",
+    "2208.07339"
+  ],
+  "questions": [
+    {
+      "id": "Q01",
+      "field": "language",
+      "kind": "concept",
+      "target": "1810.04805",
+      "zh": "哪项双向语言模型使用掩码词预测和下一句预测预训练？",
+      "en": "Which bidirectional language model was pretrained by predicting masked words and the next sentence?"
+    },
+    {
+      "id": "Q02",
+      "field": "language",
+      "kind": "concept",
+      "target": "1907.11692",
+      "zh": "哪篇工作系统研究了更大批次和更多预训练数据如何改进掩码语言模型？",
+      "en": "Which paper studies larger batches and more training data to improve masked language model pretraining?"
+    },
+    {
+      "id": "Q03",
+      "field": "language",
+      "kind": "concept",
+      "target": "1706.03762",
+      "zh": "只依靠注意力而不用循环网络的机器翻译架构出自哪篇论文？",
+      "en": "Which machine translation architecture dispenses with recurrence and relies entirely on attention?"
+    },
+    {
+      "id": "Q04",
+      "field": "retrieval",
+      "kind": "concept",
+      "target": "2005.11401",
+      "zh": "如何让序列生成模型从外部知识库中检索资料，完成需要知识的任务？",
+      "en": "Which generation method combines a pretrained sequence model with external non-parametric memory for knowledge-intensive tasks?"
+    },
+    {
+      "id": "Q05",
+      "field": "retrieval",
+      "kind": "concept",
+      "target": "2004.04906",
+      "zh": "哪篇论文用双编码器和稠密段落表示做开放域问答？",
+      "en": "Which paper uses dual encoders for dense passage retrieval in open-domain question answering?"
+    },
+    {
+      "id": "Q06",
+      "field": "retrieval",
+      "kind": "mixed",
+      "target": "2004.12832",
+      "zh": "请找出最初提出 ColBERT 让查询和文档词向量延迟交互的方法。",
+      "en": "Which original ColBERT paper uses late interaction between query and document token vectors?"
+    },
+    {
+      "id": "Q07",
+      "field": "computer_vision",
+      "kind": "concept",
+      "target": "2005.12872",
+      "zh": "哪篇论文将目标检测建模为集合预测，并用二分图匹配进行端到端训练？",
+      "en": "Which object detector treats detection as set prediction and trains with bipartite matching?"
+    },
+    {
+      "id": "Q08",
+      "field": "computer_vision",
+      "kind": "concept",
+      "target": "1703.06870",
+      "zh": "哪项实例分割方法在检测框分支旁边并行增加一个像素掩码分支？",
+      "en": "Which instance segmentation method adds a parallel pixel mask branch to a bounding box detector?"
+    },
+    {
+      "id": "Q09",
+      "field": "computer_vision",
+      "kind": "mixed",
+      "target": "1612.08242",
+      "zh": "YOLO9000 当年如何通过联合训练，在九千多类对象上执行实时检测？",
+      "en": "Which YOLO9000 paper reports real-time detection for over nine thousand object categories through joint training?"
+    },
+    {
+      "id": "Q10",
+      "field": "adaptation",
+      "kind": "concept",
+      "target": "2106.09685",
+      "zh": "哪项工作冻结预训练权重并训练低秩矩阵，减少微调参数？",
+      "en": "Which adaptation technique freezes pretrained weights and trains a pair of low-rank matrices?"
+    },
+    {
+      "id": "Q11",
+      "field": "adaptation",
+      "kind": "concept",
+      "target": "2305.14314",
+      "zh": "哪篇论文通过四比特量化冻结的大模型，再学习低秩适配器，以节省微调显存？",
+      "en": "Which work backpropagates through a frozen four-bit quantized large language model into low-rank adapters?"
+    },
+    {
+      "id": "Q12",
+      "field": "systems",
+      "kind": "mixed",
+      "target": "2205.14135",
+      "zh": "第一代 Flash Attention 如何利用分块减少 GPU 的显存读写？",
+      "en": "How does the original Flash Attention use tiling to reduce memory transfers on GPUs?"
+    },
+    {
+      "id": "Q13",
+      "field": "systems",
+      "kind": "mixed",
+      "target": "2307.08691",
+      "zh": "FlashAttention-2 怎样通过减少非矩阵乘运算并调整工作分配来提高并行度？",
+      "en": "Which FlashAttention-2 paper improves parallelism by repartitioning work and reducing non-matrix operations?"
+    },
+    {
+      "id": "Q14",
+      "field": "systems",
+      "kind": "concept",
+      "target": "2309.06180",
+      "zh": "哪种大语言模型推理服务借用了操作系统分页思想来管理键值缓存？",
+      "en": "Which large language model serving system borrows virtual memory paging to manage its key-value cache?"
+    },
+    {
+      "id": "Q15",
+      "field": "systems",
+      "kind": "concept",
+      "target": "1910.02054",
+      "zh": "如何在数据并行训练中消除显存冗余来训练万亿参数模型？",
+      "en": "Which method removes memory redundancy in data-parallel training to scale up to trillion parameter models?"
+    },
+    {
+      "id": "Q16",
+      "field": "indexing",
+      "kind": "concept",
+      "target": "1603.09320",
+      "zh": "哪篇论文通过分层可导航小世界图加速近似最近邻搜索？",
+      "en": "Which paper accelerates approximate nearest neighbor search with hierarchical navigable small world graphs?"
+    },
+    {
+      "id": "Q17",
+      "field": "indexing",
+      "kind": "concept",
+      "target": "1712.01208",
+      "zh": "哪项工作把排序数组中的键位置预测当作学习问题，用学习模型替代传统数据库索引？",
+      "en": "Which work models a database index as a learned predictor of a key's location in sorted data?"
+    },
+    {
+      "id": "Q18",
+      "field": "indexing",
+      "kind": "mixed",
+      "target": "1910.06169",
+      "zh": "PGM index 怎样用分段线性模型构建压缩的学习型索引？",
+      "en": "Which PGM index uses piecewise linear models for compressed learned indexing?"
+    },
+    {
+      "id": "Q19",
+      "field": "graph_learning",
+      "kind": "concept",
+      "target": "1706.02216",
+      "zh": "如何用邻居特征采样和聚合来给训练中没见过的图节点计算嵌入？",
+      "en": "Which inductive graph embedding algorithm samples and aggregates neighbor features for unseen nodes?"
+    },
+    {
+      "id": "Q20",
+      "field": "graph_learning",
+      "kind": "concept",
+      "target": "1710.10903",
+      "zh": "哪种图神经网络通过掩码自注意力为邻居分配不同权重？",
+      "en": "Which graph neural architecture uses masked self-attention to weight neighboring nodes differently?"
+    },
+    {
+      "id": "Q21",
+      "field": "software",
+      "kind": "mixed",
+      "target": "2009.08366",
+      "zh": "想找用 data flow 预训练代码表示的论文，要求区别于只用词序列的方法。",
+      "en": "Which code representation pretraining paper exploits data flow beyond token sequences?"
+    },
+    {
+      "id": "Q22",
+      "field": "software",
+      "kind": "concept",
+      "target": "2107.03374",
+      "zh": "哪篇论文用人工编写的单元测试评估语言模型从文档字符串生成程序的功能正确性？",
+      "en": "Which paper evaluates functional correctness of code generated from docstrings using handwritten unit tests?"
+    },
+    {
+      "id": "Q23",
+      "field": "retrieval",
+      "kind": "identifier",
+      "target": "2005.11401",
+      "zh": "我手里的编号是 arXiv:2005.11401，请定位到这篇论文。",
+      "en": "Find the publication identified by arXiv:2005.11401."
+    },
+    {
+      "id": "Q24",
+      "field": "adaptation",
+      "kind": "identifier",
+      "target": "2106.09685",
+      "zh": "请按 DOI 10.48550/arXiv.2106.09685 帮我找原始文献。",
+      "en": "Find the original article with DOI 10.48550/arXiv.2106.09685."
+    }
+  ]
+}

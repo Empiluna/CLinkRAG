@@ -148,6 +148,17 @@ async function main(){
       ok('export '+suffix,file.suggestedFilename().endsWith(suffix)&&fs.readFileSync(await file.path(),'utf8').trim().length>10);
     }
     await editQuery();
+    await page.locator('input[name=collection][value=computing]').check();
+    await $('lit-question').fill('图神经网络');
+    const computingResult=page.waitForResponse(r=>r.url().endsWith('/api/literature/search'));
+    await $('lit-search').click();
+    const indexed=await (await computingResult).json();
+    await page.waitForFunction(id=>document.querySelector('#lit-items li')?.dataset.paperId===id,indexed.items[0].paper_id);
+    ok('computing collection returns attributed conference passages from the local workbench',
+      indexed.total>=1000&&indexed.collection==='computing'&&indexed.items.every(p=>p.quote&&p.authors.length&&p.license&&p.container&&indexed.ris.includes(p.title)));
+    ok('computing result displays its venue and an original publisher link',
+      await $('lit-items').innerText().then(t=>t.includes(indexed.items[0].container))&&await page.locator('#lit-items a').first().getAttribute('href')===indexed.items[0].url);
+    await editQuery();
     await page.locator('input[name=collection][value=personal]').check();
     await $('lit-question').fill('urban heat shade');
     const source='Street tree shade reduced urban heat in the afternoon across the sampled locations.';

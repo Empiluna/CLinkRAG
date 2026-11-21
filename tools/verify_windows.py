@@ -135,6 +135,14 @@ def validate(package, *, with_research, online):
                         original = rows[item['paper_id']]['text']
                         assert item['quote'] == original[item['start']:item['end']]
                         assert item['title'] in result['ris'] and item['quote'] in result['markdown']
+                    collection = {p['paper_id']:p for p in map(json.loads,(root/'clinkrag/data/computing.jsonl').read_text(encoding='utf-8').splitlines())}
+                    cs = search('computing','分布式共识',limit=3)
+                    assert cs['items'] and cs['total']==len(collection)
+                    for paper in cs['items']:
+                        original = collection[paper['paper_id']]
+                        assert paper['quote']==original['text'][paper['start']:paper['end']]
+                        assert paper['url'] in cs['markdown'] and paper['container'] in cs['ris']
+                    print(f"Verified computing collection ({cs['total']} papers), source offsets and conference exports.")
                     personal = '手稿甲写于六月。手稿乙另于九月补记，同时注明秋粮的来源。'
                     own = search('personal', '手稿乙何时补记秋粮', papers=[{'title':'自带文本', 'text':personal}])
                     excerpt = own['items'][0]

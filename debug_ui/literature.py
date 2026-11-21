@@ -1,6 +1,11 @@
 """Read a small source collection, return attributable passages and portable notes."""
 from html.parser import HTMLParser
 from io import BytesIO
+from collections import OrderedDict
+from concurrent.futures import Future
+from copy import deepcopy
+from threading import Lock
+from time import monotonic
 from urllib.parse import quote as urlquote, urlsplit
 import re
 
@@ -83,8 +88,48 @@ class PlainAbstract(HTMLParser):
 
 
 def crossref_papers(question, limit):
+    # Crossref's rows parameter controls the candidate pool. Searches requesting
+    # equivalent pools can reuse metadata even when the number displayed differs.
+    key = (' '.join(question.split()), min(40, max(15, 4*limit)))
+    with _crossref_lock:
+        cached = _crossref_cache.get(key)
+        if cached and cached[0] > monotonic():
+            _crossref_cache.move_to_end(key)
+            return deepcopy(cached[1])
+        _crossref_cache.pop(key, None)
+        pending = _crossref_pending.get(key)
+        if pending is None:
+            pending = _crossref_pending[key] = Future()
+            fetch = True
+        else:
+            fetch = False
+    if not fetch:
+        return deepcopy(pending.result())
+    try:
+        rows = _fetch_crossref(*key)
+        with _crossref_lock:
+            if rows:
+                _crossref_cache[key] = (monotonic()+300, rows)
+                if len(_crossref_cache) > 32:
+                    _crossref_cache.popitem(last=False)
+            pending.set_result(rows)
+        return deepcopy(rows)
+    except Exception as error:
+        pending.set_exception(error)
+        raise
+    finally:
+        with _crossref_lock:
+            _crossref_pending.pop(key, None)
+
+
+_crossref_cache = OrderedDict()
+_crossref_pending = {}
+_crossref_lock = Lock()
+
+
+def _fetch_crossref(question, rows):
     endpoint = 'https://api.crossref.org/works'
-    params = {'query.bibliographic': question, 'rows': min(40, max(15, 4*limit)),
+    params = {'query.bibliographic': question, 'rows': rows,
               'filter': 'has-abstract:true',
               'select': 'DOI,title,abstract,published,author,type,container-title,volume,issue,page'}
     try:
@@ -159,6 +204,8 @@ def exports(question, items, note):
                       single_line(url), ''])
         if item.get('page_start'):
             notes.append(f'PDF 物理页码 {item["page_start"]}–{item["page_end"]}')
+        if item.get('container'):
+            notes.append('出版信息　'+' · '.join(single_line(v) for v in (item['container'],str(item.get('year') or ''),item.get('page')) if v))
         if item.get('license'):
             notes.extend(['作者　'+', '.join(item.get('authors') or []),
                           '原文许可　'+single_line(item['license']), ''])
@@ -195,6 +242,8 @@ def literature_search(data):
     if type(limit) is not int or not 1 <= limit <= 10:
         raise ValueError('展示数量应为 1–10。')
     collection = data.get('collection', 'builtin')
+    retrieval_query = question+' '+english_query if english_query else question
+    papers = None
     if collection == 'personal':
         papers = personal_papers(data.get('papers'))
         note = '在本次提供的材料中查找原句。'
@@ -202,12 +251,16 @@ def literature_search(data):
         papers = crossref_papers(english_query or question, limit)
         note = '来源为 Crossref 收录的论文摘要。字符位置相对于清理排版标签后的摘要。'
     elif collection == 'builtin':
-        papers = None
         note = '来源为随包开放文献。字符位置相对于收录文本。'
+    elif collection == 'computing':
+        note = '来源为随包计算机与 AI 会议摘要。摘录位置对应随包保存的原摘要。'
     else:
         raise ValueError('请选择有效的文献范围。')
-    retrieval_query = question+' '+english_query if english_query else question
-    result = search_library(retrieval_query, papers=papers, limit=limit)
+    if collection == 'computing':
+        from clinkrag.computing import search_computing
+        result = search_computing(retrieval_query, limit)
+    else:
+        result = search_library(retrieval_query, papers=papers, limit=limit)
     result.update(question=question, english_query=english_query)
     if english_query:
         note += ' 本次补充检索词为 '+single_line(english_query)+'。'

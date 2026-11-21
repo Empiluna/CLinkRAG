@@ -1,0 +1,24 @@
+{
+  "question": "BERT（DOI:10.18653/v1/N19-1423）怎样预训练双向语言表示，原论文摘要给出了哪些结果？",
+  "method": "clinkrag_online",
+  "elapsed_seconds": 84.4,
+  "state": "success",
+  "error_type": "",
+  "query_count": 3,
+  "candidate_count": 17,
+  "selected_papers": 1,
+  "cited_source_indices": [
+    0,
+    1
+  ],
+  "cited_passages_match_abstract": true,
+  "has_separate_review": true,
+  "answer": "## 主要发现\n\nBERT 的核心设计是**在所有层同时以左右两侧上下文为条件，从无标注文本中预训练深层双向表示**，这与当时仅单向（从左到右或右到左）的语言表示模型不同[0]。摘要指出，这样得到的预训练模型只需额外加一个输出层进行微调，就能在问答、语言推理等广泛任务上构建最先进模型，而无需大幅修改任务特定架构[0]。\n\n摘要报告的结果为：在**十一项自然语言处理任务**上取得新的最先进结果，包括 GLUE 得分 80.5（绝对提升 7.7 分）、MultiNLI 准确率 86.7%（绝对提升 4.6%）、SQuAD v1.1 问答测试 F1 93.2（绝对提升 1.5 分）、SQuAD v2.0 测试 F1 83.1（绝对提升 5.1 分）[1]。这些是摘要层面的汇总数字，比较基线为当时已有结果，具体评测设置未在摘要中展开[1]。\n\n## 证据审查\n\n两项证据均来自同一篇论文（BERT），属单一来源，不构成独立佐证[0][1]。来源[0]支持\"联合左右上下文、全层双向预训练\"的机制描述及\"加一层输出即可微调\"的迁移方式；来源[1]支持十一项任务及四项具体基准分数，其范围标注为含 GLUE、MultiNLI、SQuAD 的评测，但设计字段未知[1]。\n\n证据缺口明显：检索计划所需的掩码语言模型（MLM）目标与流程、下一句预测（NSP）任务、预训练语料与层数/参数量等架构细节，在所提供的两段摘要文本中均未出现，故无法据此说明具体预训练目标如何实现双向性。此外，摘要数字未给出各任务的评测划分、超参数或统计不确定性，不能据此推断普遍效应或因果机制。",
+  "requested_references": {
+    "DOI:10.18653/v1/n19-1423": "df2b0e26d0599ce3e70df8a9da02e51594e0e992"
+  },
+  "named_paper_used_in_answer": true,
+  "selected_titles": [
+    "BERT: Pre-training of Deep Bidirectional Transformers for Language Understanding"
+  ]
+}
