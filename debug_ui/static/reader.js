@@ -5,7 +5,7 @@ window.researchReader = (() => {
   const text=(parent,value,links=true)=>{
    for(const part of String(value||'').split(/(\[\d+\])/g)){
     const match=links&&/^\[(\d+)\]$/.exec(part),index=match?Number(match[1]):-1;
-    if(index>=0&&sources[index]){const b=element('button',part);b.className='citation';b.type='button';b.title=sources[index].title;b.setAttribute('aria-label',`查看证据 ${index}：${sources[index].title}`);b.onclick=()=>onCitation(index,b.closest('p,li,td,blockquote')?.textContent||'',b);parent.append(b);}else parent.append(document.createTextNode(part));
+    if(index>=0&&sources[index]){const b=element('button',part);b.className='citation';b.dataset.citationIndex=index;b.type='button';b.title=sources[index].title;b.setAttribute('aria-label',`查看证据 ${index}：${sources[index].title}`);b.onclick=()=>onCitation(index,b.closest('p,li,td,blockquote')?.textContent||'',b);parent.append(b);}else parent.append(document.createTextNode(part));
    }
   };
   function inline(parent,tokens=[]){for(const t of tokens){

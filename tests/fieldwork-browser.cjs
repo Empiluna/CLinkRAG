@@ -91,6 +91,22 @@ async function main(){
     const retry=$('tour-body').getByRole('button',{name:'重新加载'});
     await retry.waitFor();
     ok('failed example keeps dialog open with an actionable retry',await $('source-tour').isVisible()&&await $('tour-next').isDisabled());
+    const demoRequests=[];
+    const recordDemoRequest=r=>{if(r.method()==='POST')demoRequests.push(r.url());};
+    page.on('request',recordDemoRequest);
+    await $('tour-process').focus();await page.keyboard.press('Enter');
+    const demo=$('journey-demo');await demo.waitFor();
+    ok('offline process example opens from the lightweight home while the catalog example is unavailable',
+      await demo.innerText().then(t=>t.includes('模拟'))&&await demo.locator('[data-demo-phase]').count()===6);
+    await demo.locator('[data-demo-phase="3"]').click();
+    const claims=demo.locator('.rc-relation-card');await claims.nth(1).click();
+    ok('research example uses the interactive evidence scene',await claims.nth(1).getAttribute('aria-pressed')==='true'&&await demo.locator('.em-relation-focus blockquote').innerText().then(t=>!!t.trim()));
+    await demo.locator('[data-demo-phase="5"]').click();
+    ok('research example connects its sample answer to a saved passage',await demo.locator('.rc-map-passage blockquote').innerText().then(t=>!!t.trim()));
+    await page.keyboard.press('Escape');await demo.waitFor({state:'hidden'});
+    page.off('request',recordDemoRequest);
+    ok('leaving the offline example restores focus and draft without submitting any request',
+      demoRequests.length===0&&await $('tour-process').evaluate(el=>el===document.activeElement)&&await $('home-question').inputValue()===draft);
     const searchResponse=page.waitForResponse(r=>r.url().endsWith('/api/literature/search'));
     await retry.click();
     const example=await (await searchResponse).json();
@@ -275,7 +291,16 @@ async function main(){
       if(r.request().method()==='POST'){requests++;submitted=r.request().postDataJSON();live.question=submitted.question;return r.fulfill({json:live});}
       return r.fulfill({json:submitted?[live,fixture]:[fixture]});
     });
-    await page.route('**/api/runs/'+live.id+'?*',r=>r.fulfill({json:{run:live,events:[],result:null}}));
+    const direction={id:'shade',label:'采样地点',query:'pavement shade measurements'};
+    const liveTrace=[
+      {seq:1,event:'start',id:'live-plan',kind:'cpu',name:'查询规划',input:{}},
+      {seq:2,event:'end',id:'live-plan',status:'success',output:{plan:{dimensions:[direction]}}}
+    ];
+    await page.route('**/api/runs/'+live.id+'?*',route=>{
+      const cursor=Number(new URL(route.request().url()).searchParams.get('after'));
+      const events=liveTrace.filter(e=>e.seq>cursor).map(e=>({...e,time:'2026-01-01T10:00:00Z'}));
+      return route.fulfill({json:{run:live,events,result:null}});
+    });
     await page.route('**/api/runs/'+live.id+'/cancel',r=>{cancelled++;live.status='cancelled';return r.fulfill({json:live});});
     await page.route('**/api/runs/'+live.id+'/resume',r=>{resumed++;live.status='running';return r.fulfill({json:live});});
     await $('new-research').click();
@@ -287,6 +312,21 @@ async function main(){
     await $('progress-strip').waitFor();
     ok('home sends one configured deep study with the custom cap and request ID',requests===1&&submitted?.online_papers===14&&submitted.method==='clinkrag_online'&&/^[a-f0-9-]{36}$/i.test(submitted.client_request_id)&&await $('run-title').innerText()===submitted.question);
     ok('new deep study opens the live process',await $('journey-view').isVisible()&&await $('cancel').isEnabled());
+    await page.locator('#story-scene .rc-plan-branch').waitFor();
+    await page.evaluate(()=>{
+      window.firstLiveBranch=document.querySelector('#story-scene .rc-plan-branch');
+      const update=window.researchApp.update;
+      window.seenCursors=[];
+      window.researchApp.update=state=>{seenCursors.push(state.traceCursor);return update(state);};
+    });
+    await page.waitForFunction(()=>seenCursors.includes(2));
+    ok('empty HTTP poll passes the previous cursor and preserves the live drawing',await page.evaluate(()=>firstLiveBranch===document.querySelector('#story-scene .rc-plan-branch')));
+    liveTrace.push(
+      {seq:3,event:'start',id:'live-search',kind:'http',name:'论文检索',input:{dimension:direction.id,query:direction.query}},
+      {seq:4,event:'end',id:'live-search',status:'success',output:{papers:[{paperId:paper.id,title:paper.title,abstract:paper.text}]}}
+    );
+    await page.waitForFunction(()=>seenCursors.includes(4) && document.querySelector('[data-direction=shade]')?.getAttribute('aria-pressed')==='true');
+    ok('a new HTTP cursor advances the real app to its recorded search result',await page.locator('#story-route [aria-current=step]').innerText().then(t=>t.includes('寻找相关论文')) && await page.locator('#story-scene .rc-full-paper').count()===1);
     await $('cancel').click();await $('run-recovery').waitFor();
     ok('stop preserves the resume control',cancelled===1&&await $('retry-run').innerText()==='继续研究');
     await $('retry-run').click();await $('progress-strip').waitFor();
@@ -299,6 +339,7 @@ async function main(){
     await page.emulateMedia({reducedMotion:'reduce'});
     await $('mobile-menu').click();
     await page.locator('.history-open[data-run-id="'+fixture.id+'"]').click();
+    ok('switching from a live cursor to a saved run restores the archived title',await $('run-title').innerText()===fixture.question);
     await $('answer-tab').click();
     await $('read-body').click();
     await $('reading-progress').waitFor();

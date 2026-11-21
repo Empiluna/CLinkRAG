@@ -22,7 +22,7 @@ async function main() {
     const page = await browser.newPage({ viewport: { width: 1366, height: 850 } });
     page.on('request', request => requests.push(request.url()));
     page.on('pageerror', error => errors.push(error.message));
-    await page.setContent('<html lang="zh-CN" data-theme="light"><body><section class="research-story" style="width:min(1100px,100%);margin:auto"><div class="story-layout"><section class="story-main panel"><div id="scene"></div></section></div></section></body></html>');
+    await page.setContent('<html lang="zh-CN" data-theme="light"><body style="display:block"><section class="research-story" data-presentation="canvas" style="width:min(1100px,100%);margin:auto"><div class="story-layout"><section class="story-main panel"><div id="scene"></div></section></div></section></body></html>');
     const sheets = [...staticSource('index.html').matchAll(/<link rel="stylesheet" href="\/([^"?]+)(?:\?[^"]*)?"/g)];
     for (const [, file] of sheets) await page.addStyleTag({ content: staticSource(file) });
     await page.addScriptTag({ content: staticSource('journey.js') });

@@ -84,7 +84,7 @@ function renderRun(){
   $('progress-title').textContent='论文检索连接暂时中断，正在恢复';
   $('progress-description').textContent=delay?`${retry.input.reason}，${delay} 秒后进行第 ${retry.input.next_attempt}${retry.input.max_attempts?'/'+retry.input.max_attempts:''} 次请求。`:`正在进行第 ${retry.input.next_attempt}${retry.input.max_attempts?'/'+retry.input.max_attempts:''} 次请求；可随时停止，稍后继续。`;
  }
- renderEmptyAnswer();updateControls();window.researchApp?.update({run,result,steps});
+ renderEmptyAnswer();updateControls();window.researchApp?.update({run,result,steps,traceCursor:cursor});
 }
 let answerReadingRun=null;
 function showAnswerReading(mode){

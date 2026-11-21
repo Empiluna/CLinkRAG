@@ -8,7 +8,7 @@
       <button type="button" class="icon-button" id="tour-close" aria-label="关闭演示" autofocus></button></header>
     <ol class="tour-route" aria-label="演示步骤"><li>提出问题</li><li>找到论文</li><li>核对原文</li></ol>
     <div class="tour-body" id="tour-body" aria-live="polite" aria-atomic="false"></div>
-    <footer class="tour-footer"><button type="button" id="tour-back" class="text-button">上一步</button>
+    <footer class="tour-footer"><button type="button" id="tour-process" class="text-button">查看六步研究示例</button><button type="button" id="tour-back" class="text-button">上一步</button>
       <button type="button" id="tour-next" class="primary">查看论文</button>
       <button type="button" id="tour-open" class="primary" hidden>在工作台打开示例</button></footer>`;
   document.body.append(dialog);
@@ -25,6 +25,7 @@
       item.classList.toggle('visited', i < step);
     });
     $('tour-back').hidden = step === 0;
+    $('tour-process').hidden = step !== 0;
     $('tour-next').hidden = step === 2;
     $('tour-next').disabled = !example;
     $('tour-open').hidden = step !== 2;
@@ -128,6 +129,7 @@
     }
   }
   $('home-tour').onclick = start;
+  $('tour-process').onclick = () => window.openJourneyDemo();
   $('tour-close').onclick = () => dialog.close();
   $('tour-back').onclick = () => {
     showStep(step - 1);

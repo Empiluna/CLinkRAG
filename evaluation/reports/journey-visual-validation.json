@@ -1,0 +1,170 @@
+{
+  "date": "2026-11-21",
+  "scope": "研究过程的界面、交互、动画时序与本地渲染开销",
+  "environment": {
+    "platform": "Windows",
+    "browser": "Microsoft Edge 157.0.4341.60",
+    "mode": "Playwright headless",
+    "performance_viewport_css_px": [
+      1366,
+      850
+    ],
+    "scene_test_widths_css_px": [
+      1280,
+      840,
+      540,
+      390,
+      320
+    ],
+    "duration_unit": "millisecond",
+    "baseline_commit": "041d748c958af8bea48e0dbbd209f0e1d6a190e7"
+  },
+  "performance": {
+    "command": "node tests/journey-performance.cjs",
+    "fixture": "240 synthetic papers; 4 directions of 60, switch to direction 3",
+    "method": "同一浏览器版本和 1366 × 850 视口，使用各版本自带的生产样式及脚本。在新浏览器实例中先打开 240 篇候选，再切到含 60 篇论文的第三个方向，共测三次。场景无外部请求。第一条样本包含该浏览器实例的首次渲染。",
+    "fields": {
+      "buildMs": "同步构建场景耗时",
+      "dispatchMs": "同步处理方向切换耗时",
+      "entryFramesMs": "构建开始到第二个 requestAnimationFrame 回调",
+      "directionFramesMs": "方向切换开始到第二个 requestAnimationFrame 回调",
+      "longTasks": "PerformanceObserver 记录的长任务时长",
+      "initialAnimations": "场景入场时活动的动画数",
+      "idleAnimations": "动画完成后仍活动的动画数",
+      "listTop": "滚动列表上沿在视口内的坐标（CSS 像素）",
+      "listHeight": "滚动列表高度（CSS 像素）"
+    },
+    "baseline": {
+      "runs": [
+        {
+          "cards": 240,
+          "visibleCards": 10,
+          "listTop": 234.1,
+          "listHeight": 560,
+          "directionCards": 60,
+          "initialAnimations": 11,
+          "idleAnimations": 0,
+          "buildMs": 24.2,
+          "dispatchMs": 5.5,
+          "entryFramesMs": 39.3,
+          "directionFramesMs": 12.2,
+          "longTasks": []
+        },
+        {
+          "cards": 240,
+          "visibleCards": 10,
+          "listTop": 234.1,
+          "listHeight": 560,
+          "directionCards": 60,
+          "initialAnimations": 11,
+          "idleAnimations": 0,
+          "buildMs": 5,
+          "dispatchMs": 3.4,
+          "entryFramesMs": 12,
+          "directionFramesMs": 12.1,
+          "longTasks": []
+        },
+        {
+          "cards": 240,
+          "visibleCards": 10,
+          "listTop": 234.1,
+          "listHeight": 560,
+          "directionCards": 60,
+          "initialAnimations": 11,
+          "idleAnimations": 0,
+          "buildMs": 5.1,
+          "dispatchMs": 3.9,
+          "entryFramesMs": 13.9,
+          "directionFramesMs": 12,
+          "longTasks": []
+        }
+      ],
+      "reduced_motion": {
+        "cards": 240,
+        "active": 0
+      }
+    },
+    "updated": {
+      "runs": [
+        {
+          "cards": 240,
+          "visibleCards": 10,
+          "listTop": 321.2,
+          "listHeight": 560,
+          "directionCards": 60,
+          "initialAnimations": 11,
+          "idleAnimations": 0,
+          "buildMs": 29.3,
+          "dispatchMs": 4.3,
+          "entryFramesMs": 44.7,
+          "directionFramesMs": 12.1,
+          "longTasks": []
+        },
+        {
+          "cards": 240,
+          "visibleCards": 10,
+          "listTop": 321.2,
+          "listHeight": 560,
+          "directionCards": 60,
+          "initialAnimations": 11,
+          "idleAnimations": 0,
+          "buildMs": 5.9,
+          "dispatchMs": 3.6,
+          "entryFramesMs": 12,
+          "directionFramesMs": 12.2,
+          "longTasks": []
+        },
+        {
+          "cards": 240,
+          "visibleCards": 10,
+          "listTop": 321.2,
+          "listHeight": 560,
+          "directionCards": 60,
+          "initialAnimations": 11,
+          "idleAnimations": 0,
+          "buildMs": 5.4,
+          "dispatchMs": 3.5,
+          "entryFramesMs": 12.7,
+          "directionFramesMs": 12.2,
+          "longTasks": []
+        }
+      ],
+      "reduced_motion": {
+        "cards": 240,
+        "active": 0
+      }
+    },
+    "limits": "本机三次采样反映此场景的表现。耗时会随系统负载变化，不能从中推算持续帧率、其他设备速度或研究任务的检索耗时。"
+  },
+  "browser_validation": {
+    "journey_scenes": {
+      "command": "node tests/journey-scenes.cjs",
+      "passed": 75,
+      "script_errors": [],
+      "network_requests": [],
+      "fixture": "合成研究记录，覆盖 300 篇候选及追加批次。浏览器加载项目实际样式与脚本。",
+      "coverage": [
+        "每个研究方向及其检索词、分批检索与合并去重",
+        "原候选序号、双栏定位及末尾论文摘要",
+        "从原句查看两个概念、成对研究条件和双方原句",
+        "逐段回到有效的正文引用，忽略代码、越界索引和独立证据梳理",
+        "按保存记录显示生成进度及逐轮字符数",
+        "连续到达的事件按序等动画完成，重复轮询、失败终态、减少动态效果与键盘导航",
+        "六个阶段在 320、390、540、840 CSS 像素宽度的溢出检查"
+      ]
+    },
+    "full_workbench": {
+      "command": "node tests/fieldwork-browser.cjs",
+      "passed": 70,
+      "script_errors": [],
+      "fixture": "项目临时本地 HTTP 服务及页面。模型与在线服务使用固定响应，验证研究首页、阅读、图谱、研究过程、侧栏与设置。",
+      "coverage": [
+        "HTTP 轮询沿用游标时保留原画布节点",
+        "收到新检索记录后推进游标并选中对应方向",
+        "从实时研究切到另一条归档可恢复历史标题",
+        "从首页用键盘打开离线六步示例、切换原文关系和引用、退出恢复焦点，期间未发起写入请求"
+      ]
+    }
+  },
+  "boundaries": "这些数据验证界面行为。没有为此次视觉检查发送付费模型请求，也未重新评估跨领域答案的正确性。"
+}
